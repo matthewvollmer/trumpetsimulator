@@ -1,15 +1,16 @@
 import React from 'react';
 
-//import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from '@react-navigation/stack';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { NavigationContainer} from '@react-navigation/native';
+import { StyleSheet} from 'react-native';
 import Main from './src/screens/Main';
 import TrumpetSlider from './src/screens/TrumpetSlider';
+import Metronome from './src/screens/Metronome';
 
 export type RootStackParamList = {
-  Main: { userId: string };
-  TrumpetSlider: {}
+  Main: { userid: string};
+  TrumpetSlider: {};
+  Metronome: {}
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -21,6 +22,7 @@ export default class App extends React.Component {
         <Stack.Navigator initialRouteName="Main">
           <Stack.Screen name="Main" component={Main}/>
           <Stack.Screen name="TrumpetSlider" component={TrumpetSlider} />
+          <Stack.Screen name="Metronome" component={Metronome} />
         </Stack.Navigator>
       </NavigationContainer>
     )

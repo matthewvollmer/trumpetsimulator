@@ -6,7 +6,6 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import { TouchableOpacity, TouchableNativeFeedback, TouchableHighlight } from 'react-native-gesture-handler';
-//import { NoteFactory } from 'react-orchestra/native';
 
 
 type TrumpetSliderRouteProp = RouteProp<RootStackParamList, 'Main'>;
@@ -137,24 +136,13 @@ class TrumpetSlider extends React.Component<Props, State> {
                             />
                     </TouchableOpacity>
                 </View>
-                {/* <NoteFactory
-                    type="scale"
-                    scaleName="ionian"
-                    noteName="C"
-                    instrumentName="acoustic_grand_piano"
-                    startOctave="3"
-                    octaveCount="1"
-                    renderNote={this.renderNote}
-                /> */}
             </View>
         )
     }    
 
     async setSliderState(set: boolean){
-        await this.setState({ sliderPressed: set });
+        this.setState({ sliderPressed: set });
     }
-
-    //private renderNote = (instrumentName, noteName) => <div style={{ cursor: 'pointer' }}> I am a note : {instrumentName} {noteName} You can click me ! </div>;
 
     private calculateSliderValue = (locationY: number) => {
         let sliderValue = (this.state.screenHeight - locationY- 100)/2;
