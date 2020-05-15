@@ -6,11 +6,13 @@ import { StyleSheet} from 'react-native';
 import Main from './src/screens/Main';
 import TrumpetSlider from './src/screens/TrumpetSlider';
 import Metronome from './src/screens/Metronome';
+import Tuner from './src/screens/Tuner'
 
 export type RootStackParamList = {
   Main: { userid: string};
   TrumpetSlider: {};
-  Metronome: {}
+  Metronome: {};
+  Tuner: {};
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -23,6 +25,7 @@ export default class App extends React.Component {
           <Stack.Screen name="Main" component={Main}/>
           <Stack.Screen name="TrumpetSlider" component={TrumpetSlider} />
           <Stack.Screen name="Metronome" component={Metronome} />
+          <Stack.Screen name="Tuner" component={Tuner} />
         </Stack.Navigator>
       </NavigationContainer>
     )

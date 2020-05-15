@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Slider, Button, Picker} from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
-import { Audio, AVPlaybackStatus } from 'expo-av';
+import { Audio } from 'expo-av';
 
 
 type MetronomeRouteProp = RouteProp<RootStackParamList, 'Metronome'>;
@@ -45,10 +45,6 @@ class Metronome extends React.Component<Props, State> {
     }
 
     async componentDidMount() {
-        const audioPermResponse = await Audio.getPermissionsAsync();
-        if (!audioPermResponse.granted) {
-            await Audio.requestPermissionsAsync();
-        }
         const downbeatSound =  await Audio.Sound.createAsync(require('../../assets/sounds/downbeat.wav'), {}, null, true);
         this.setState({downBeat: downbeatSound.sound});
         const beatSound =  await Audio.Sound.createAsync(require('../../assets/sounds/offbeats.wav'), {isMuted: false, positionMillis: 0}, null, true);

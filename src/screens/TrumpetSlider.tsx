@@ -1,11 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, Slider, GestureResponderEvent ,Dimensions, Image, ImageSourcePropType } from 'react-native';
-import { NavigationProp } from '@react-navigation/native';
-import {useNavigation } from '@react-navigation/native';
+import { StyleSheet, Text, View, GestureResponderEvent ,Dimensions, Image, ImageSourcePropType } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
-import { TouchableOpacity, TouchableNativeFeedback, TouchableHighlight } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 type TrumpetSliderRouteProp = RouteProp<RootStackParamList, 'Main'>;

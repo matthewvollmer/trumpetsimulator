@@ -3729,7 +3729,7 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-"keymaster@github:rakannimer/keymaster":
+keymaster@rakannimer/keymaster:
   version "1.6.2"
   resolved "https://codeload.github.com/rakannimer/keymaster/tar.gz/99ed6b7629bd76af6628c9faf901fef3e9e43957"
 
@@ -4852,6 +4852,11 @@ pirates@^4.0.0:
   dependencies:
     node-modules-regexp "^1.0.0"
 
+pitchfinder@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/pitchfinder/-/pitchfinder-2.3.1.tgz#b2033b5de43f3067f8a0ad439b9b4a5e10fc5599"
+  integrity sha512-lYZo2J9i6OV769VKGpeEpvotc7GSLS98iP8ZyRurhZZDIpyDt09dBG+Z4+amx8379pQ83AjI9Pde8//4R7Rc1Q==
+
 pkg-dir@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/pkg-dir/-/pkg-dir-3.0.0.tgz#2749020f239ed990881b1f71210d51eb6523bea3"
@@ -5112,6 +5117,10 @@ react-native-iphone-x-helper@^1.2.1:
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.1.tgz#645e2ffbbb49e80844bb4cbbe34a126fda1e6772"
   integrity sha512-/VbpIEp8tSNNHIvstuA3Swx610whci1Zpc9mqNkqn14DkMbw+ORviln2u0XyHG1kPvvwTNGZY6QpeFwxYaSdbQ==
 
+"react-native-microphone-stream@git://github.com/chadsmith/react-native-microphone-stream.git":
+  version "0.0.1"
+  resolved "git://github.com/chadsmith/react-native-microphone-stream.git#aedb665ccea9f90005c30468253910fa2ee64633"
+
 react-native-ratings@^6.3.0:
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/react-native-ratings/-/react-native-ratings-6.5.0.tgz#a1606ccba3c5b54eec8e6cfa4765a45cf0e4ab8d"
@@ -5126,6 +5135,11 @@ react-native-reanimated@~1.7.0:
   integrity sha512-aBwhoQdH4shkeTPbi7vKcAwYOzBp/6zElEKuIOgby11TceoM7y5SgNImC3HbDWWld3QV2PA2AgQGwAy51WgF3Q==
   dependencies:
     fbjs "^1.0.0"
+
+react-native-recording@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-recording/-/react-native-recording-0.4.1.tgz#406c5b9f6a65aabb916706c534e9f5b515276a53"
+  integrity sha512-1P5J4eEReGLXhrOhACaWLGMBJVoGZMJk+DTegiO4sdeOXpcgevE7eb/n09IyRHzUkkgN9ZvStPPU4JnGmzRJYg==
 
 react-native-safe-area-context@0.7.3:
   version "0.7.3"
