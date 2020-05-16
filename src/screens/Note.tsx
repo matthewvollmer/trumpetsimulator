@@ -10,9 +10,9 @@ export default class Note extends PureComponent<Props> {
   render() {
     return (
       <View style={style.note}>
-        <Text style={style.name}>{this.props.note.name}</Text>
+        <Text style={style.name}>{this.props.note.name[0]}</Text>
         <Text style={style.octave}>{this.props.note.octave}</Text>
-        <Text style={style.sharp}>{this.props.note.frequency}</Text>
+        <Text style={style.sharp}>{this.props.note.name[1]}</Text>
       </View>
     );
   }

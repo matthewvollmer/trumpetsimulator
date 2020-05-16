@@ -8,7 +8,10 @@ import Meter from './Meter';
 import Note from './Note';
 import { Audio } from 'expo-av';
 import { Recording } from 'react-native-recording';
+import { MicStream } from 'react-native-microphone-stream'
 import PitchFinder from "pitchfinder";
+//import AudioRecord from 'react-native-audio-record';
+//import { Buffer }  from 'buffer'
 
 
 export interface NoteObject { 
@@ -16,7 +19,7 @@ export interface NoteObject {
     octave: number, 
     frequency: number,
     value?: number,
-    cents?: number
+    cents: number
 }
 
 type TunerRouteProp = RouteProp<RootStackParamList, 'Tuner'>;
@@ -40,6 +43,7 @@ class Tuner extends React.Component<Props, State> {
     middleA : number = 440;
     semitone : number = 49;
     _lastNoteName: any;
+    Recording = require('react-native-recording').default;
 
     constructor(props: Readonly<Props>) {
         super(props);
@@ -49,6 +53,7 @@ class Tuner extends React.Component<Props, State> {
                 name: 'A',
                 octave: 1, 
                 frequency: 440,
+                cents: 0
             }
         }
     }
@@ -65,35 +70,37 @@ class Tuner extends React.Component<Props, State> {
         const pitchFinder = PitchFinder.YIN({
             sampleRate: 22050
           });
-        const onNoteDetected = (note:NoteObject) => {
+        const onNoteDetected = (note:any) => {
             if (this._lastNoteName === note.name) {
+              console.log("note name changed to: " + note.name)
               this._update(note);
             } else {
               this._lastNoteName = note.name;
             }
           };
         const tuner =  new TunerComponent({onNoteDetected});
-        //tuner.start();
-        Recording.init({
+        tuner.start();
+        this.Recording.init({
             sampleRate: 22050,
             bufferSize: 4096,
             bitsPerChannel: 16,
             channelsPerFrame: 1,
         });
-        Recording.addRecordingEventListener((data: Float32Array) => {
+        this.Recording.addRecordingEventListener((data: Float32Array) => {
             const frequency = pitchFinder(data);
             if (frequency && onNoteDetected) {
                 const note = this.getNote(frequency);
+                console.log("note is: " + note);
                 onNoteDetected({
-                name: 'A',
+                name: tuner.noteStrings[note % 12],
                 value: note,
                 cents: this.getCents(frequency, note),
-                octave: (note / 12) - 1,
+                octave: Math.round(note / 12) - 1,
                 frequency: frequency
                 });
             }
         });
-        Recording.start();
+        this.Recording.start();
     }
 
     getNote(frequency: number) {
@@ -106,10 +113,15 @@ class Tuner extends React.Component<Props, State> {
       }
 
     getCents(frequency: number, note: number) {
-        return Math.floor(
+        const centsUnrounded : number =
           (1200 * Math.log(frequency / this.getStandardFrequency(note))) /
-            Math.log(2)
-        );
+            Math.log(2);
+        const cents : number = Math.floor(centsUnrounded);
+        const currentNote = this.state.note;
+        currentNote.cents = centsUnrounded;
+        this.setState({note:currentNote});
+        console.log("current cents is:" + this.state.note.cents);
+        return cents;
     }
 
     componentWillUnmount() {
@@ -121,7 +133,7 @@ class Tuner extends React.Component<Props, State> {
         return (
             <View style={styles.body}>
             <StatusBar backgroundColor="#000" translucent />
-            <Meter cents={this.state.note.frequency} />
+            <Meter cents={this.state.note.cents} />
             <Note note={this.state.note}/>
             <Text style={styles.frequency}>
               {this.state.note.frequency.toFixed(1)} Hz
