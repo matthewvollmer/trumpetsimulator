@@ -4,6 +4,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import Sound from 'react-native-sound';
 
 
 type TrumpetSliderRouteProp = RouteProp<RootStackParamList, 'Main'>;
@@ -21,8 +22,8 @@ type Props = {
 interface State{ 
     sliderValue: number;
     sliderPressed?:  boolean
-    currentPitch?: number;
-    previouslyActivePitch?: number;
+    currentPitch: number;
+    previouslyActivePitch: number | undefined;
     first: boolean;
     second: boolean;
     third: boolean;
@@ -41,16 +42,55 @@ interface State{
     secondValvePressed: ImageSourcePropType
     thirdValveUnpressed: ImageSourcePropType
     thirdValvePressed: ImageSourcePropType
+
+    gb0: Sound,
+    g0: Sound,
+    ab0: Sound, 
+    a0: Sound,
+    bb0: Sound,
+    b0: Sound, 
+
+    c1: Sound,
+    db1: Sound,
+    d1: Sound, 
+    eb1: Sound,
+    e1: Sound,
+    f1: Sound, 
+    gb1: Sound,
+    g1: Sound,
+    ab1: Sound, 
+    a1: Sound,
+    bb1: Sound,
+    b1: Sound, 
+
+    c2: Sound,
+    db2: Sound,
+    d2: Sound, 
+    eb2: Sound,
+    e2: Sound,
+    f2: Sound, 
+    gb2: Sound,
+    g2: Sound,
+    ab2: Sound, 
+    a2: Sound,
+    bb2: Sound,
+    b2: Sound, 
+
+    c3: Sound,
+
+    soundList: Sound[]
 }
 
 class TrumpetSlider extends React.Component<Props, State> { 
-    firstValveUnpressed = require('../../assets/tpt_valve1_unpressed_rot.png');
+    firstValveUnpressed = require('../../assets/tpt_valve2_unpressed_rot.png');
     constructor(props: Readonly<Props>) {
         super(props);
 
         this.state = {
             sliderValue : 0,
-            currentPitchDebugtext: 0,
+            currentPitchDebugtext: 48,
+            currentPitch: 48,
+            previouslyActivePitch: undefined,
             first: false,
             second: false,
             third: false,
@@ -65,8 +105,58 @@ class TrumpetSlider extends React.Component<Props, State> {
             secondValveUnpressed: require('../../assets/tpt_valve2_unpressed_rot.png'),
             secondValvePressed: require('../../assets/tpt_valve2_pressed_rot.png'),
             thirdValveUnpressed: require('../../assets/tpt_valve3_unpressed_rot.png'),
-            thirdValvePressed: require('../../assets/tpt_valve3_pressed_rot.png')
+            thirdValvePressed: require('../../assets/tpt_valve3_pressed_rot.png'),
+
+            gb0 : new Sound('gb0.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+            g0 : new Sound('g0.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+            ab0 : new Sound('ab0.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+            a0 : new Sound('a0.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+            bb0 : new Sound('bb0.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+            b0 : new Sound('b0.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+
+            c1 : new Sound('c1.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+            db1 : new Sound('db1.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+            d1 : new Sound('d1.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+            eb1 : new Sound('eb1.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+            e1 : new Sound('e1.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+            f1 : new Sound('f1.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+            gb1 : new Sound('gb1.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+            g1 : new Sound('g1.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+            ab1 : new Sound('ab1.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+            a1 : new Sound('a1.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+            bb1 : new Sound('bb1.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+            b1 : new Sound('b1.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+
+            c2 : new Sound('c2.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+            db2 : new Sound('db2.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+            d2 : new Sound('d2.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+            eb2 : new Sound('eb2.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+            e2 : new Sound('e2.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+            f2 : new Sound('f2.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+            gb2 : new Sound('gb2.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+            g2 : new Sound('g2.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+            ab2 : new Sound('ab2.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+            a2 : new Sound('a2.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+            bb2 : new Sound('bb2.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+            b2 : new Sound('b2.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+
+            c3: new Sound('c3.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+
+            soundList : []
         }
+    }
+
+    public componentDidMount() {
+        Sound.setActive(true);
+        Sound.setCategory('Playback', true);
+        this.setState({soundList: [this.state.gb0, this.state.g0, this.state.ab0, this.state.a0, this.state.bb0, this.state.b0, 
+                
+            this.state.c1, this.state.db1, this.state.d1, this.state.eb1, this.state.e1, this.state.f1, 
+            this.state.gb1, this.state.g1, this.state.ab1, this.state.a1, this.state.bb1, this.state.b1,
+
+            this.state.c2, this.state.db2, this.state.d2, this.state.eb2, this.state.e2, this.state.f2, 
+            this.state.gb2, this.state.g2, this.state.ab2, this.state.a2, this.state.bb2, this.state.b2, this.state.c3
+        ]})
     }
 
 
@@ -84,17 +174,17 @@ class TrumpetSlider extends React.Component<Props, State> {
                 }}
                 onResponderGrant= {(ev) => this.onTouchEvent(ev)}
                 onResponderMove = {(ev) => this.onTouchEvent(ev)}
-                onResponderRelease = {this.handleTouchEnd}
+                onTouchEnd = {this.handleTouchEnd}
                 onResponderTerminationRequest={(ev) => true} 
                 >   
                 <Image source={require('../../assets/quickpoof_big.png')}
-                style= {{alignSelf: 'center', position: 'absolute', bottom: this.state.sliderHeight, alignItems: 'flex-end'}}
+                style= {{alignSelf: 'center', position: 'absolute', bottom: this.state.sliderHeight-5, alignItems: 'flex-end'}}
                 />
                 </View>
                 
                 <View style={styles.container}>
                 <Text>{"Slider Value: " + Math.round(this.state.sliderValue)}</Text>
-                <Text>{"Current Pitch: " + this.state.currentPitch}</Text>
+                <Text>{"Current Pitch: " + this.state.currentPitchDebugtext}</Text>
                     <TouchableOpacity 
                         activeOpacity={1}
                         delayPressIn={0}
@@ -144,24 +234,23 @@ class TrumpetSlider extends React.Component<Props, State> {
 
     private calculateSliderValue = (locationY: number) => {
         let sliderValue = (this.state.screenHeight - locationY- 100)/2;
-        console.log("sliderValue is: " + sliderValue)
-        console.log("locationY is: " + locationY)
         let sliderHeight = this.state.screenHeight-locationY;
         this.setState({sliderValue, sliderHeight})
     }
 
     private onTouchEvent= (ev: GestureResponderEvent) => {
         if (ev.nativeEvent.pageX < this.state.screenWidth/2) {
+            this.setState({sliderPressed: true});
             this.calculateSliderValue(ev.nativeEvent.pageY)
             this.playCurrentPitch()
-            this.setSliderState(true)
         }
     }
 
-    private handleTouchEnd = () => {
-        this.setSliderState(true)
-        this.stopPreviouslyActivePitch
-        console.debug("entered handle touch end: "+ this.state.sliderPressed)
+    private handleTouchEnd = async () => {
+        //this.setSliderState(false)
+        await this.setState({sliderPressed: false});
+        this.stopPreviouslyActivePitch()
+        //this.state.soundList[this.state.currentPitch-42].stop();
     }
 
     private handleFirstValvePress = () => {
@@ -212,21 +301,27 @@ class TrumpetSlider extends React.Component<Props, State> {
 
 
     private stopPreviouslyActivePitch = () => {
-        //stop executing midi note for currentPitch
-        //this.setState({currentPitchDebugtext: 0})
+        this.state.previouslyActivePitch && this.state.soundList[this.state.previouslyActivePitch-42].stop()
+        this.setState({previouslyActivePitch: undefined});
     }
 
-    private playCurrentPitch = () => {
+    private playCurrentPitch = async () => {
         if (this.state.sliderPressed) {
             console.debug("entered play current pitch")
             this.calculatePitch()
-            if(this.state.previouslyActivePitch!=this.state.currentPitch) {
-                //execute midi note for currentPitch
+            console.debug("XXX prev vs current pitch com: " + this.state.previouslyActivePitch + ", " + this.state.currentPitch);
+            if(this.state.previouslyActivePitch!==this.state.currentPitch || this.state.previouslyActivePitch === undefined) {
                 this.setState({currentPitchDebugtext: this.state.currentPitch})
-                this.stopPreviouslyActivePitch
+                await this.stopPreviouslyActivePitch()
+                console.debug("current pitch is loaded? : " + this.getCurrentPitchSound().isLoaded())
+                this.getCurrentPitchSound().play();
+                this.setState({previouslyActivePitch: this.state.currentPitch})
             }
         }
-        this.setState({previouslyActivePitch: this.state.currentPitch})
+    }
+
+    private getCurrentPitchSound = () => {
+        return this.state.soundList[this.state.currentPitch-42];
     }
 
     private calculatePitch = () => {

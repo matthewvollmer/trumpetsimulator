@@ -6,6 +6,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/vector-icons": "^10.2.0",
     "@react-native-community/masked-view": "0.1.6",
     "@react-navigation/native": "^5.2.1",
     "@react-navigation/stack": "^5.2.16",
@@ -18,7 +19,7 @@
     "react-dom": "~16.9.0",
     "react-native": "~0.61.5",
     "react-native-audio-record": "^0.2.2",
-    "react-native-elements": "^1.2.7",
+    "react-native-elements": "^2.0.0",
     "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "~1.6.0",
     "react-native-microphone-stream": "git://github.com/chadsmith/react-native-microphone-stream.git",
@@ -27,7 +28,7 @@
     "react-native-safe-area-context": "0.7.3",
     "react-native-screens": "~2.2.0",
     "react-native-sound": "^0.11.0",
-    "react-native-unimodules": "~0.9.0",
+    "react-native-unimodules": "^0.9.1",
     "react-native-vector-icons": "^6.6.0",
     "react-native-web": "~0.11.7",
     "react-orchestra": "^0.5.2",

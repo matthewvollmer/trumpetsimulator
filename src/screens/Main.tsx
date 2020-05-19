@@ -37,6 +37,10 @@ class Main extends React.Component<Props> {
               title="Go to Tuner"
               onPress={() => this.props.navigation.navigate('Tuner')}
             />
+            <Button
+              title="Go to Drumpad"
+              onPress={() => this.props.navigation.navigate('Drumpad')}
+            />
           </View>
         )
     }    

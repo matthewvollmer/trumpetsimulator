@@ -36,7 +36,7 @@ PODS:
   - EXSQLite (8.1.0):
     - UMCore
     - UMFileSystemInterface
-  - EXUpdates (0.2.1):
+  - EXUpdates (0.2.2):
     - React
     - UMCore
   - EXWebBrowser (8.2.1):
@@ -264,8 +264,10 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
     - ReactCommon/jscallinvoker (= 0.61.5)
-  - RealmJS (5.0.4):
+  - RealmJS (5.0.5):
     - GCDWebServer
+    - React
+  - RNAudioRecord (0.2.2):
     - React
   - RNCMaskedView (0.1.6):
     - React
@@ -348,6 +350,7 @@ DEPENDENCIES:
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RealmJS (from `../node_modules/realm`)
+  - RNAudioRecord (from `../node_modules/react-native-audio-record`)
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -458,6 +461,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RealmJS:
     :path: "../node_modules/realm"
+  RNAudioRecord:
+    :path: "../node_modules/react-native-audio-record"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
   RNFS:
@@ -516,7 +521,7 @@ SPEC CHECKSUMS:
   EXPermissions: 24b97f734ce9172d245a5be38ad9ccfcb6135964
   EXSplashScreen: 6568daa178c8e17f2197d29cea858f0e0b61b695
   EXSQLite: 877ad6c8eb169353a2f94d5ad26510ffadd46a1f
-  EXUpdates: 3d2f3e46f252a9b1f02d28c89f14ae1b7c330165
+  EXUpdates: 6fb1a5eb0f6b017322edc5686c16950e85d9da76
   EXWebBrowser: 5902f99ac5ac551e5c82ff46f13a337b323aa9ea
   FBLazyVector: aaeaf388755e4f29cd74acbc9e3b8da6d807c37f
   FBReactNativeSpec: 118d0d177724c2d67f08a59136eb29ef5943ec75
@@ -544,7 +549,8 @@ SPEC CHECKSUMS:
   React-RCTText: 9ccc88273e9a3aacff5094d2175a605efa854dbe
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
-  RealmJS: 52b98789c32fa953ba441afd3ca6ac4762f806e9
+  RealmJS: 16eb794ce5490cf2981372167ac6a6c45f989a4e
+  RNAudioRecord: 162fee3b8fb628773ec704bf0333823125be2ed7
   RNCMaskedView: a88953beefbd347a29072d9eba90e42945fe291e
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
@@ -567,6 +573,6 @@ SPEC CHECKSUMS:
   UMTaskManagerInterface: cb890c79c63885504ddc0efd7a7d01481760aca2
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 7f2e2b66e72874af60e3f2301f6ba864ccdb0a81
+PODFILE CHECKSUM: 183d83d7385946d4e9b5952e5887f281d79a44ac
 
 COCOAPODS: 1.9.1
