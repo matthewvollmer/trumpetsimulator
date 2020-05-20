@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ImageSourcePropType } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
 import {useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -20,27 +20,64 @@ type Props = {
     navigation: ProfileScreenNavigationProp;
   };
 
-class Main extends React.Component<Props> { 
+interface State {
+  virtualBrass: ImageSourcePropType,
+  tuner: ImageSourcePropType,
+  metronome: ImageSourcePropType,
+  drumpad: ImageSourcePropType
+}
+
+class Main extends React.Component<Props, State> { 
+    constructor(props: Readonly<Props>) {
+      super(props);
+
+      this.state = {
+        virtualBrass: require('../../assets/VIRTUAL_BRASS.png'),
+        tuner: require('../../assets/TUNER.png'),
+        metronome: require('../../assets/METRONOME.png'),
+        drumpad: require('../../assets/DRUMPAD.png'),
+      }
+  }
+
     public render() {
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Home Screen</Text>
-            <Button
-              title="Go to Slider"
-              onPress={() => this.props.navigation.navigate('TrumpetSlider')}
-            />
-            <Button
-              title="Go to Metronome"
-              onPress={() => this.props.navigation.navigate('Metronome')}
-            />
-            <Button
-              title="Go to Tuner"
-              onPress={() => this.props.navigation.navigate('Tuner')}
-            />
-            <Button
-              title="Go to Drumpad"
-              onPress={() => this.props.navigation.navigate('Drumpad')}
-            />
+          <View style={styles.parentContainer}>
+            <View style={styles.rowContainer}>
+              <TouchableOpacity
+                style= {styles.img}
+                onPress={() => this.props.navigation.navigate('TrumpetSlider')}>
+                <Image 
+                  source={this.state.virtualBrass}
+                  style= {styles.img}
+                ></Image>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style= {styles.img}
+                onPress={() => this.props.navigation.navigate('Metronome')}>
+                <Image 
+                  source={this.state.metronome}
+                  style= {styles.img}
+                ></Image>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.rowContainer}>
+              <TouchableOpacity
+                style= {styles.img}
+                onPress={() => this.props.navigation.navigate('Tuner')}>
+                <Image 
+                  source={this.state.tuner}
+                  style= {styles.img}
+                ></Image>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style= {styles.img}
+                onPress={() => this.props.navigation.navigate('Drumpad')}>
+                <Image 
+                  source={this.state.drumpad}
+                  style= {styles.img}
+                ></Image>
+              </TouchableOpacity>
+            </View>
           </View>
         )
     }    
@@ -49,9 +86,20 @@ class Main extends React.Component<Props> {
 export default Main;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
+  parentContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  rowContainer: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+  },
+  img: {
+    flex: 1,
+    //alignSelf: "stretch",
+    resizeMode: 'contain'
+  }
 });

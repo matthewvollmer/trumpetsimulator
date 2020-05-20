@@ -380,7 +380,7 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         alignContent: 'stretch',
         justifyContent: 'center',
-        backgroundColor: '#2196F3',
+        backgroundColor: 'white',
     },
     container: {
         flex: 1,
@@ -394,7 +394,7 @@ const styles = StyleSheet.create({
         maxHeight: 180,
         width : 180,
         borderColor: '#d6d7da',
-        backgroundColor: '#2196F3',
+        //backgroundColor: '#2196F3',
         alignSelf: 'stretch',
         alignContent: 'center'
     },

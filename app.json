@@ -9,9 +9,9 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/applogo.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/applogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -28,7 +28,13 @@
     },
     "android": {
       "package": "com.mdv.trumpetsimulator",
-      "versionCode": 1
+      "versionCode": 1,
+      "splash": {
+        "image": "./assets/applogo.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#ffffff"
+        },
+      "icon": "./assets/applogo.png"
     },
     "entryPoint": "node_modules/expo/AppEntry.js"
   }
