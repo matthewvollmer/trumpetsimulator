@@ -10,6 +10,7 @@
     "@react-native-community/masked-view": "0.1.6",
     "@react-navigation/native": "^5.2.1",
     "@react-navigation/stack": "^5.2.16",
+    "@use-expo/font": "^2.0.0",
     "expo": "~37.0.3",
     "expo-av": "~8.1.0",
     "expo-splash-screen": "^0.2.3",
@@ -44,6 +45,9 @@
     "jest": "~25.2.6",
     "react-test-renderer": "~16.9.0",
     "typescript": "~3.8.3"
+  },
+  "rnpm": {
+    "assets": ["assets/fonts"]
   },
   "private": true
 }

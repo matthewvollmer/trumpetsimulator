@@ -1,9 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, Slider, Button, Picker} from 'react-native';
+import { StyleSheet, View, Slider, Picker, Image, TouchableOpacity} from 'react-native';
+import { Text, Button} from 'react-native-elements'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import { Audio } from 'expo-av';
+import Sound from 'react-native-sound';
 
 
 type MetronomeRouteProp = RouteProp<RootStackParamList, 'Metronome'>;
@@ -22,8 +24,10 @@ interface State{
     currentTempo: number
     currentMillisPerBeat: number,
     playing: boolean
-    downBeat: Audio.Sound
-    beat: Audio.Sound
+    downBeat: Sound
+    beat: Sound
+    downBeat2: Sound
+    beat2: Sound
     beatsPerMeasure: number
     beatInMeasure: number
 }
@@ -37,18 +41,18 @@ class Metronome extends React.Component<Props, State> {
             currentTempo: 60,
             currentMillisPerBeat: 1000,
             playing: false,
-            downBeat: new Audio.Sound,
-            beat: new Audio.Sound,
+            downBeat : new Sound('downbeat.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+            beat: new Sound('offbeats.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+            downBeat2 : new Sound('downbeat.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+            beat2: new Sound('offbeats.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
             beatsPerMeasure: 4,
             beatInMeasure: 1
         }
     }
 
     async componentDidMount() {
-        const downbeatSound =  await Audio.Sound.createAsync(require('../../assets/sounds/downbeat.wav'), {}, null, true);
-        this.setState({downBeat: downbeatSound.sound});
-        const beatSound =  await Audio.Sound.createAsync(require('../../assets/sounds/offbeats.wav'), {isMuted: false, positionMillis: 0}, null, true);
-        this.setState({beat: beatSound.sound});
+        Sound.setActive(true);
+        Sound.setCategory('Playback', true);
     }
 
     componentWillUnmount() {
@@ -59,37 +63,58 @@ class Metronome extends React.Component<Props, State> {
     public render() {
         return (
             <View style={styles.parentContainer}>
-                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                <Text style={{fontSize: 24, flex: 1, alignSelf: 'center'}}>Time Signature</Text>
-                <Picker 
-                    style={{ flex: 1, alignSelf: 'center'}}      
-                    selectedValue={this.state.beatsPerMeasure}
-                    onValueChange={this.changeBeatsPerMeasure}
-                    mode='dropdown'
-                    prompt='Time Signature'>
-                        <Picker.Item label="3/4" value={3} />
-                        <Picker.Item label="4/4" value={4} />
-                        <Picker.Item label="5/4" value={5} />
-                        <Picker.Item label="6/8" value={6} />
-                </Picker>
+                <View style={styles.rowContainer}>
+                    <TouchableOpacity onPress={() => this.setState({beatsPerMeasure: 4})}>
+                        <Image source = {this.state.beatsPerMeasure === 4 ? 
+                            require('../../assets/44_pr.png') : require('../../assets/44_unpr.png')}
+                            resizeMode={'contain'}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.setState({beatsPerMeasure: 5})}>
+                        <Image source = {this.state.beatsPerMeasure === 5 ? 
+                            require('../../assets/54_pr.png') : require('../../assets/54_unpr.png')}
+                            resizeMode={'contain'}
+                        />
+                    </TouchableOpacity>
                 </View>
-                <Text 
-                    style={{fontSize: 24, textAlignVertical: 'center' }}>
-                    {"Tempo: " + this.state.currentTempo}
-                </Text>
-                <Slider
-                    style={{alignSelf:'stretch', margin: 24}}
-                    minimumValue={60}
-                    maximumValue={240}
-                    onValueChange={this.onValueChange}>
-                </Slider>
-                {!this.state.playing &&<Button 
-                    onPress={this.handlePlay} 
-                    title='Play'>
-                </Button>}
-                {this.state.playing && <Button onPress={this.handleStop} 
-                    title='Stop'>
-                </Button>}
+                <View style={styles.rowContainer}>
+                    <TouchableOpacity onPress={() => this.setState({beatsPerMeasure: 3})}>
+                        <Image source = {this.state.beatsPerMeasure === 3 ? 
+                            require('../../assets/34_pr.png') : require('../../assets/34_unpr.png')}
+                            resizeMode={'contain'}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.setState({beatsPerMeasure: 6})}>
+                        <Image source = {this.state.beatsPerMeasure === 6 ? 
+                            require('../../assets/68_pr.png') : require('../../assets/68_unpr.png')}
+                            resizeMode={'contain'}
+                        />
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.columnContainer}>
+                    <Text 
+                        style={styles.text}>
+                        {"Tempo: " + this.state.currentTempo}
+                    </Text>
+                {/* </View>
+                <View style={styles.rowContainer}> */}
+                    <Slider
+                        style={{alignSelf:'stretch', marginHorizontal: 24, flex:1}}
+                        minimumValue={60}
+                        maximumValue={240}
+                        thumbImage={require('../../assets/play_button.png')}
+                        onValueChange={this.onValueChange}>
+                    </Slider>
+                {/* </View>
+                <View style={styles.rowContainer}> */}
+                <TouchableOpacity onPress={this.state.playing ? this.handleStop : this.handlePlay}>
+                    <Image source = {this.state.playing ? 
+                            require('../../assets/stop_button.png') : require('../../assets/play_button.png')}
+                            resizeMode={'contain'}
+                            style={{margin:24}}
+                        />
+                </TouchableOpacity>
+                </View>
             </View>
         )
     }    
@@ -114,7 +139,7 @@ class Metronome extends React.Component<Props, State> {
 
     private handlePlay = async () => {
         this.setState({playing: true});
-        this.state.downBeat.playFromPositionAsync(0);
+        this.state.downBeat.play();
         this.setState({beatInMeasure: 2})
         clearInterval(this.interval)
         this.interval = setInterval(this.playBeat, this.state.currentMillisPerBeat); //0.5 seconds
@@ -123,10 +148,10 @@ class Metronome extends React.Component<Props, State> {
      playBeat = async () => {
         if (this.state.playing) { 
             if (this.state.beatInMeasure === 1 ) {
-                await this.state.downBeat.playFromPositionAsync(0);
+                this.state.downBeat.isPlaying() ? this.state.downBeat2.play() : this.state.downBeat.play()
                 console.log("hit downbeat");
             } else {
-                await this.state.beat.playFromPositionAsync(0);
+                this.state.beat.isPlaying() ? this.state.beat2.play() : this.state.beat.play()
                 console.log("hit beat");
             }
             if (this.state.beatInMeasure != this.state.beatsPerMeasure ) {
@@ -135,7 +160,6 @@ class Metronome extends React.Component<Props, State> {
             else {
                 this.setState({beatInMeasure: 1})
             }
-            console.log("METRONOME HIT at currentMilisPerBeat: " +this.state.currentMillisPerBeat + " and BPM: " + this.state.currentTempo)
         }
     }
 
@@ -149,8 +173,38 @@ export default Metronome;
 
 const styles = StyleSheet.create({
     parentContainer: {
+        flex: 1,
+        alignItems: 'center',
+        alignContent: 'stretch',
+        justifyContent: 'center',
+    },
+    rowContainer: {
+        flex: 1,
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        flex:1 
     },
+    columnContainer: {
+        flex: 1,
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center',
+        width: '100%'
+    },
+    buttonContainer: {
+        flex:1,
+        flexDirection: 'row',
+        height: '100%',
+        backgroundColor: 'white',
+        borderRadius: 20,
+        margin: 5
+    },
+    text: {
+        flex:1,
+        fontSize: 16,
+        alignSelf: 'center', 
+        fontFamily:'Fipps-Regular', 
+        color: 'black', 
+        textAlign: 'center'
+    }
 });
