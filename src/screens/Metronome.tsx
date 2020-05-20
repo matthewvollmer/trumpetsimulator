@@ -102,7 +102,7 @@ class Metronome extends React.Component<Props, State> {
                         style={{alignSelf:'stretch', marginHorizontal: 24, flex:1}}
                         minimumValue={60}
                         maximumValue={240}
-                        thumbImage={require('../../assets/play_button.png')}
+                        thumbImage={require('../../assets/sliderbutton.png')}
                         onValueChange={this.onValueChange}>
                     </Slider>
                 {/* </View>
