@@ -41,7 +41,7 @@ interface State{
 class Tuner extends React.Component<Props, State> {
     interval: number | undefined; 
     middleA : number = 440;
-    semitone : number = 49;
+    semitone : number = 69;
     _lastNoteName: any;
     Recording = require('react-native-recording').default;
 
@@ -78,8 +78,7 @@ class Tuner extends React.Component<Props, State> {
               this._lastNoteName = note.name;
             }
           };
-        const tuner =  new TunerComponent({onNoteDetected});
-        tuner.start();
+        const tuner =  new TunerComponent({});
         this.Recording.init({
             sampleRate: 22050,
             bufferSize: 4096,
@@ -91,6 +90,7 @@ class Tuner extends React.Component<Props, State> {
             if (frequency && onNoteDetected) {
                 const note = this.getNote(frequency);
                 console.log("note is: " + note);
+                console.log("note name is: " + tuner.noteStrings[note % 12],);
                 onNoteDetected({
                 name: tuner.noteStrings[note % 12],
                 value: note,
@@ -105,7 +105,9 @@ class Tuner extends React.Component<Props, State> {
 
     getNote(frequency: number) {
         const note = 12 * (Math.log(frequency / this.middleA) / Math.log(2));
-        return Math.round(note) + this.semitone;
+        const toReturn = Math.round(note) + this.semitone;
+        console.debug("getNote returned: " + toReturn);
+        return toReturn;
       }
 
     getStandardFrequency(note: number) {
@@ -152,7 +154,8 @@ const styles = StyleSheet.create({
       alignItems: "center"
     },
     frequency: {
-      fontSize: 28,
+      fontSize: 16,
+      fontFamily:'Fipps-Regular',
       color: "#37474f"
     }
 });

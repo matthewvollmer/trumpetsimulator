@@ -25,14 +25,16 @@ const style = StyleSheet.create({
     marginBottom: 10
   },
   name: {
-    fontSize: 128,
+    fontSize: 70,
     fontWeight: "600",
-    color: "#c62828",
-    flexDirection: "row"
+    color: "#d9561e",
+    flexDirection: "row",
+    fontFamily:'Fipps-Regular', 
   },
   sharp: {
     fontSize: 32,
-    color: "#c62828",
+    fontFamily:'Fipps-Regular', 
+    color: "#d9561e",
     position: "absolute",
     right: 0,
     top: 32,
@@ -44,10 +46,11 @@ const style = StyleSheet.create({
     })
   },
   octave: {
-    fontSize: 32,
-    color: "#c62828",
+    fontSize: 16,
+    color: "#d9561e",
     position: "absolute",
     right: 0,
-    bottom: 0
+    bottom: 0,
+    fontFamily:'Fipps-Regular', 
   }
 });
