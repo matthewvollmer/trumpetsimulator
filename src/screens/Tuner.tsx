@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, StatusBar} from 'react-native';
+import { StyleSheet, View, Text, StatusBar, ImageBackground, ImageSourcePropType} from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
@@ -35,7 +35,8 @@ type Props = {
   };
 
 interface State{ 
-    note: NoteObject
+    note: NoteObject,
+    bgImage: ImageSourcePropType,
 }
 
 class Tuner extends React.Component<Props, State> {
@@ -54,7 +55,8 @@ class Tuner extends React.Component<Props, State> {
                 octave: 1, 
                 frequency: 440,
                 cents: 0
-            }
+            },
+            bgImage: require('../../assets/plain_button.png'),
         }
     }
 
@@ -72,7 +74,6 @@ class Tuner extends React.Component<Props, State> {
           });
         const onNoteDetected = (note:any) => {
             if (this._lastNoteName === note.name) {
-              console.log("note name changed to: " + note.name)
               this._update(note);
             } else {
               this._lastNoteName = note.name;
@@ -89,8 +90,6 @@ class Tuner extends React.Component<Props, State> {
             const frequency = pitchFinder(data);
             if (frequency && onNoteDetected) {
                 const note = this.getNote(frequency);
-                console.log("note is: " + note);
-                console.log("note name is: " + tuner.noteStrings[note % 12],);
                 onNoteDetected({
                 name: tuner.noteStrings[note % 12],
                 value: note,
@@ -106,7 +105,6 @@ class Tuner extends React.Component<Props, State> {
     getNote(frequency: number) {
         const note = 12 * (Math.log(frequency / this.middleA) / Math.log(2));
         const toReturn = Math.round(note) + this.semitone;
-        console.debug("getNote returned: " + toReturn);
         return toReturn;
       }
 
@@ -122,24 +120,24 @@ class Tuner extends React.Component<Props, State> {
         const currentNote = this.state.note;
         currentNote.cents = centsUnrounded;
         this.setState({note:currentNote});
-        console.log("current cents is:" + this.state.note.cents);
         return cents;
     }
 
     componentWillUnmount() {
         clearInterval(this.interval)
-        console.log("cleared interval from unmount");
     }
 
     public render() {
         return (
-            <View style={styles.body}>
-            <StatusBar backgroundColor="#000" translucent />
-            <Meter cents={this.state.note.cents} />
-            <Note note={this.state.note}/>
-            <Text style={styles.frequency}>
-              {this.state.note.frequency.toFixed(1)} Hz
-            </Text>
+          <View style={styles.body}>
+            <ImageBackground source={this.state.bgImage} style={styles.bgImage} resizeMode='contain'>
+              <StatusBar backgroundColor="#000" translucent />
+              <Meter cents={this.state.note.cents} />
+              <Note note={this.state.note}/>
+              <Text style={styles.frequency}>
+                {this.state.note.frequency.toFixed(1)} Hz
+              </Text>
+            </ImageBackground>
           </View>
         )
     }
@@ -150,12 +148,19 @@ export default Tuner;
 const styles = StyleSheet.create({
     body: {
       flex: 1,
-      justifyContent: "center",
+      justifyContent: "space-between",
       alignItems: "center"
     },
     frequency: {
       fontSize: 16,
       fontFamily:'Fipps-Regular',
-      color: "#37474f"
-    }
+      color: "#37474f",
+      marginBottom: 180
+    },
+    bgImage: {
+      flex: 1,
+      resizeMode: 'stretch',
+      justifyContent: "space-between",
+      alignItems: "center"
+    },
 });

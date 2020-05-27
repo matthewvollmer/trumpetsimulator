@@ -1,114 +1,72 @@
-import React, { PureComponent } from "react";
-import { View, StyleSheet, Animated } from "react-native";
+import React, { PureComponent, } from "react";
+import { View, StyleSheet, Image, ImageSourcePropType, Dimensions } from "react-native";
 
 type Props = {
   cents: number;
 };
 
-export default class Meter extends PureComponent<Props> {
-  state = {
-    cents: new Animated.Value(0)
-  };
-  
+interface State {
+  tunerDialImg: ImageSourcePropType,
+  tunerIndImg: ImageSourcePropType,
+  screenWidth: number
+}
+
+export default class Meter extends PureComponent<Props, State> {
+  constructor(props: Readonly<Props>) {
+    super(props);
+
+    this.state = {
+      tunerDialImg: require('../../assets/tunerDial.png'),
+      tunerIndImg: require('../../assets/tunerInd.png'),
+      screenWidth: Math.round(Dimensions.get('window').width),
+    }
+}
+
   componentDidUpdate() {
-    Animated.timing(this.state.cents, {
-      toValue: this.props.cents,
-      duration: 50
-    }).start();
+
   }
 
   render() {
-    const cents = this.state.cents.interpolate({
-      inputRange: [-50, 50],
-      outputRange: ["-45deg", "45deg"]
-    });
-
-    const pointerStyle = {
-      transform: [{ rotate: cents }]
-    };
-
     return (
-      <View style={style.meter}>
-        <View style={style.origin} />
-        <Animated.View
-          style={[style.scale, style.strong, style.pointer, pointerStyle]}
+    <View style={styles.parentContainer}>
+      <View style={styles.rowContainer}>
+        <Image
+          style={styles.seqImgStyle}
+          source={this.state.tunerDialImg}
+          resizeMode='contain'
         />
-        <View style={[style.scale, style.scale_5, style.strong]} />
-        <View style={[style.scale, style.scale_4]} />
-        <View style={[style.scale, style.scale_3]} />
-        <View style={[style.scale, style.scale_2]} />
-        <View style={[style.scale, style.scale_1]} />
-        <View style={[style.scale, style.strong]} />
-        <View style={[style.scale, style.scale1]} />
-        <View style={[style.scale, style.scale2]} />
-        <View style={[style.scale, style.scale3]} />
-        <View style={[style.scale, style.scale4]} />
-        <View style={[style.scale, style.scale5, style.strong]} />
+        <Image
+          style={[styles.seqImgStyle, {marginLeft: this.calculateDialLocation(), tintColor: this.calculateTintColor(), bottom: Math.abs(this.props.cents/2)}]}
+          source={this.state.tunerIndImg}
+          resizeMode='contain'
+        />
       </View>
+  </View>
     );
   }
+
+  private calculateTintColor = () => {
+    const hue = 180 - this.props.cents;
+    return 'hsl('+hue+', 50%, 50%)'
+  }
+
+  private calculateDialLocation = () => {
+    console.log("cents is : " + this.props.cents);
+    return this.props.cents * this.state.screenWidth / 52;
+  }
+
 }
 
-const style = StyleSheet.create({
-  meter: {
-    height: 200,
-    marginBottom: 40
+const styles = StyleSheet.create({
+  parentContainer: {
+    flex: 1,
   },
-  origin: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    width: 10,
-    height: 10,
-    borderRadius: 10,
-    backgroundColor: "#37474f"
+  rowContainer: {
+      flex:1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      top: 100
   },
-  pointer: {
-    borderTopWidth: 195
+  seqImgStyle: {
   },
-  scale: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    width: 1,
-    height: 400,
-    borderTopWidth: 10,
-    borderTopColor: "#37474f",
-    marginLeft: 4.5
-  },
-  strong: {
-    width: 2,
-    borderTopWidth: 20
-  },
-  scale_1: {
-    transform: [{ rotate: "-9deg" }]
-  },
-  scale_2: {
-    transform: [{ rotate: "-18deg" }]
-  },
-  scale_3: {
-    transform: [{ rotate: "-27deg" }]
-  },
-  scale_4: {
-    transform: [{ rotate: "-36deg" }]
-  },
-  scale_5: {
-    transform: [{ rotate: "-45deg" }]
-  },
-  scale1: {
-    transform: [{ rotate: "9deg" }]
-  },
-  scale2: {
-    transform: [{ rotate: "18deg" }]
-  },
-  scale3: {
-    transform: [{ rotate: "27deg" }]
-  },
-  scale4: {
-    transform: [{ rotate: "36deg" }]
-  },
-  scale5: {
-    transform: [{ rotate: "45deg" }]
-  }
 });
