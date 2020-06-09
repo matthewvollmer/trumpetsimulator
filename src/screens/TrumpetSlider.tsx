@@ -3,8 +3,9 @@ import { StyleSheet, Text, View, GestureResponderEvent ,Dimensions, Image, Image
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Sound from 'react-native-sound';
+import { Input } from 'react-native-elements';
 
 
 type TrumpetSliderRouteProp = RouteProp<RootStackParamList, 'Main'>;
@@ -159,6 +160,10 @@ class TrumpetSlider extends React.Component<Props, State> {
         ]})
     }
 
+    public componentWillUnmount() {
+        this.unloadAll();
+    }
+
 
     public render() {
         return (
@@ -178,15 +183,15 @@ class TrumpetSlider extends React.Component<Props, State> {
                 onResponderTerminationRequest={(ev) => true} 
                 >   
                 <Image source={require('../../assets/quickpoof_big.png')}
-                style= {{alignSelf: 'center', position: 'absolute', bottom: this.state.sliderHeight-5, alignItems: 'flex-end'}}
+                    style= {{alignSelf: 'center', position: 'absolute', bottom: this.state.sliderHeight-5, alignItems: 'flex-end'}}
                 />
                 </View>
                 
                 <View style={styles.container}>
                 <Text>{"Slider Value: " + Math.round(this.state.sliderValue)}</Text>
                 <Text>{"Current Pitch: " + this.state.currentPitchDebugtext}</Text>
-                    <TouchableOpacity 
-                        activeOpacity={1}
+                    <TouchableWithoutFeedback 
+                        //activeOpacity={1}
                         delayPressIn={0}
                         delayPressOut={0}
                         style={styles.valveButton}
@@ -197,9 +202,9 @@ class TrumpetSlider extends React.Component<Props, State> {
                                 source={this.state.third ? this.state.thirdValvePressed : this.state.thirdValveUnpressed}
                                 style={styles.valves}
                             />
-                    </TouchableOpacity>
-                    <TouchableOpacity 
-                        activeOpacity={1}
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback 
+                        //activeOpacity={1}
                         delayPressIn={0}
                         delayPressOut={0}
                         style={styles.valveButton}
@@ -210,11 +215,11 @@ class TrumpetSlider extends React.Component<Props, State> {
                                 source={this.state.second ? this.state.secondValvePressed : this.state.secondValveUnpressed}
                                 style={styles.valves}  
                             />
-                    </TouchableOpacity>
-                    <TouchableOpacity 
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback 
                         style={styles.valveButton}
                         onPressIn={this.handleFirstValvePress} 
-                        activeOpacity={1}
+                        //activeOpacity={1}
                         delayPressIn={0}
                         delayPressOut={0}
                         onPressOut={this.handleFirstValveUnPress}>
@@ -222,11 +227,15 @@ class TrumpetSlider extends React.Component<Props, State> {
                                 style={styles.valves}
                                 source={this.state.first ? this.state.firstValvePressed : this.state.firstValveUnpressed}
                             />
-                    </TouchableOpacity>
+                    </TouchableWithoutFeedback>
                 </View>
             </View>
         )
     }    
+
+    private unloadAll() {
+        this.state.soundList.forEach(element => element.release());
+    }
 
     async setSliderState(set: boolean){
         this.setState({ sliderPressed: set });

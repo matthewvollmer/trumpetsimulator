@@ -56,7 +56,7 @@ class Tuner extends React.Component<Props, State> {
                 frequency: 440,
                 cents: 0
             },
-            bgImage: require('../../assets/plain_button.png'),
+            bgImage: require('../../assets/tuner_backdrop.png'),
         }
     }
 
@@ -130,7 +130,7 @@ class Tuner extends React.Component<Props, State> {
     public render() {
         return (
           <View style={styles.body}>
-            <ImageBackground source={this.state.bgImage} style={styles.bgImage} resizeMode='contain'>
+            <ImageBackground source={this.state.bgImage} style={styles.bgImage} resizeMode='cover'>
               <StatusBar backgroundColor="#000" translucent />
               <Meter cents={this.state.note.cents} />
               <Note note={this.state.note}/>

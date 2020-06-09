@@ -1,10 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, Image, ImageSourcePropType, Slider} from 'react-native';
+import { StyleSheet, View, Image, ImageSourcePropType, Slider, Dimensions} from 'react-native';
 import { Button, Text} from 'react-native-elements';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import Sound from 'react-native-sound';
+import { TouchableOpacity, TouchableWithoutFeedback, TouchableHighlight, TouchableNativeFeedback } from 'react-native-gesture-handler';
+import { ImageSource } from 'react-native-vector-icons/Icon';
 
 
 type DrumpadRouteProp = RouteProp<RootStackParamList, 'Drumpad'>;
@@ -34,7 +36,20 @@ interface State{
     currentTempo: number,
     currentMillisPerBeat: number,
 
-    playing: boolean
+    playing: boolean,
+
+    kickimg: ImageSourcePropType,
+    snareimg: ImageSourcePropType,
+    hatimg: ImageSourcePropType,
+    nextimg: ImageSourcePropType,
+
+    recordimg: ImageSourcePropType,
+    deselectimg: ImageSourcePropType,
+    resetimg: ImageSourcePropType,
+    playimg: ImageSourcePropType,
+    stopimg: ImageSourcePropType,
+
+    screenWidth: number
 }
 
 class Drumpad extends React.Component<Props, State> {
@@ -56,7 +71,20 @@ class Drumpad extends React.Component<Props, State> {
 
             currentTempo: 60,
             currentMillisPerBeat: 250,
-            playing: false
+            playing: false,
+
+            kickimg: require('../../assets/KICK.png'),
+            snareimg: require('../../assets/SNARE.png'),
+            hatimg: require('../../assets/HAT.png'),
+            nextimg: require('../../assets/NEXT.png'),
+
+            recordimg: require('../../assets/record_button.png'),
+            deselectimg: require('../../assets/deselect_button.png'),
+            resetimg: require('../../assets/reset_button.png'),
+            playimg: require('../../assets/play_button_small.png'),
+            stopimg: require('../../assets/stop_button_small.png'),
+
+            screenWidth: Dimensions.get('window').width
         }
     }
     async componentDidMount() {
@@ -64,37 +92,97 @@ class Drumpad extends React.Component<Props, State> {
         Sound.setCategory('Playback', true);
     }
 
+    public componentWillUnmount() {
+        this.state.hat.release();
+        this.state.hat2.release();
+        this.state.kick.release();
+        this.state.kick2.release();
+        this.state.snare.release();
+        this.state.snare2.release();
+    }
+
     public render() {
         return (
             <View style={styles.parentContainer}>
-                <View style={styles.rowContainer}>
-                    <View style= {[styles.buttonContainer, {backgroundColor: 'lightblue'}]}
-                    onTouchStart={this.handleHat}>
-                        <Text>Hat</Text>
+                <View style={[styles.rowContainer, {paddingVertical: 12}]}>
+                    <View style={styles.buttonContainerSparse}
+                        onTouchStart={this.handleHat}>
+                            <TouchableOpacity >
+                                <Image
+                                    resizeMode='stretch'
+                                    source={this.state.hatimg}
+                                    style= {{width: '100%', height: undefined, aspectRatio: 3/4, maxWidth: this.state.screenWidth*.45}} 
+                                />
+                            </TouchableOpacity>
                     </View>
-                    <View style= {[styles.buttonContainer, {backgroundColor: 'lightcoral'}]}
+                    <View style={styles.buttonContainerSparse}
                         onTouchStart={this.handleSnare}>
-                        <Text>Snare</Text>
+                            <TouchableOpacity>
+                                <Image
+                                    resizeMode='stretch'
+                                    source={this.state.snareimg}
+                                    style= {{width: '100%', height: undefined, aspectRatio: 3/4, maxWidth: this.state.screenWidth*.45}}
+                                />
+                            </TouchableOpacity>
                     </View>
                 </View>
-                <View style={styles.rowContainer}>
-                    <View style= {[styles.buttonContainer, {backgroundColor: 'lightgreen'}]}
+                <View style={[styles.rowContainer, {paddingVertical: 12}]}>
+                    <View style={styles.buttonContainerSparse}
                         onTouchStart={this.handleKick}>
-                            <Text>Kick</Text>
+                            <TouchableOpacity >
+                                <Image
+                                    resizeMode='stretch'
+                                    source={this.state.kickimg}
+                                    style= {{width: '100%', height: undefined, aspectRatio: 3/4, maxWidth: this.state.screenWidth*.45}}
+                                />
+                            </TouchableOpacity>
                     </View>
-                    <View style= {[styles.buttonContainer, {backgroundColor: 'lightyellow'}]}
+                    <View style={styles.buttonContainerSparse}
                         onTouchStart={this.handleNext}>
-                            <Text>Next</Text>
+                            <TouchableOpacity>
+                                <Image
+                                    resizeMode='stretch'
+                                    source={this.state.nextimg}
+                                    style= {{width: '100%', height: undefined, aspectRatio: 3/4, maxWidth: this.state.screenWidth*.45}}
+                                />
+                            </TouchableOpacity>
                     </View>
                 </View>
                 <View style={styles.columnContainer}>
-                    <View style= {styles.buttonContainer}>
-                        <Button buttonStyle={styles.buttonStyle} title="Record" onPress={() => this.setState({seqSelected: 1})}></Button>
-                        <Button buttonStyle={styles.buttonStyle}  title="Deselect" onPress={() => this.setState({seqSelected: undefined})}></Button>
-                        <Button buttonStyle={styles.buttonStyle}  title="Reset" onPress={this.resetSequence}></Button>
+                    <View style= {[styles.buttonContainer, {justifyContent: 'center', width: '100%'}]}>
+                        <TouchableOpacity style={[styles.seqImgStyle]}
+                            onPress={() => this.setState({seqSelected: 1})}>
+                                <Image 
+                                resizeMode='contain' 
+                                source={this.state.recordimg} 
+                                style={{marginHorizontal:1}}
+                                />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.seqImgStyle}
+                            onPress={() => this.setState({seqSelected: undefined})}>
+                                <Image resizeMode='contain' source={this.state.deselectimg}
+                                style={{marginHorizontal:1}}
+                                />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.seqImgStyle}
+                            onPress={this.resetSequence}>
+                                <Image resizeMode='contain' source={this.state.resetimg}
+                                style={{marginHorizontal:1}}
+                                />
+                        </TouchableOpacity>
                         {this.state.playing ? 
-                            <Button buttonStyle={styles.buttonStyle}  title="Stop" onPress={this.handleStop}></Button> :
-                            <Button buttonStyle={styles.buttonStyle}  title="Play" onPress={this.handlePlay}></Button>
+                            <TouchableOpacity style={styles.seqImgStyle}
+                                onPress={this.handleStop}>
+                                    <Image resizeMode='contain' source={this.state.stopimg}
+                                    style={{marginHorizontal:1}}
+                                    />
+                            </TouchableOpacity> :
+                            <TouchableOpacity style={styles.seqImgStyle}
+                                onPress={this.handlePlay}>
+                                    <Image resizeMode='contain' source={this.state.playimg}
+                                    style={{marginHorizontal:1}}
+                                    />
+                            </TouchableOpacity>
                             }
                     </View>
                     <View style= {styles.sequenceRowContainer}>
@@ -104,7 +192,7 @@ class Drumpad extends React.Component<Props, State> {
                             maximumValue={240}
                             onValueChange={this.onValueChange}>
                         </Slider>
-                        <Text>{"Tempo: " + this.state.currentTempo}</Text>
+                        <Text style={styles.text}>{"Tempo: " + this.state.currentTempo}</Text>
                     </View>
                     <View style= {styles.sequenceRowContainer}>
                         {/* 1 */}
@@ -387,7 +475,7 @@ const styles = StyleSheet.create({
     },
     columnContainer: {
         flex: 1,
-        alignItems: 'center',
+        alignItems: 'flex-start',
         alignContent: 'center',
         justifyContent: 'center',
     },
@@ -395,16 +483,22 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection: 'row',
         height: '100%',
-        backgroundColor: 'white',
         borderRadius: 20,
         margin: 5
+    },
+    buttonContainerSparse: {
+        flex:1,
+        flexDirection: 'row',
+        flexWrap:'wrap',
+        justifyContent: 'center'
+        //height: '100%',
+        //width: '100%'
     },
     sequenceRowContainer: {
         flex:1,
         flexDirection: 'row',
         width: '100%',
         //height: '100%',
-        backgroundColor: 'white',
         //borderRadius: 20,
         //margin: 5
     },
@@ -415,5 +509,13 @@ const styles = StyleSheet.create({
         flex:1,
         margin: 1,
         borderRadius: 20
+    },
+    text: {
+        fontSize: 8,
+        alignSelf: 'center', 
+        fontFamily:'Fipps-Regular', 
+        color: 'black', 
+        textAlign: 'center',
+        paddingRight:12
     }
 });

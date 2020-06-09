@@ -27,14 +27,14 @@ const style = StyleSheet.create({
   name: {
     fontSize: 70,
     fontWeight: "600",
-    color: "#d9561e",
+    color: "#662d36",
     flexDirection: "row",
     fontFamily:'Fipps-Regular', 
   },
   sharp: {
     fontSize: 32,
     fontFamily:'Fipps-Regular', 
-    color: "#d9561e",
+    color: "#662d36",
     position: "absolute",
     right: 0,
     top: 32,
@@ -47,7 +47,7 @@ const style = StyleSheet.create({
   },
   octave: {
     fontSize: 16,
-    color: "#d9561e",
+    color: "#662d36",
     position: "absolute",
     right: 0,
     bottom: 0,

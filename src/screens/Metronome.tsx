@@ -56,8 +56,12 @@ class Metronome extends React.Component<Props, State> {
     }
 
     componentWillUnmount() {
-        clearInterval(this.interval)
-        console.log("cleared interval from unmount");
+        clearInterval(this.interval);
+
+        this.state.downBeat.release();
+        this.state.downBeat2.release();
+        this.state.beat.release();
+        this.state.beat2.release();
     }
 
     public render() {
