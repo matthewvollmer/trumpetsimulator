@@ -28,7 +28,7 @@ interface State{
     first: boolean;
     second: boolean;
     third: boolean;
-    currentPitchDebugtext?: number
+    currentPitchDebugtext: string
     screenHeight: number
     screenWidth: number
     sliderHeight: number
@@ -43,6 +43,7 @@ interface State{
     secondValvePressed: ImageSourcePropType
     thirdValveUnpressed: ImageSourcePropType
     thirdValvePressed: ImageSourcePropType
+    tube : ImageSourcePropType
 
     gb0: Sound,
     g0: Sound,
@@ -89,7 +90,7 @@ class TrumpetSlider extends React.Component<Props, State> {
 
         this.state = {
             sliderValue : 0,
-            currentPitchDebugtext: 48,
+            currentPitchDebugtext: '',
             currentPitch: 48,
             previouslyActivePitch: undefined,
             first: false,
@@ -107,6 +108,7 @@ class TrumpetSlider extends React.Component<Props, State> {
             secondValvePressed: require('../../assets/tpt_valve2_pressed_rot.png'),
             thirdValveUnpressed: require('../../assets/tpt_valve3_unpressed_rot.png'),
             thirdValvePressed: require('../../assets/tpt_valve3_pressed_rot.png'),
+            tube: require('../../assets/tpt_tube.png'),
 
             gb0 : new Sound('gb0.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
             g0 : new Sound('g0.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
@@ -168,30 +170,47 @@ class TrumpetSlider extends React.Component<Props, State> {
     public render() {
         return (
             <View style={styles.parentContainer}>
+                <View style={{backgroundColor:'white', justifyContent:'space-between', height:'100%', top: 12,}}>
+                    <Text style={[styles.text, {flex:1}]}>C-</Text>
+                    <Text style={[styles.text, {flex:1}]}>A#-</Text>
+                    <Text style={[styles.text, {flex:2}]}>G-</Text>
+                    <Text style={[styles.text, {flex:2}]}>E-</Text>
+                    <Text style={[styles.text, {flex:2}]}>C-</Text>
+                    <Text style={[styles.text, {flex:2}]}>G-</Text>
+                    <Text style={[styles.text, {flex:3}]}>C-</Text>
+                </View>
                 <View style={styles.sliderContainer}
-                onStartShouldSetResponder={(ev) => {
-                    //return (ev.nativeEvent.pageX < this.state.screenWidth/2)
-                    return true
-                }}
-                onMoveShouldSetResponder={(ev) => {
-                    //return (ev.nativeEvent.pageX < this.state.screenWidth/2)
-                    return true
-                }}
-                onResponderGrant= {(ev) => this.onTouchEvent(ev)}
-                onResponderMove = {(ev) => this.onTouchEvent(ev)}
-                onTouchEnd = {this.handleTouchEnd}
-                onResponderTerminationRequest={(ev) => true} 
+                    onStartShouldSetResponder={(ev) => {
+                        //return (ev.nativeEvent.pageX < this.state.screenWidth/2)
+                        return true
+                    }}
+                    onMoveShouldSetResponder={(ev) => {
+                        //return (ev.nativeEvent.pageX < this.state.screenWidth/2)
+                        return true
+                    }}
+                    onResponderGrant= {(ev) => this.onTouchEvent(ev)}
+                    onResponderMove = {(ev) => this.onTouchEvent(ev)}
+                    onTouchEnd = {this.handleTouchEnd}
+                    onResponderTerminationRequest={(ev) => true} 
                 >   
                 <Image source={require('../../assets/quickpoof_big.png')}
-                    style= {{alignSelf: 'center', position: 'absolute', bottom: this.state.sliderHeight-5, alignItems: 'flex-end'}}
+                    style= {[this.state.sliderPressed && { height: 125},
+                        {alignSelf: 'flex-start', position: 'absolute', bottom: this.state.sliderHeight-5, alignItems: 'flex-end'}]}
                 />
                 </View>
-                
+                <Image 
+                    resizeMode='stretch'
+                    source={this.state.tube}
+                    style={{position:'absolute', left:this.state.screenWidth/2 - 50, height:'100%'}}
+                />
                 <View style={styles.container}>
-                <Text>{"Slider Value: " + Math.round(this.state.sliderValue)}</Text>
-                <Text>{"Current Pitch: " + this.state.currentPitchDebugtext}</Text>
+                    {this.state.sliderPressed &&  
+                        <View style={{position:'absolute', top:0}}>
+                            <Text style={styles.text}>{"Pitch:"}</Text>
+                            <Text style={[styles.text, {fontSize:16}]}>{this.state.currentPitchDebugtext}</Text>
+                        </View>
+                    }
                     <TouchableWithoutFeedback 
-                        //activeOpacity={1}
                         delayPressIn={0}
                         delayPressOut={0}
                         style={styles.valveButton}
@@ -204,7 +223,6 @@ class TrumpetSlider extends React.Component<Props, State> {
                             />
                     </TouchableWithoutFeedback>
                     <TouchableWithoutFeedback 
-                        //activeOpacity={1}
                         delayPressIn={0}
                         delayPressOut={0}
                         style={styles.valveButton}
@@ -219,7 +237,6 @@ class TrumpetSlider extends React.Component<Props, State> {
                     <TouchableWithoutFeedback 
                         style={styles.valveButton}
                         onPressIn={this.handleFirstValvePress} 
-                        //activeOpacity={1}
                         delayPressIn={0}
                         delayPressOut={0}
                         onPressOut={this.handleFirstValveUnPress}>
@@ -256,10 +273,8 @@ class TrumpetSlider extends React.Component<Props, State> {
     }
 
     private handleTouchEnd = async () => {
-        //this.setSliderState(false)
         await this.setState({sliderPressed: false});
         this.stopPreviouslyActivePitch()
-        //this.state.soundList[this.state.currentPitch-42].stop();
     }
 
     private handleFirstValvePress = () => {
@@ -320,7 +335,7 @@ class TrumpetSlider extends React.Component<Props, State> {
             this.calculatePitch()
             console.debug("XXX prev vs current pitch com: " + this.state.previouslyActivePitch + ", " + this.state.currentPitch);
             if(this.state.previouslyActivePitch!==this.state.currentPitch || this.state.previouslyActivePitch === undefined) {
-                this.setState({currentPitchDebugtext: this.state.currentPitch})
+                this.setState({currentPitchDebugtext: this.calculateCurrentPitchDebugText(this.state.currentPitch)})
                 await this.stopPreviouslyActivePitch()
                 console.debug("current pitch is loaded? : " + this.getCurrentPitchSound().isLoaded())
                 this.getCurrentPitchSound().play();
@@ -328,6 +343,26 @@ class TrumpetSlider extends React.Component<Props, State> {
             }
         }
     }
+
+    private calculateCurrentPitchDebugText(pitch: number) : string {
+        const pitchMod : number = pitch % 12;
+        let noteName : string ='';
+        switch(pitchMod) {
+            case(0): noteName = "C"; break;
+            case(1): noteName = "C#";break;
+            case(2): noteName = "D";break;
+            case(3): noteName = "D#";break;
+            case(4): noteName = "E";break;
+            case(5): noteName = "F";break;
+            case(6): noteName = "F#";break;
+            case(7): noteName = "G";break;
+            case(8): noteName = "G#";break;
+            case(9): noteName = "A";break;
+            case(10): noteName = "A#";break;
+            case(11): noteName = "B";break;
+        }
+        return noteName;
+      }
 
     private getCurrentPitchSound = () => {
         return this.state.soundList[this.state.currentPitch-42];
@@ -381,7 +416,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         //justifyContent: 'space-around',
         alignItems: 'center',
-        flex:1
+        flex:1,
+        backgroundColor: 'white'
     },
     sliderContainer: {
         flex: 1,
@@ -394,12 +430,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
+        height:'100%',
+        justifyContent:'center'
         //alignSelf: 'stretch'
     },
     valveButton: {
         flex: 1,
-        borderRadius: 4,
-        borderWidth: 0.5,
         maxHeight: 180,
         width : 180,
         borderColor: '#d6d7da',
@@ -412,5 +448,12 @@ const styles = StyleSheet.create({
         height: undefined, 
         width: undefined,
         resizeMode:'contain'
+    },
+    text: {
+        fontSize: 12,
+        alignSelf: 'center', 
+        fontFamily:'Fipps-Regular', 
+        color: 'black', 
+        textAlign: 'center'
     }
 });

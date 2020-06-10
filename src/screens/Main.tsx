@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ImageSourcePropType } from 'react-native';
-import { NavigationProp } from '@react-navigation/native';
-import {useNavigation } from '@react-navigation/native';
+import { StyleSheet, View, Image, TouchableOpacity, ImageSourcePropType } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
+import admob, { MaxAdContentRating, BannerAdSize } from '@react-native-firebase/admob';
+import { BannerAd, TestIds } from '@react-native-firebase/admob';
 
 //interface Props extends NavigationInjectedProps {}
 
@@ -39,7 +39,26 @@ class Main extends React.Component<Props, State> {
       }
   }
 
+  public componentDidMount() {
+    admob()
+      .setRequestConfiguration({
+        // Update all future requests suitable for parental guidance
+        maxAdContentRating: MaxAdContentRating.PG,
+
+        // Indicates that you want your content treated as child-directed for purposes of COPPA.
+        tagForChildDirectedTreatment: false,
+
+        // Indicates that you want the ad request to be handled in a
+        // manner suitable for users under the age of consent.
+        tagForUnderAgeOfConsent: true,
+      })
+      .then(() => {
+        // Request config successfully set!
+      });
+  }
+
     public render() {
+      const adId = __DEV__ ?  TestIds.BANNER : 'ca-app-pub-9855234796425536/6028942568';
         return (
           <View style={styles.parentContainer}>
             <View style={styles.rowContainer}>
@@ -77,6 +96,19 @@ class Main extends React.Component<Props, State> {
                   style= {styles.img}
                 ></Image>
               </TouchableOpacity>
+            </View>
+            <View style={{justifyContent:'center'}}>
+              <BannerAd 
+                unitId={adId}
+                size={BannerAdSize.BANNER}
+                requestOptions={{
+                  requestNonPersonalizedAdsOnly: true,
+                }}
+                onAdLoaded={() => {
+                  console.log('Advert loaded');}}
+                  onAdFailedToLoad={(error: any) => {
+                  console.error('Advert failed to load: ', error);}}
+              />
             </View>
           </View>
         )

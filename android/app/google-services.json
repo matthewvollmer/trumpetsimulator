@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "248001387375",
+    "firebase_url": "https://brass-buddy.firebaseio.com",
+    "project_id": "brass-buddy",
+    "storage_bucket": "brass-buddy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248001387375:android:f20ce3d971d37e589be69a",
+        "android_client_info": {
+          "package_name": "com.mdv.trumpetsimulator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248001387375-756tljhpmput9blrpvj3rpnbjf2kuc1d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mdv.trumpetsimulator",
+            "certificate_hash": "dc512469aba2127e6749597f1e0ab785562554c7"
+          }
+        },
+        {
+          "client_id": "248001387375-ue1asml8o701a02202njtgdbmfi9rhuo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAArqjN4jB8xZk51JKFFcUpw11V6o0mrCk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248001387375-ue1asml8o701a02202njtgdbmfi9rhuo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

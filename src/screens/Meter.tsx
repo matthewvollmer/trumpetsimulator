@@ -34,7 +34,7 @@ export default class Meter extends PureComponent<Props, State> {
   render() {
     const cents = this.state.dialLocation.interpolate({
       inputRange: [-40, 40],
-      outputRange: [-0.75*this.state.screenWidth/2, 0.75*this.state.screenWidth/2]
+      outputRange: [-0.65*this.state.screenWidth/2, 0.65*this.state.screenWidth/2]
     });
     return (
     <View style={styles.parentContainer}>
