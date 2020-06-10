@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, Slider, Picker, Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity, ImageURISource} from 'react-native';
 import { Text, Button} from 'react-native-elements'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
-import { Audio } from 'expo-av';
 import Sound from 'react-native-sound';
+import Slider from '@react-native-community/slider';
 
 
 type MetronomeRouteProp = RouteProp<RootStackParamList, 'Metronome'>;
@@ -29,7 +29,9 @@ interface State{
     downBeat2: Sound
     beat2: Sound
     beatsPerMeasure: number
-    beatInMeasure: number
+    beatInMeasure: number,
+    
+    sliderImg: ImageURISource,
 }
 
 class Metronome extends React.Component<Props, State> {
@@ -46,7 +48,9 @@ class Metronome extends React.Component<Props, State> {
             downBeat2 : new Sound('downbeat.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
             beat2: new Sound('offbeats.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
             beatsPerMeasure: 4,
-            beatInMeasure: 1
+            beatInMeasure: 1,
+
+            sliderImg: require('../../assets/sliderbutton.png'),
         }
     }
 
@@ -100,17 +104,15 @@ class Metronome extends React.Component<Props, State> {
                         style={styles.text}>
                         {"Tempo: " + this.state.currentTempo}
                     </Text>
-                {/* </View>
-                <View style={styles.rowContainer}> */}
                     <Slider
                         style={{alignSelf:'stretch', marginHorizontal: 24, flex:1}}
                         minimumValue={60}
                         maximumValue={240}
-                        thumbImage={require('../../assets/sliderbutton.png')}
+                        thumbImage={this.state.sliderImg}
+                        minimumTrackTintColor='#CC7F72'
+                        maximumTrackTintColor='#F79A2F'
                         onValueChange={this.onValueChange}>
                     </Slider>
-                {/* </View>
-                <View style={styles.rowContainer}> */}
                 <TouchableOpacity onPress={this.state.playing ? this.handleStop : this.handlePlay}>
                     <Image source = {this.state.playing ? 
                             require('../../assets/stop_button.png') : require('../../assets/play_button.png')}

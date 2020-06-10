@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, Image, ImageSourcePropType, Slider, Dimensions} from 'react-native';
+import { StyleSheet, View, Image, ImageSourcePropType, Dimensions, ImageURISource} from 'react-native';
 import { Button, Text} from 'react-native-elements';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import Sound from 'react-native-sound';
-import { TouchableOpacity, TouchableWithoutFeedback, TouchableHighlight, TouchableNativeFeedback } from 'react-native-gesture-handler';
-import { ImageSource } from 'react-native-vector-icons/Icon';
+import { TouchableOpacity} from 'react-native-gesture-handler';
+import Slider from '@react-native-community/slider';
 
 
 type DrumpadRouteProp = RouteProp<RootStackParamList, 'Drumpad'>;
@@ -49,6 +49,8 @@ interface State{
     playimg: ImageSourcePropType,
     stopimg: ImageSourcePropType,
 
+    sliderImg: ImageURISource,
+
     screenWidth: number
 }
 
@@ -84,6 +86,8 @@ class Drumpad extends React.Component<Props, State> {
             playimg: require('../../assets/play_button_small.png'),
             stopimg: require('../../assets/stop_button_small.png'),
 
+            sliderImg: require('../../assets/sliderbutton.png'),
+
             screenWidth: Dimensions.get('window').width
         }
     }
@@ -99,6 +103,7 @@ class Drumpad extends React.Component<Props, State> {
         this.state.kick2.release();
         this.state.snare.release();
         this.state.snare2.release();
+        this.handleStop();
     }
 
     public render() {
@@ -111,7 +116,7 @@ class Drumpad extends React.Component<Props, State> {
                                 <Image
                                     resizeMode='stretch'
                                     source={this.state.hatimg}
-                                    style= {{width: '100%', height: undefined, aspectRatio: 3/4, maxWidth: this.state.screenWidth*.45}} 
+                                    style= {[styles.instrButtonStyle, {maxWidth: this.state.screenWidth*.45}]} 
                                 />
                             </TouchableOpacity>
                     </View>
@@ -121,7 +126,7 @@ class Drumpad extends React.Component<Props, State> {
                                 <Image
                                     resizeMode='stretch'
                                     source={this.state.snareimg}
-                                    style= {{width: '100%', height: undefined, aspectRatio: 3/4, maxWidth: this.state.screenWidth*.45}}
+                                    style= {[styles.instrButtonStyle, {maxWidth: this.state.screenWidth*.45}]}
                                 />
                             </TouchableOpacity>
                     </View>
@@ -133,7 +138,7 @@ class Drumpad extends React.Component<Props, State> {
                                 <Image
                                     resizeMode='stretch'
                                     source={this.state.kickimg}
-                                    style= {{width: '100%', height: undefined, aspectRatio: 3/4, maxWidth: this.state.screenWidth*.45}}
+                                    style= {[styles.instrButtonStyle, {maxWidth: this.state.screenWidth*.45}]}
                                 />
                             </TouchableOpacity>
                     </View>
@@ -143,7 +148,7 @@ class Drumpad extends React.Component<Props, State> {
                                 <Image
                                     resizeMode='stretch'
                                     source={this.state.nextimg}
-                                    style= {{width: '100%', height: undefined, aspectRatio: 3/4, maxWidth: this.state.screenWidth*.45}}
+                                    style= {[styles.instrButtonStyle, {maxWidth: this.state.screenWidth*.45}]}
                                 />
                             </TouchableOpacity>
                     </View>
@@ -153,205 +158,83 @@ class Drumpad extends React.Component<Props, State> {
                         <TouchableOpacity style={[styles.seqImgStyle]}
                             onPress={() => this.setState({seqSelected: 1})}>
                                 <Image 
-                                resizeMode='contain' 
-                                source={this.state.recordimg} 
-                                style={{marginHorizontal:1}}
-                                />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.seqImgStyle}
-                            onPress={() => this.setState({seqSelected: undefined})}>
-                                <Image resizeMode='contain' source={this.state.deselectimg}
-                                style={{marginHorizontal:1}}
+                                    resizeMode='contain' 
+                                    source={this.state.recordimg} 
+                                    style={styles.buttonStyle}
                                 />
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.seqImgStyle}
                             onPress={this.resetSequence}>
-                                <Image resizeMode='contain' source={this.state.resetimg}
-                                style={{marginHorizontal:1}}
+                                <Image 
+                                    resizeMode='contain' 
+                                    source={this.state.resetimg}
+                                    style={styles.buttonStyle}
                                 />
                         </TouchableOpacity>
                         {this.state.playing ? 
                             <TouchableOpacity style={styles.seqImgStyle}
                                 onPress={this.handleStop}>
-                                    <Image resizeMode='contain' source={this.state.stopimg}
-                                    style={{marginHorizontal:1}}
+                                    <Image 
+                                        resizeMode='contain' 
+                                        source={this.state.stopimg}
+                                        style={styles.buttonStyle}
                                     />
                             </TouchableOpacity> :
                             <TouchableOpacity style={styles.seqImgStyle}
                                 onPress={this.handlePlay}>
-                                    <Image resizeMode='contain' source={this.state.playimg}
-                                    style={{marginHorizontal:1}}
+                                    <Image 
+                                        resizeMode='contain' 
+                                        source={this.state.playimg}
+                                        style={styles.buttonStyle}
                                     />
                             </TouchableOpacity>
                             }
                     </View>
                     <View style= {styles.sequenceRowContainer}>
                         <Slider
-                            style={{alignSelf:'stretch', flex:1}}
+                            style={styles.slider}
                             minimumValue={60}
                             maximumValue={240}
-                            onValueChange={this.onValueChange}>
+                            onValueChange={this.onValueChange}
+                            thumbImage={this.state.sliderImg}
+                            minimumTrackTintColor='#CC7F72'
+                            maximumTrackTintColor='#F79A2F'
+                            >
                         </Slider>
                         <Text style={styles.text}>{"Tempo: " + this.state.currentTempo}</Text>
                     </View>
                     <View style= {styles.sequenceRowContainer}>
-                        {/* 1 */}
-                        <Text>1</Text>
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(1), opacity: this.getHighlighedOpacity(1)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(2), opacity: this.getHighlighedOpacity(2)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(3), opacity: this.getHighlighedOpacity(3)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(4), opacity: this.getHighlighedOpacity(4)}]}
-                            source={this.state.sequenceImg}
-                        />
-
-                        {/* 2 */}
-                        <Text>2</Text>
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(5), opacity: this.getHighlighedOpacity(5)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(6), opacity: this.getHighlighedOpacity(6)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(7), opacity: this.getHighlighedOpacity(7)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(8), opacity: this.getHighlighedOpacity(8)}]}
-                            source={this.state.sequenceImg}
-                        />
-
-                        {/* 3 */}
-                        <Text>3</Text>
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(9), opacity: this.getHighlighedOpacity(9)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(10), opacity: this.getHighlighedOpacity(10)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(11), opacity: this.getHighlighedOpacity(11)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(12), opacity: this.getHighlighedOpacity(12)}]}
-                            source={this.state.sequenceImg}
-                        />
-
-                        {/* 4 */}
-                        <Text>4</Text>
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(13), opacity: this.getHighlighedOpacity(13)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(14), opacity: this.getHighlighedOpacity(14)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(15), opacity: this.getHighlighedOpacity(15)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(16), opacity: this.getHighlighedOpacity(16)}]}
-                            source={this.state.sequenceImg}
-                        />
+                        {this.buildSeqBlocks(1)}
                     </View>
                     <View style= {styles.sequenceRowContainer}>
-                        {/* 1 */}
-                        <Text>1</Text>
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(17), opacity: this.getHighlighedOpacity(17)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(18), opacity: this.getHighlighedOpacity(18)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(19), opacity: this.getHighlighedOpacity(19)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(20), opacity: this.getHighlighedOpacity(20)}]}
-                            source={this.state.sequenceImg}
-                        />
-
-                        {/* 2 */}
-                        <Text>2</Text>
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(21), opacity: this.getHighlighedOpacity(21)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(22), opacity: this.getHighlighedOpacity(22)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(23), opacity: this.getHighlighedOpacity(23)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(24), opacity: this.getHighlighedOpacity(24)}]}
-                            source={this.state.sequenceImg}
-                        />
-
-                        {/* 3 */}
-                        <Text>3</Text>
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(25), opacity: this.getHighlighedOpacity(25)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(26), opacity: this.getHighlighedOpacity(26)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(27), opacity: this.getHighlighedOpacity(27)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(28), opacity: this.getHighlighedOpacity(28)}]}
-                            source={this.state.sequenceImg}
-                        />
-
-                        {/* 4 */}
-                        <Text>4</Text>
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(29), opacity: this.getHighlighedOpacity(29)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(30), opacity: this.getHighlighedOpacity(30)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(31), opacity: this.getHighlighedOpacity(31)}]}
-                            source={this.state.sequenceImg}
-                        />
-                        <Image
-                            style={[styles.seqImgStyle, {tintColor: this.getTintColor(32), opacity: this.getHighlighedOpacity(32)}]}
-                            source={this.state.sequenceImg}
-                        />
+                        {this.buildSeqBlocks(5)}
                     </View>
                 </View>
             </View>
         )
     }    
+
+    private buildSeqBlocks = (barNumber: number) => {
+        let seqBlocks = []; 
+        for(let j=barNumber;j<barNumber+4;j++){
+            seqBlocks.push(<Text style={styles.barNumberText}>{j}</Text>)
+            for (let i=(j-1)*4+1; i<(j-1)*4+5; i++) {
+                seqBlocks.push(
+                    this.seqBlock(i)
+                )
+            }
+        }    
+        return seqBlocks;
+    }
+
+    private seqBlock = (idx: number) => {
+        return (
+            <Image
+                style={[styles.seqImgStyle, {tintColor: this.getTintColor(idx), opacity: this.getHighlighedOpacity(idx)}]}
+                source={this.state.sequenceImg}
+            />
+        )
+    }
 
     private getTintColor = (index: number): string => {
         switch (this.state.sequenceValues[index]) {
@@ -491,31 +374,40 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap:'wrap',
         justifyContent: 'center'
-        //height: '100%',
-        //width: '100%'
     },
     sequenceRowContainer: {
         flex:1,
         flexDirection: 'row',
         width: '100%',
-        //height: '100%',
-        //borderRadius: 20,
-        //margin: 5
     },
     seqImgStyle: {
         flex:1,
     },
+    instrButtonStyle: {
+        width: '100%',
+        height: undefined, 
+        aspectRatio: 3/4,
+    },
     buttonStyle: {
-        flex:1,
-        margin: 1,
-        borderRadius: 20
+        marginHorizontal: 4
     },
     text: {
-        fontSize: 8,
+        fontSize: 12,
         alignSelf: 'center', 
         fontFamily:'Fipps-Regular', 
         color: 'black', 
         textAlign: 'center',
         paddingRight:12
+    },
+    barNumberText: {
+        fontSize: 12,
+        fontFamily:'Fipps-Regular', 
+        color: 'black',
+        alignItems:  'center',
+        bottom: 4
+    },
+    slider: {
+        alignSelf:'stretch', 
+        flex:1
     }
 });
