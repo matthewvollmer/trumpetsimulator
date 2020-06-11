@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, GestureResponderEvent ,Dimensions, Image, ImageSourcePropType } from 'react-native';
+import { StyleSheet, Text, View, GestureResponderEvent ,Dimensions, Image, ImageSourcePropType, TouchableOpacity, TouchableNativeFeedback } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
-import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Sound from 'react-native-sound';
-import { Input } from 'react-native-elements';
+import Modal from 'react-native-modal';
 
 
 type TrumpetSliderRouteProp = RouteProp<RootStackParamList, 'Main'>;
@@ -33,10 +33,6 @@ interface State{
     screenWidth: number
     sliderHeight: number
 
-    firstValveColor: string
-    secondValveColor: string
-    thirdValveColor: string
-
     firstValveUnpressed: ImageSourcePropType
     firstValvePressed: ImageSourcePropType
     secondValveUnpressed: ImageSourcePropType
@@ -44,6 +40,7 @@ interface State{
     thirdValveUnpressed: ImageSourcePropType
     thirdValvePressed: ImageSourcePropType
     tube : ImageSourcePropType
+    settings: ImageSourcePropType
 
     gb0: Sound,
     g0: Sound,
@@ -81,10 +78,26 @@ interface State{
     c3: Sound,
 
     soundList: Sound[]
+
+    showSettings: boolean
+    concert: ImageSourcePropType
+    concertPr: ImageSourcePropType
+    Bb: ImageSourcePropType
+    BbPr: ImageSourcePropType
+
+    concertPitch: boolean;
 }
 
 class TrumpetSlider extends React.Component<Props, State> { 
-    firstValveUnpressed = require('../../assets/tpt_valve2_unpressed_rot.png');
+    currentPitch = 48;
+    previouslyActivePitch : number | undefined = undefined;
+    sliderPressed : boolean | undefined = false;
+    first : boolean = false;
+    second : boolean = false;
+    third : boolean = false;
+    sliderValue: number = 0;
+    previousSliderValue: number = 0;
+    currentDirection: number = 0;
     constructor(props: Readonly<Props>) {
         super(props);
 
@@ -99,9 +112,6 @@ class TrumpetSlider extends React.Component<Props, State> {
             screenHeight: Math.round(Dimensions.get('window').height),
             screenWidth: Math.round(Dimensions.get('window').width),
             sliderHeight: 0,
-            firstValveColor: '#2196F3',
-            secondValveColor: '#2196F3',
-            thirdValveColor: '#2196F3',
             firstValveUnpressed: require('../../assets/tpt_valve1_unpressed_rot.png'),
             firstValvePressed: require('../../assets/tpt_valve1_pressed_rot.png'),
             secondValveUnpressed: require('../../assets/tpt_valve2_unpressed_rot.png'),
@@ -109,6 +119,7 @@ class TrumpetSlider extends React.Component<Props, State> {
             thirdValveUnpressed: require('../../assets/tpt_valve3_unpressed_rot.png'),
             thirdValvePressed: require('../../assets/tpt_valve3_pressed_rot.png'),
             tube: require('../../assets/tpt_tube.png'),
+            settings: require('../../assets/settings_icon.png'),
 
             gb0 : new Sound('gb0.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
             g0 : new Sound('g0.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
@@ -145,7 +156,15 @@ class TrumpetSlider extends React.Component<Props, State> {
 
             c3: new Sound('c3.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
 
-            soundList : []
+            soundList : [],
+            showSettings: false,
+
+            concert: require('../../assets/concert_pitch.png'),
+            concertPr: require('../../assets/concert_pitch_pr.png'),
+            Bb: require('../../assets/Bb.png'),
+            BbPr: require('../../assets/Bb_pr.png'),
+
+            concertPitch: false,
         }
     }
 
@@ -170,22 +189,47 @@ class TrumpetSlider extends React.Component<Props, State> {
     public render() {
         return (
             <View style={styles.parentContainer}>
-                <View style={{backgroundColor:'white', justifyContent:'space-between', height:'100%', top: 12,}}>
-                    <Text style={[styles.text, {flex:1}]}>C-</Text>
-                    <Text style={[styles.text, {flex:1}]}>A#-</Text>
-                    <Text style={[styles.text, {flex:2}]}>G-</Text>
-                    <Text style={[styles.text, {flex:2}]}>E-</Text>
-                    <Text style={[styles.text, {flex:2}]}>C-</Text>
-                    <Text style={[styles.text, {flex:2}]}>G-</Text>
-                    <Text style={[styles.text, {flex:3}]}>C-</Text>
+                <Modal
+                        isVisible={!!this.state.showSettings}
+                        onBackdropPress={() => this.setState({showSettings: false})}
+                        onBackButtonPress={() => this.setState({showSettings: false})}
+                    >
+                    <View 
+                        style={{height: '50%', width: '90%', borderRadius: 12, borderWidth: 4, backgroundColor: 'white', 
+                                  alignSelf: 'center', justifyContent: 'space-evenly', alignItems: 'center'}}
+                        >
+                        <Text style={styles.text}>Pitch: </Text>
+                        <TouchableNativeFeedback
+                            style={{zIndex: 100}}
+                            onPressIn={this.setConcert}>
+                            <Image
+                                source= {this.state.concertPitch ? this.state.concertPr : this.state.concert}
+                                resizeMode='contain'
+                            />
+                        </TouchableNativeFeedback>
+                        <TouchableNativeFeedback
+                            onPressIn={this.unsetConsert}>
+                            <Image
+                                source= {this.state.concertPitch ? this.state.Bb : this.state.BbPr}
+                                resizeMode='contain'
+                            />
+                        </TouchableNativeFeedback>
+                    </View>
+                </Modal>
+                <View style={{backgroundColor:'white', justifyContent:'space-between', height:'100%', top: 24,}}>
+                    <Text style={[styles.text, {flex:1.5}]}>{this.state.concertPitch ? "A#-" : "C-"}</Text>
+                    <Text style={[styles.text, {flex:1.5}]}>{this.state.concertPitch ? "G#-" : "A#-"}</Text>
+                    <Text style={[styles.text, {flex:1.7}]}>{this.state.concertPitch ? "F-" : "G-"}</Text>
+                    <Text style={[styles.text, {flex:2}]}>{this.state.concertPitch ? "D-" : "E-"}</Text>
+                    <Text style={[styles.text, {flex:2}]}>{this.state.concertPitch ? "A#-" : "C-"}</Text>
+                    <Text style={[styles.text, {flex:2}]}>{this.state.concertPitch ? "F-" : "G-"}</Text>
+                    <Text style={[styles.text, {flex:3}]}>{this.state.concertPitch ? "A#-" : "C-"}</Text>
                 </View>
                 <View style={styles.sliderContainer}
                     onStartShouldSetResponder={(ev) => {
-                        //return (ev.nativeEvent.pageX < this.state.screenWidth/2)
                         return true
                     }}
                     onMoveShouldSetResponder={(ev) => {
-                        //return (ev.nativeEvent.pageX < this.state.screenWidth/2)
                         return true
                     }}
                     onResponderGrant= {(ev) => this.onTouchEvent(ev)}
@@ -194,8 +238,8 @@ class TrumpetSlider extends React.Component<Props, State> {
                     onResponderTerminationRequest={(ev) => true} 
                 >   
                 <Image source={require('../../assets/quickpoof_big.png')}
-                    style= {[this.state.sliderPressed && { height: 125},
-                        {alignSelf: 'flex-start', position: 'absolute', bottom: this.state.sliderHeight-5, alignItems: 'flex-end'}]}
+                    style= {[this.sliderPressed===true && { height: 125},
+                        {alignSelf: 'flex-start', position: 'absolute', bottom: this.state.sliderHeight-12, alignItems: 'flex-end'}]}
                 />
                 </View>
                 <Image 
@@ -204,7 +248,7 @@ class TrumpetSlider extends React.Component<Props, State> {
                     style={{position:'absolute', left:this.state.screenWidth/2 - 50, height:'100%'}}
                 />
                 <View style={styles.container}>
-                    {this.state.sliderPressed &&  
+                    {this.sliderPressed &&  
                         <View style={{position:'absolute', top:0}}>
                             <Text style={styles.text}>{"Pitch:"}</Text>
                             <Text style={[styles.text, {fontSize:16}]}>{this.state.currentPitchDebugtext}</Text>
@@ -218,7 +262,7 @@ class TrumpetSlider extends React.Component<Props, State> {
                         onPressOut={this.handleThirdValveUnpress} 
                         >
                             <Image 
-                                source={this.state.third ? this.state.thirdValvePressed : this.state.thirdValveUnpressed}
+                                source={this.third? this.state.thirdValvePressed : this.state.thirdValveUnpressed}
                                 style={styles.valves}
                             />
                     </TouchableWithoutFeedback>
@@ -230,7 +274,7 @@ class TrumpetSlider extends React.Component<Props, State> {
                         onPressOut={this.handleSecondValveUnpress}
                         >
                             <Image 
-                                source={this.state.second ? this.state.secondValvePressed : this.state.secondValveUnpressed}
+                                source={this.second? this.state.secondValvePressed : this.state.secondValveUnpressed}
                                 style={styles.valves}  
                             />
                     </TouchableWithoutFeedback>
@@ -242,9 +286,18 @@ class TrumpetSlider extends React.Component<Props, State> {
                         onPressOut={this.handleFirstValveUnPress}>
                             <Image 
                                 style={styles.valves}
-                                source={this.state.first ? this.state.firstValvePressed : this.state.firstValveUnpressed}
+                                source={this.first? this.state.firstValvePressed : this.state.firstValveUnpressed}
                             />
                     </TouchableWithoutFeedback>
+                    <View style={{position:'absolute', bottom: 0, right:0}}> 
+                        <TouchableOpacity style={{borderRadius:4, borderWidth: 4, borderColor: 'dimgray'}}
+                            onPress={() => this.setState({showSettings: true})}>
+                            <Image
+                                resizeMode='contain'
+                                source={this.state.settings}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         )
@@ -253,93 +306,91 @@ class TrumpetSlider extends React.Component<Props, State> {
     private unloadAll() {
         this.state.soundList.forEach(element => element.release());
     }
+    
+    private setConcert = () => {
+        console.log("setting concert pitch")
+        this.setState({concertPitch: true});
+    }
 
-    async setSliderState(set: boolean){
-        this.setState({ sliderPressed: set });
+    private unsetConsert = () => {
+        console.log("unsetting concert pitch")
+        this.setState({concertPitch: false});
     }
 
     private calculateSliderValue = (locationY: number) => {
-        let sliderValue = (this.state.screenHeight - locationY- 100)/2;
+        let newSliderValue = (this.state.screenHeight - locationY- 110)/2.1;
+        this.sliderValue = newSliderValue;
+        if (newSliderValue - this.previousSliderValue > 3) this.currentDirection = 1;
+        else if (newSliderValue - this.previousSliderValue < 3) this.currentDirection = -1;
+        else this.currentDirection = 0;
         let sliderHeight = this.state.screenHeight-locationY;
-        this.setState({sliderValue, sliderHeight})
+        this.setState({sliderHeight})
     }
 
     private onTouchEvent= (ev: GestureResponderEvent) => {
         if (ev.nativeEvent.pageX < this.state.screenWidth/2) {
-            this.setState({sliderPressed: true});
+            if (!this.sliderPressed) this.sliderPressed = true;
             this.calculateSliderValue(ev.nativeEvent.pageY)
             this.playCurrentPitch()
         }
     }
 
-    private handleTouchEnd = async () => {
-        await this.setState({sliderPressed: false});
-        this.stopPreviouslyActivePitch()
+    private handleTouchEnd = (ev: GestureResponderEvent) => {
+        if (ev.nativeEvent.pageX < this.state.screenWidth/2) {
+            this.sliderPressed = false;
+            this.setState({sliderPressed: false});
+            this.stopPreviouslyActivePitch()
+        }
     }
 
     private handleFirstValvePress = () => {
-        this.setState({
-            first: true,
-            firstValveColor: '#fff',
-        });
+        this.first = true;
+        this.setState({first: true})
         this.playCurrentPitch()
     }
 
     private handleFirstValveUnPress = () => {
-        this.setState({
-            first: false,
-            firstValveColor: '#2196F3',
-        });
+        this.first = false;
+        this.setState({first: false})
         this.playCurrentPitch()
     }
 
     private handleSecondValvePress = () => {
-        this.setState({
-            second: true,
-            secondValveColor: '#fff',
-        });
+        this.second = true;
+        this.setState({second: true})
         this.playCurrentPitch()
     }
     private handleSecondValveUnpress = () => {
-        this.setState({
-            second: false,
-            secondValveColor: '#2196F3',
-        });
+        this.second = false;
         this.playCurrentPitch()
+        this.setState({second: false})
     }
 
     private handleThirdValvePress = () => {
-        this.setState({
-            third: true,
-            thirdValveColor: '#fff',
-        });
+        this.third = true;
+        this.setState({third: true})
         this.playCurrentPitch()
     }
     private handleThirdValveUnpress = () => {
-        this.setState({
-            third: false,
-            thirdValveColor: '#2196F3',
-        });
+        this.third = false;
+        this.setState({third: false})
         this.playCurrentPitch()
     }
 
 
     private stopPreviouslyActivePitch = () => {
-        this.state.previouslyActivePitch && this.state.soundList[this.state.previouslyActivePitch-42].stop()
-        this.setState({previouslyActivePitch: undefined});
+        this.previouslyActivePitch && this.state.soundList[this.previouslyActivePitch-42].stop()
+        this.previouslyActivePitch = undefined;
     }
 
-    private playCurrentPitch = async () => {
-        if (this.state.sliderPressed) {
-            console.debug("entered play current pitch")
-            this.calculatePitch()
-            console.debug("XXX prev vs current pitch com: " + this.state.previouslyActivePitch + ", " + this.state.currentPitch);
-            if(this.state.previouslyActivePitch!==this.state.currentPitch || this.state.previouslyActivePitch === undefined) {
-                this.setState({currentPitchDebugtext: this.calculateCurrentPitchDebugText(this.state.currentPitch)})
-                await this.stopPreviouslyActivePitch()
-                console.debug("current pitch is loaded? : " + this.getCurrentPitchSound().isLoaded())
+    private playCurrentPitch = () => {
+        if (this.sliderPressed) {
+            this.currentPitch = this.calculatePitch()
+            if(this.previouslyActivePitch!==this.currentPitch || this.previouslyActivePitch === undefined) {
+                this.setState({currentPitchDebugtext: this.calculateCurrentPitchDebugText(this.currentPitch)});
+                this.stopPreviouslyActivePitch()
                 this.getCurrentPitchSound().play();
-                this.setState({previouslyActivePitch: this.state.currentPitch})
+                this.previouslyActivePitch = this.currentPitch;
             }
         }
     }
@@ -348,59 +399,57 @@ class TrumpetSlider extends React.Component<Props, State> {
         const pitchMod : number = pitch % 12;
         let noteName : string ='';
         switch(pitchMod) {
-            case(0): noteName = "C"; break;
-            case(1): noteName = "C#";break;
-            case(2): noteName = "D";break;
-            case(3): noteName = "D#";break;
-            case(4): noteName = "E";break;
-            case(5): noteName = "F";break;
-            case(6): noteName = "F#";break;
-            case(7): noteName = "G";break;
-            case(8): noteName = "G#";break;
-            case(9): noteName = "A";break;
-            case(10): noteName = "A#";break;
-            case(11): noteName = "B";break;
+            case(0): noteName = this.state.concertPitch ? "A#" : "C"; break;
+            case(1): noteName = this.state.concertPitch ? "B" : "C#";break;
+            case(2): noteName = this.state.concertPitch ? "C" : "D";break;
+            case(3): noteName = this.state.concertPitch ? "C#" : "D#";break;
+            case(4): noteName = this.state.concertPitch ? "D" : "E";break;
+            case(5): noteName = this.state.concertPitch ? "D#" : "F";break;
+            case(6): noteName = this.state.concertPitch ? "E" : "F#";break;
+            case(7): noteName = this.state.concertPitch ? "F" : "G";break;
+            case(8): noteName = this.state.concertPitch ? "F#" : "G#";break;
+            case(9): noteName = this.state.concertPitch ? "G" : "A";break;
+            case(10): noteName = this.state.concertPitch ? "G#" : "A#";break;
+            case(11): noteName = this.state.concertPitch ? "A" : "B";break;
         }
         return noteName;
       }
 
     private getCurrentPitchSound = () => {
-        return this.state.soundList[this.state.currentPitch-42];
+        return this.state.soundList[this.currentPitch-42];
     }
 
-    private calculatePitch = () => {
+    private calculatePitch =  () => {
         let pitchRange : number[] = this.calculatePitchRange()
         console.debug("entered calc pitch. pitch range: " + pitchRange)
-        let goal : number = this.state.sliderValue ? this.state.sliderValue/10+48 : 0
+        let goal : number = this.sliderValue ? this.sliderValue/10+48 + this.currentDirection : 0
         let closest  = pitchRange.reduce(function(prev, curr) {
             return (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev);
           });
         console.log("closest pitch calculated: " + closest)
-        this.setState({
-            currentPitch: closest
-        })
+        return closest;
     }
 
     private calculatePitchRange = () => {
-        if (!this.state.first && !this.state.second && !this.state.third) {
+        if (!this.first&& !this.second&& !this.third) {
             return [48, 55, 60, 64, 67, 70 ,72] //
          }
-         else if (!this.state.first && this.state.second && !this.state.third) {
+         else if (!this.first&& this.second&& !this.third) {
             return [47, 54, 59, 63, 66, 69 ,71] // 2
          }
-         else if (this.state.first && !this.state.second && !this.state.third) {
+         else if (this.first&& !this.second&& !this.third) {
              return [46, 53, 58, 62, 65, 68, 70] // 1
          }
-         else if (this.state.first && this.state.second && !this.state.third) {
+         else if (this.first&& this.second&& !this.third) {
              return [45, 52, 57, 61, 64, 67, 69] // 1+2
          }
-         else if (!this.state.first && this.state.second && this.state.third) {
+         else if (!this.first&& this.second&& this.third) {
              return [44, 51, 56, 60, 63, 66, 68] // 2+3
          }
-         else if (this.state.first && !this.state.second && this.state.third) {
+         else if (this.first&& !this.second&& this.third) {
              return [43, 50, 55, 59, 62, 65, 67] // 1+3
          }
-         else if (this.state.first && this.state.second && this.state.third) {
+         else if (this.first&& this.second&& this.third) {
              return [42, 49, 54, 58, 61, 64, 66] // 1+2+3
          }
          else  {
@@ -453,7 +502,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         alignSelf: 'center', 
         fontFamily:'Fipps-Regular', 
-        color: 'black', 
+        color: 'dimgray', 
         textAlign: 'center'
     }
 });

@@ -50,7 +50,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow trumpetsimulator to use your location</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Allow trumpetsimulator to access your microphone</string>
+	<string>Allow Brass Buddy to access your microphone</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Allow trumpetsimulator to access your device's accelerometer</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

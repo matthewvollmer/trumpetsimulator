@@ -58,7 +58,7 @@ class Main extends React.Component<Props, State> {
   }
 
     public render() {
-      const adId = __DEV__ ?  TestIds.BANNER : 'ca-app-pub-9855234796425536/6028942568';
+      const adId = __DEV__ ?  TestIds.BANNER : "ca-app-pub-9855234796425536/6028942568";
         return (
           <View style={styles.parentContainer}>
             <View style={styles.rowContainer}>
@@ -106,7 +106,7 @@ class Main extends React.Component<Props, State> {
                 }}
                 onAdLoaded={() => {
                   console.log('Advert loaded');}}
-                  onAdFailedToLoad={(error: any) => {
+                onAdFailedToLoad={(error: any) => {
                   console.error('Advert failed to load: ', error);}}
               />
             </View>

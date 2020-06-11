@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Image, TouchableOpacity, ImageURISource} from 'react-native';
-import { Text, Button} from 'react-native-elements'
+import { Text } from 'react-native-elements'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
@@ -155,10 +155,8 @@ class Metronome extends React.Component<Props, State> {
         if (this.state.playing) { 
             if (this.state.beatInMeasure === 1 ) {
                 this.state.downBeat.isPlaying() ? this.state.downBeat2.play() : this.state.downBeat.play()
-                console.log("hit downbeat");
             } else {
                 this.state.beat.isPlaying() ? this.state.beat2.play() : this.state.beat.play()
-                console.log("hit beat");
             }
             if (this.state.beatInMeasure != this.state.beatsPerMeasure ) {
                 this.setState({beatInMeasure: this.state.beatInMeasure+1})

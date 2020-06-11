@@ -63,11 +63,6 @@ export default class Meter extends PureComponent<Props, State> {
     return 'hsl('+hue+', 50%, 50%)'
   }
 
-  // private calculateDialLocation = () => {
-  //   console.log("cents is : " + this.props.cents);
-  //   this.setState({dialLocation: this.props.cents * this.state.screenWidth / 52});
-  // }
-
 }
 
 const styles = StyleSheet.create({
