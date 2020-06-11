@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Image, TouchableOpacity, ImageSourcePropType } from 'react-native';
+import { Button } from 'react-native-elements'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
