@@ -66,6 +66,7 @@ export default class App extends React.Component<Props, State> {
               type="outline"
               titleStyle={{fontFamily:'Fipps-Regular', fontSize:8}}
               onPress={() => this.setState({showAbout: true})}
+              buttonStyle={{marginRight:18}}
             />)}}/>
           <Stack.Screen name="TrumpetSlider" component={TrumpetSlider} options={{headerTitle: () => 
               <Text style= {styles.headerTextStyles}>VIRTUAL BRASS</Text>, headerBackImage: () => <BackImage/>}}  />

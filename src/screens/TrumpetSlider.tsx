@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, GestureResponderEvent ,Dimensions, Image, ImageSourcePropType, TouchableOpacity, TouchableNativeFeedback } from 'react-native';
+import { StyleSheet, Text, View, GestureResponderEvent ,Dimensions, Image, ImageSourcePropType, TouchableOpacity, TouchableNativeFeedback, PanResponder } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
@@ -86,6 +86,8 @@ interface State{
     BbPr: ImageSourcePropType
 
     concertPitch: boolean;
+
+    panResponder?: any;
 }
 
 class TrumpetSlider extends React.Component<Props, State> { 
@@ -225,7 +227,7 @@ class TrumpetSlider extends React.Component<Props, State> {
                     <Text style={[styles.text, {flex:2}]}>{this.state.concertPitch ? "F-" : "G-"}</Text>
                     <Text style={[styles.text, {flex:3}]}>{this.state.concertPitch ? "A#-" : "C-"}</Text>
                 </View>
-                <View style={styles.sliderContainer}
+                <View style={[styles.sliderContainer, {width:this.state.screenWidth/2}]}
                     onStartShouldSetResponder={(ev) => {
                         return true
                     }}
@@ -236,18 +238,19 @@ class TrumpetSlider extends React.Component<Props, State> {
                     onResponderMove = {(ev) => this.onTouchEvent(ev)}
                     onTouchEnd = {this.handleTouchEnd}
                     onResponderTerminationRequest={(ev) => true} 
+                    hitSlop={{right:25}}
                 >   
-                <Image source={require('../../assets/quickpoof_big.png')}
-                    style= {[this.sliderPressed===true && { height: 125},
-                        {alignSelf: 'flex-start', position: 'absolute', bottom: this.state.sliderHeight-12, alignItems: 'flex-end'}]}
-                />
+                    <Image source={require('../../assets/quickpoof_big.png')}
+                        style= {[this.sliderPressed===true && { height: 125},
+                            {alignSelf: 'flex-start', position: 'absolute', bottom: this.state.sliderHeight-12, alignItems: 'flex-end'}]}
+                    />
                 </View>
                 <Image 
                     resizeMode='stretch'
                     source={this.state.tube}
                     style={{position:'absolute', left:this.state.screenWidth/2 - 50, height:'100%'}}
                 />
-                <View style={styles.container}>
+                <View style={[styles.container, {width:this.state.screenWidth/2}]}>
                     {this.sliderPressed &&  
                         <View style={{position:'absolute', top:0}}>
                             <Text style={styles.text}>{"Pitch:"}</Text>
@@ -283,7 +286,9 @@ class TrumpetSlider extends React.Component<Props, State> {
                         onPressIn={this.handleFirstValvePress} 
                         delayPressIn={0}
                         delayPressOut={0}
-                        onPressOut={this.handleFirstValveUnPress}>
+                        onPressOut={this.handleFirstValveUnPress}
+                        pressRetentionOffset={{left:25}}
+                        >
                             <Image 
                                 style={styles.valves}
                                 source={this.first? this.state.firstValvePressed : this.state.firstValveUnpressed}
@@ -328,6 +333,7 @@ class TrumpetSlider extends React.Component<Props, State> {
     }
 
     private onTouchEvent= (ev: GestureResponderEvent) => {
+        console.log("changed touches: "+ ev.nativeEvent.changedTouches.length);
         if (ev.nativeEvent.pageX < this.state.screenWidth/2) {
             if (!this.sliderPressed) this.sliderPressed = true;
             this.calculateSliderValue(ev.nativeEvent.pageY)
@@ -343,38 +349,46 @@ class TrumpetSlider extends React.Component<Props, State> {
         }
     }
 
-    private handleFirstValvePress = () => {
-        this.first = true;
-        this.setState({first: true})
-        this.playCurrentPitch()
+    private handleFirstValvePress = (ev : GestureResponderEvent) => {
+        // if (ev.nativeEvent.locationX > this.state.screenWidth/2) {
+            console.log('ev stuff' + ev)
+            this.first = true;
+            this.setState({first: true})
+            this.playCurrentPitch()
+        // }
     }
 
-    private handleFirstValveUnPress = () => {
-        this.first = false;
-        this.setState({first: false})
-        this.playCurrentPitch()
+    private handleFirstValveUnPress = (ev : GestureResponderEvent) => {
+        // if (ev.nativeEvent.pageX > this.state.screenWidth/2) {
+            this.first = false;
+            this.setState({first: false})
+            this.playCurrentPitch()
+        // }
     }
 
-    private handleSecondValvePress = () => {
+    private handleSecondValvePress = (ev : GestureResponderEvent) => {
         this.second = true;
         this.setState({second: true})
         this.playCurrentPitch()
     }
-    private handleSecondValveUnpress = () => {
+    private handleSecondValveUnpress = (ev : GestureResponderEvent) => {
         this.second = false;
         this.playCurrentPitch()
         this.setState({second: false})
     }
 
-    private handleThirdValvePress = () => {
+    private handleThirdValvePress = (ev : GestureResponderEvent) => {
         this.third = true;
         this.setState({third: true})
         this.playCurrentPitch()
+    //}
     }
-    private handleThirdValveUnpress = () => {
+    private handleThirdValveUnpress = (ev : GestureResponderEvent) => {
+    //if (ev.nativeEvent.pageX > this.state.screenWidth/2) {
         this.third = false;
         this.setState({third: false})
         this.playCurrentPitch()
+    //}
     }
 
 

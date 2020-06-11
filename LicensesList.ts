@@ -5234,12 +5234,6 @@ const LicensesList : any =  {
         "licenseUrl": "https://github.com/facebook/react-native/raw/master/LICENSE",
         "parents": "UNDEFINED"
     },
-    "react-orchestra@0.5.2": {
-        "licenses": "LGPL-3.0",
-        "repository": "https://github.com/RakanNimer/react-orchestra",
-        "licenseUrl": "https://github.com/RakanNimer/react-orchestra",
-        "parents": "UNDEFINED"
-    },
     "react-refresh@0.4.2": {
         "licenses": "MIT",
         "repository": "https://github.com/facebook/react",

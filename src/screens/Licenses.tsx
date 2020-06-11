@@ -1,14 +1,8 @@
 import React from 'react';
-import { StyleSheet, View, Text, FlatList } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { RootStackParamList } from '../../App';
-import LicensesList from '../../LicensesList'
-import LicensesItem from './LicensesItem';
+import { StyleSheet, View, Text, Linking } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 type Props = {
-    // route: ScreenRouteProp;
-    // navigation: NavigationProp;
   };
 
 interface State {
@@ -23,64 +17,67 @@ class Licenses extends React.Component<Props, State> {
   }
 
     public render() {
-        let licenses : any = Object.keys(LicensesList).map((key:string) => {
-          let { licenses, ...license } = LicensesList[key];
-          let [name, version] = key.split('@');
-
-          let username = this.extractNameFromGithubUrl(license.repository) || this.extractNameFromGithubUrl(license.licenseUrl)
-
-          let repository=license.repository;
-
-          let userUrl;
-          let image;
-          if (username) {
-            username = this.capitalizeFirstLetter(username)
-            image = `http://github.com/${username}.png`;
-            userUrl = `http://github.com/${username}`;
-          }
-
-          return {
-            key,
-            name,
-            image,
-            userUrl,
-            username,
-            licenses: licenses.slice(0, 405),
-            version,
-            ...license,
-            repository
-          }
-        })
-
-
         return (
-          <View>
-            <Text style={{alignSelf: 'center'}}>Licenses:</Text>
-            {this.createLicensesList(licenses)}
-            {/* <Text>{licenses[0].key}</Text> */}
-            {/* <FlatList
-              style={{flex:1}}
-              keyExtractor={({ key }) => key}
-              data={licenses}
-              renderItem={({ item }) => <LicensesItem {...item} />}
-            /> */}
-          </View>
+          <ScrollView >
+            <Text style={{alignSelf: 'center', fontSize: 20}}>Privacy Policy:</Text>
+            <Text style={{alignSelf: 'center', fontSize: 12, color: 'blue', textDecorationLine:'underline'}}
+              onPress={() => Linking.openURL('https://brass-buddy.flycricket.io/privacy.html')}>
+              https://brass-buddy.flycricket.io/privacy.html
+            </Text>
+
+            <Text style={{alignSelf: 'center', fontSize: 20}}>Licenses:</Text>
+            {this.createLicensesList('expo', 'MIT', '^37.0.3')}
+            {this.createLicensesList('@expo/vector-icons', 'MIT', '^10.0.2')}
+            {this.createLicensesList('expo-av', 'MIT', '^8.1.0')}
+            {this.createLicensesList('expo-splash-screen', 'MIT', '^0.2.3')}
+            {this.createLicensesList('expo-updates', 'MIT', '^0.2.2')}
+            {this.createLicensesList('@use-expo/font', 'MIT', '^2.0.0')}
+
+            {this.createLicensesList("@react-native-community/masked-view", 'MIT', "0.1.6",)}
+            {this.createLicensesList("@react-native-community/slider", 'MIT', "^3.0.0",)}
+            {this.createLicensesList("@react-native-firebase/admob", 'Apache-2.0', "^7.1.4",)}
+            {this.createLicensesList("@react-native-firebase/app", "Apache-2.0", "^7.2.1",)}
+            {this.createLicensesList("@react-navigation/native", "MIT", "^5.2.1",)}
+            {this.createLicensesList("@react-navigation/stack", "MIT", "^5.2.16",)}
+
+
+            {this.createLicensesList("pitchfinder", 'GNU v3', "^2.3.1",)}
+            {this.createLicensesList("react", 'MIT', "~16.9.0",)}
+            {this.createLicensesList("react-dom", 'MIT', "~16.9.0",)}
+            {this.createLicensesList("react-native",'MIT', "~0.61.5",)}
+            {this.createLicensesList("react-native-audio-record",'MIT', "^0.2.2",)}
+            {this.createLicensesList("react-native-elements",'MIT', "^2.0.0",)}
+            {this.createLicensesList("react-native-fs",'MIT', "^2.16.6",)}
+
+            {this.createLicensesList("react-native-gesture-handler", 'MIT', "~1.6.0",)}
+            {this.createLicensesList("react-native-microphone-stream", 'MIT', "0.0.1")}
+            {this.createLicensesList("react-native-modal", 'MIT', "^11.5.6",)}
+            {this.createLicensesList("react-native-reanimated", 'MIT', "~1.7.0",)}
+            {this.createLicensesList("react-native-recording", 'MIT', "^0.4.1",)}
+            {this.createLicensesList("react-native-safe-area-context", 'MIT', "0.7.3",)}
+            {this.createLicensesList("react-native-screens", 'MIT', "~2.2.0",)}
+
+            {this.createLicensesList("react-native-sound", 'MIT', "^0.11.0",)}
+            {this.createLicensesList("react-native-tuner", 'MIT', "^1.0",)}
+            {this.createLicensesList("react-native-unimodules", 'MIT', "^0.9.1",)}
+            {this.createLicensesList("react-native-vector-icons", 'MIT', "^6.6.0",)}
+            {this.createLicensesList("react-native-web", 'MIT', "~0.11.7",)}
+            {this.createLicensesList("realm" ,'Apache-2.0', "^5.0.4",)}
+            {this.createLicensesList("rn-vertical-slider", 'MIT', "^1.0.6")}
+            
+          </ScrollView>
         )
     }    
 
-    private createLicensesList = (licenses: any) =>  {
-      let licenceElements: JSX.Element[] = [];
-      for (let i:number = 0; i< licenses.length; i++) {
-
-      // licenses.forEach((license: any) => {
-        let license = licenses[i];
-        licenceElements.push(
-          <View>
-            <Text>{license.name}</Text>
-          </View>
-        )
-      }
-      return licenceElements;
+    private createLicensesList = (name: string, license: string, version: string, username? : string) =>  {
+      return (
+        <View style={{justifyContent:'center', alignSelf:'center', borderRadius: 2, borderWidth:2, borderColor: 'gray'}}>
+          {name &&  <Text>{'Library Name: ' + name}</Text>}
+          {license &&  <Text>{'License: '+license}</Text>}
+          {version &&  <Text>{'Version: '+version}</Text>}
+          {username &&  <Text>{'Github Username: '+username}</Text>}
+        </View>
+      )
       };
     
 
