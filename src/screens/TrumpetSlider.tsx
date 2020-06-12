@@ -250,7 +250,7 @@ class TrumpetSlider extends React.Component<Props, State> {
                     source={this.state.tube}
                     style={{position:'absolute', left:this.state.screenWidth/2 - 50, height:'100%'}}
                 />
-                <View style={[styles.container, {width:this.state.screenWidth/2}]}>
+                <View style={[styles.container, {width:this.state.screenWidth/2, right:0}]}>
                     {this.sliderPressed &&  
                         <View style={{position:'absolute', top:0}}>
                             <Text style={styles.text}>{"Pitch:"}</Text>
