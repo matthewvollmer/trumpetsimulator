@@ -49,6 +49,23 @@ PODS:
     - React-Core (= 0.61.5)
     - React-jsi (= 0.61.5)
     - ReactCommon/turbomodule/core (= 0.61.5)
+  - Firebase/AdMob (6.25.0):
+    - Firebase/CoreOnly
+    - Google-Mobile-Ads-SDK (~> 7.50)
+  - Firebase/CoreOnly (6.25.0):
+    - FirebaseCore (= 6.7.1)
+  - FirebaseCore (6.7.1):
+    - FirebaseCoreDiagnostics (~> 1.3)
+    - FirebaseCoreDiagnosticsInterop (~> 1.2)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GoogleUtilities/Logger (~> 6.5)
+  - FirebaseCoreDiagnostics (1.3.0):
+    - FirebaseCoreDiagnosticsInterop (~> 1.2)
+    - GoogleDataTransportCCTSupport (~> 3.1)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GoogleUtilities/Logger (~> 6.5)
+    - nanopb (~> 1.30905.0)
+  - FirebaseCoreDiagnosticsInterop (1.2.0)
   - Folly (2018.10.22.00):
     - boost-for-react-native
     - DoubleConversion
@@ -62,6 +79,42 @@ PODS:
     - GCDWebServer/Core (= 3.5.4)
   - GCDWebServer/Core (3.5.4)
   - glog (0.3.5)
+  - Google-Mobile-Ads-SDK (7.60.0):
+    - GoogleAppMeasurement (~> 6.0)
+  - GoogleAppMeasurement (6.6.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
+    - GoogleUtilities/MethodSwizzler (~> 6.0)
+    - GoogleUtilities/Network (~> 6.0)
+    - "GoogleUtilities/NSData+zlib (~> 6.0)"
+    - nanopb (~> 1.30905.0)
+  - GoogleDataTransport (6.2.1)
+  - GoogleDataTransportCCTSupport (3.1.0):
+    - GoogleDataTransport (~> 6.1)
+    - nanopb (~> 1.30905.0)
+  - GoogleUtilities/AppDelegateSwizzler (6.6.0):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (6.6.0):
+    - PromisesObjC (~> 1.2)
+  - GoogleUtilities/Logger (6.6.0):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/MethodSwizzler (6.6.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/Network (6.6.0):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (6.6.0)"
+  - GoogleUtilities/Reachability (6.6.0):
+    - GoogleUtilities/Logger
+  - nanopb (1.30905.0):
+    - nanopb/decode (= 1.30905.0)
+    - nanopb/encode (= 1.30905.0)
+  - nanopb/decode (1.30905.0)
+  - nanopb/encode (1.30905.0)
+  - PersonalizedAdConsent (1.0.5)
+  - PromisesObjC (1.2.9)
   - RCTRequired (0.61.5)
   - RCTTypeSafety (0.61.5):
     - FBLazyVector (= 0.61.5)
@@ -229,6 +282,8 @@ PODS:
     - React
   - react-native-safe-area-context (0.7.3):
     - React
+  - react-native-slider (3.0.0):
+    - React
   - React-RCTActionSheet (0.61.5):
     - React-Core/RCTActionSheetHeaders (= 0.61.5)
   - React-RCTAnimation (0.61.5):
@@ -270,6 +325,14 @@ PODS:
   - RNAudioRecord (0.2.2):
     - React
   - RNCMaskedView (0.1.6):
+    - React
+  - RNFBAdMob (7.1.4):
+    - Firebase/AdMob (~> 6.25.0)
+    - PersonalizedAdConsent (~> 1.0.4)
+    - React
+    - RNFBApp
+  - RNFBApp (7.2.1):
+    - Firebase/CoreOnly (~> 6.25.0)
     - React
   - RNFS (2.16.6):
     - React
@@ -338,6 +401,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-microphone-stream (from `../node_modules/react-native-microphone-stream`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
   - React-RCTBlob (from `../node_modules/react-native/Libraries/Blob`)
@@ -352,6 +416,8 @@ DEPENDENCIES:
   - RealmJS (from `../node_modules/realm`)
   - RNAudioRecord (from `../node_modules/react-native-audio-record`)
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
+  - "RNFBAdMob (from `../node_modules/@react-native-firebase/admob`)"
+  - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -376,7 +442,19 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - boost-for-react-native
+    - Firebase
+    - FirebaseCore
+    - FirebaseCoreDiagnostics
+    - FirebaseCoreDiagnosticsInterop
     - GCDWebServer
+    - Google-Mobile-Ads-SDK
+    - GoogleAppMeasurement
+    - GoogleDataTransport
+    - GoogleDataTransportCCTSupport
+    - GoogleUtilities
+    - nanopb
+    - PersonalizedAdConsent
+    - PromisesObjC
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -439,6 +517,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-microphone-stream"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-slider:
+    :path: "../node_modules/@react-native-community/slider"
   React-RCTActionSheet:
     :path: "../node_modules/react-native/Libraries/ActionSheetIOS"
   React-RCTAnimation:
@@ -465,6 +545,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-audio-record"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
+  RNFBAdMob:
+    :path: "../node_modules/@react-native-firebase/admob"
+  RNFBApp:
+    :path: "../node_modules/@react-native-firebase/app"
   RNFS:
     :path: "../node_modules/react-native-fs"
   RNGestureHandler:
@@ -525,9 +609,21 @@ SPEC CHECKSUMS:
   EXWebBrowser: 5902f99ac5ac551e5c82ff46f13a337b323aa9ea
   FBLazyVector: aaeaf388755e4f29cd74acbc9e3b8da6d807c37f
   FBReactNativeSpec: 118d0d177724c2d67f08a59136eb29ef5943ec75
+  Firebase: 5719b4f965f76643241a1bb8244483ff6117db39
+  FirebaseCore: 6023faeada5afa95a349fccafb40900e32e9ac42
+  FirebaseCoreDiagnostics: 4a773a47bd83bbd5a9b1ccf1ce7caa8b2d535e67
+  FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
+  Google-Mobile-Ads-SDK: d70efb31e7ea19fe99d466dc5d4788966b6914f8
+  GoogleAppMeasurement: 67458367830514fb20fd9e233496f1eef9d90185
+  GoogleDataTransport: 9a8a16f79feffc7f42096743de2a7c4815e84020
+  GoogleDataTransportCCTSupport: d70a561f7d236af529fee598835caad5e25f6d3d
+  GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
+  nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
+  PersonalizedAdConsent: dbecabb3467df967c16d9cebc2ef4a8890e4bbd8
+  PromisesObjC: b48e0338dbbac2207e611750777895f7a5811b75
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
   RCTTypeSafety: 9aa1b91d7f9310fc6eadc3cf95126ffe818af320
   React: b6a59ef847b2b40bb6e0180a97d0ca716969ac78
@@ -539,6 +635,7 @@ SPEC CHECKSUMS:
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-microphone-stream: b452bf1fb088189f2865c0a9bad39181756bb4e4
   react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
+  react-native-slider: 12bd76d3d568c9c5500825db54123d44b48e4ad4
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
   React-RCTBlob: d89293cc0236d9cb0933d85e430b0bbe81ad1d72
@@ -552,6 +649,8 @@ SPEC CHECKSUMS:
   RealmJS: 16eb794ce5490cf2981372167ac6a6c45f989a4e
   RNAudioRecord: 162fee3b8fb628773ec704bf0333823125be2ed7
   RNCMaskedView: a88953beefbd347a29072d9eba90e42945fe291e
+  RNFBAdMob: fdb913e6164cff8579366d122795d8ee1117ec73
+  RNFBApp: def13f6392e7c9839c938879f065ec0088c4496a
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   RNReanimated: 4e102df74a9674fa943e05f97f3362b6e44d0b48

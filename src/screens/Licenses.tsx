@@ -30,7 +30,6 @@ class Licenses extends React.Component<Props, State> {
             {this.createLicensesList('@expo/vector-icons', 'MIT', '^10.0.2')}
             {this.createLicensesList('expo-av', 'MIT', '^8.1.0')}
             {this.createLicensesList('expo-splash-screen', 'MIT', '^0.2.3')}
-            {this.createLicensesList('expo-updates', 'MIT', '^0.2.2')}
             {this.createLicensesList('@use-expo/font', 'MIT', '^2.0.0')}
 
             {this.createLicensesList("@react-native-community/masked-view", 'MIT', "0.1.6",)}

@@ -108,7 +108,7 @@ class Main extends React.Component<Props, State> {
                 onAdLoaded={() => {
                   console.log('Advert loaded');}}
                 onAdFailedToLoad={(error: any) => {
-                  console.error('Advert failed to load: ', error);}}
+                  alert(error)}}
               />
             </View>
           </View>

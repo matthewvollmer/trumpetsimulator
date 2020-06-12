@@ -5126,12 +5126,6 @@ const LicensesList : any =  {
         "licenseUrl": "https://github.com/react-native-elements/react-native-elements/raw/master/LICENSE",
         "parents": "UNDEFINED"
     },
-    "react-native-fs@2.16.6": {
-        "licenses": "MIT",
-        "repository": "https://github.com/itinance/react-native-fs",
-        "licenseUrl": "https://github.com/itinance/react-native-fs/raw/master/LICENSE",
-        "parents": "UNDEFINED"
-    },
     "react-native-gesture-handler@1.6.1": {
         "licenses": "MIT",
         "repository": "https://github.com/software-mansion/react-native-gesture-handler",

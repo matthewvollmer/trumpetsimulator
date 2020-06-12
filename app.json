@@ -7,7 +7,7 @@
       "android",
       "web"
     ],
-    "version": "1.0.1",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/applogo.png",
     "splash": {
@@ -28,13 +28,14 @@
     },
     "android": {
       "package": "com.mdv.trumpetsimulator",
-      "versionCode": 1.1,
+      "versionCode": 3,
       "splash": {
         "image": "./assets/applogo.png",
         "resizeMode": "contain",
         "backgroundColor": "#ffffff"
         },
-      "icon": "./assets/applogo.png"
+      "icon": "./assets/applogo.png",
+      "permissions": ["RECORD_AUDIO"]
     },
     "entryPoint": "node_modules/expo/AppEntry.js"
   }
