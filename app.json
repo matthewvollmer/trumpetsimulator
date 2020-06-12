@@ -7,7 +7,7 @@
       "android",
       "web"
     ],
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/applogo.png",
     "splash": {
@@ -28,7 +28,7 @@
     },
     "android": {
       "package": "com.mdv.trumpetsimulator",
-      "versionCode": 3,
+      "versionCode": 4,
       "splash": {
         "image": "./assets/applogo.png",
         "resizeMode": "contain",
