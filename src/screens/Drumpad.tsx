@@ -13,7 +13,7 @@ type DrumpadRouteProp = RouteProp<RootStackParamList, 'Drumpad'>;
 
 type DrumpadNavigationProp = StackNavigationProp<
   RootStackParamList,
-  'Metronome'
+  'Drumpad'
 >;
 
 type Props = {

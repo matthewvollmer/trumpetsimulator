@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, StatusBar, ImageBackground, ImageSourcePropType} from 'react-native';
+import { StyleSheet, View, Text, StatusBar, ImageBackground, ImageSourcePropType, PermissionsAndroid, Alert, Button} from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
@@ -19,7 +19,7 @@ export interface NoteObject {
     octave: number, 
     frequency: number,
     value?: number,
-    cents: number
+    cents: number,
 }
 
 type TunerRouteProp = RouteProp<RootStackParamList, 'Tuner'>;
@@ -37,6 +37,8 @@ type Props = {
 interface State{ 
     note: NoteObject,
     bgImage: ImageSourcePropType,
+    continueWithoutPermissions: boolean,
+    permissionsPermanentlyDenied: boolean 
 }
 
 class Tuner extends React.Component<Props, State> {
@@ -54,22 +56,52 @@ class Tuner extends React.Component<Props, State> {
                 name: 'A',
                 octave: 1, 
                 frequency: 440,
-                cents: 0
+                cents: 0,
             },
+            continueWithoutPermissions: false,
+            permissionsPermanentlyDenied: false,
             bgImage: require('../../assets/tuner_backdrop.png'),
         }
     }
 
     _update(note: NoteObject) {
         this.setState({ note });
+    }
+
+    private requestPermissionsAlert = async (audioPermResponse : Audio.PermissionResponse) => {
+      if (!this.state.continueWithoutPermissions) {
+        Alert.alert('Audio Recording Permissions Not granted', 
+        'Tuner functionality will not work correctly without permissions. Would you like to request permissions again?',
+        [{text: 'Request Again', onPress: async () => await this.requestPermissionsAgain(audioPermResponse), style:'default'}, 
+          {text: 'Continue Without Permissions', onPress: () => {this.setState({continueWithoutPermissions: true})}, style: 'cancel'}], {cancelable: false})
       }
+    }
+
+    private requestPermissionsAgain = async (audioPermResponse : Audio.PermissionResponse) => {
+      if (!audioPermResponse.granted) {
+        audioPermResponse = await Audio.requestPermissionsAsync();
+      }
+      if (!audioPermResponse.granted && audioPermResponse.canAskAgain) {
+        this.requestPermissionsAlert(audioPermResponse);
+      }
+      if (!audioPermResponse.canAskAgain) {
+        this.setState({permissionsPermanentlyDenied: true});
+      }
+      return audioPermResponse;
+    }
+
+    private beginPermissionsSequence = async () => {
+      let audioPermResponse = await Audio.getPermissionsAsync();
+      audioPermResponse = await this.requestPermissionsAgain(audioPermResponse);
+
+      return audioPermResponse;
+    }
 
     async componentDidMount() {
-        const audioPermResponse = await Audio.getPermissionsAsync();
-        if (!audioPermResponse.granted) {
-            await Audio.requestPermissionsAsync();
-        }
-        const pitchFinder = PitchFinder.YIN({
+        let audioPermResponse = await this.beginPermissionsSequence();
+
+        if (audioPermResponse.granted) {
+          const pitchFinder = PitchFinder.YIN({
             sampleRate: 22050
           });
         const onNoteDetected = (note:any) => {
@@ -100,6 +132,7 @@ class Tuner extends React.Component<Props, State> {
             }
         });
         this.Recording.start();
+        }
     }
 
     getNote(frequency: number) {
@@ -130,6 +163,20 @@ class Tuner extends React.Component<Props, State> {
     public render() {
         return (
           <View style={styles.body}>
+            {this.state.permissionsPermanentlyDenied && 
+            <View style={{position: 'absolute', backgroundColor: 'white', zIndex: 100}}>
+              <Text style={{color:'red', textAlign: 'center'}}>
+                Audio permissions have been permanently denied, the Tuner will not function properly. Please
+                update the app permissions on your device to use the Tuner.
+              </Text>
+            </View>}
+            {!this.state.permissionsPermanentlyDenied && this.state.continueWithoutPermissions && 
+            <View style={{position: 'absolute', backgroundColor: 'white', zIndex: 100}}>
+              <Text style={{color:'red', textAlign: 'center'}}>
+                You have chosen to continue without microphone permissions, Tuner will not function correctly.
+              </Text>
+              <Button title="Request Permisssions Again?" onPress={() => {this.beginPermissionsSequence()}}/>
+            </View>}
             <ImageBackground source={this.state.bgImage} style={styles.bgImage} resizeMode='cover'>
               <StatusBar backgroundColor="#000" translucent />
               <Meter cents={this.state.note.cents} />

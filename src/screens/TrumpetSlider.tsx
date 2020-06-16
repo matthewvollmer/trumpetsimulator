@@ -244,6 +244,11 @@ class TrumpetSlider extends React.Component<Props, State> {
                         style= {[this.sliderPressed===true && { height: 125},
                             {alignSelf: 'flex-start', position: 'absolute', bottom: this.state.sliderHeight-12, alignItems: 'flex-end'}]}
                     />
+                    {/* <AirSlider 
+                    onTouchEvent = {this.onTouchEvent}
+                    handleTouchEnd = {this.handleTouchEnd}
+                    sliderPressed = {this.sliderPressed}
+                    sliderHeight= {this.state.sliderHeight}/> */}
                 </View>
                 <Image 
                     resizeMode='stretch'
