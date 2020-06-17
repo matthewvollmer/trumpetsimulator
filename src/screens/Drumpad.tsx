@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, ImageSourcePropType, Dimensions, ImageURISource, NativeSyntheticEvent, TextInputSubmitEditingEventData} from 'react-native';
+import { StyleSheet, View, Image, ImageSourcePropType , Dimensions, ImageURISource, NativeSyntheticEvent, TextInputSubmitEditingEventData} from 'react-native';
 import { Button, Text, Input} from 'react-native-elements';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
@@ -112,9 +112,11 @@ class Drumpad extends React.Component<Props, State> {
         return (
             <View style={styles.parentContainer}>
                 <View style={[styles.rowContainer, {paddingVertical: 12}]}>
-                    <View style={styles.buttonContainerSparse}
-                        onTouchStart={this.handleHat}>
-                            <TouchableOpacity >
+                    <View style={styles.buttonContainerSparse}>
+                            <TouchableOpacity 
+                                onPressIn={this.handleHat}
+                                delayPressIn={0}
+                                delayPressOut={0}>
                                 <Image
                                     resizeMode='stretch'
                                     source={this.state.hatimg}
@@ -122,9 +124,11 @@ class Drumpad extends React.Component<Props, State> {
                                 />
                             </TouchableOpacity>
                     </View>
-                    <View style={styles.buttonContainerSparse}
-                        onTouchStart={this.handleSnare}>
-                            <TouchableOpacity>
+                    <View style={styles.buttonContainerSparse}> 
+                            <TouchableOpacity
+                                onPressIn={this.handleSnare}
+                                delayPressIn={0}
+                                delayPressOut={0}>
                                 <Image
                                     resizeMode='stretch'
                                     source={this.state.snareimg}
@@ -134,9 +138,9 @@ class Drumpad extends React.Component<Props, State> {
                     </View>
                 </View>
                 <View style={[styles.rowContainer, {paddingVertical: 12}]}>
-                    <View style={styles.buttonContainerSparse}
-                        onTouchStart={this.handleKick}>
-                            <TouchableOpacity >
+                    <View style={styles.buttonContainerSparse}>
+                            <TouchableOpacity 
+                                onPressIn={this.handleKick}>
                                 <Image
                                     resizeMode='stretch'
                                     source={this.state.kickimg}
@@ -144,9 +148,9 @@ class Drumpad extends React.Component<Props, State> {
                                 />
                             </TouchableOpacity>
                     </View>
-                    <View style={styles.buttonContainerSparse}
-                        onTouchStart={this.handleNext}>
-                            <TouchableOpacity>
+                    <View style={styles.buttonContainerSparse} >
+                            <TouchableOpacity
+                                onPressIn={this.handleNext}>
                                 <Image
                                     resizeMode='stretch'
                                     source={this.state.nextimg}
@@ -421,7 +425,6 @@ const styles = StyleSheet.create({
     buttonContainerSparse: {
         flex:1,
         flexDirection: 'row',
-        flexWrap:'wrap',
         justifyContent: 'center'
     },
     sequenceRowContainer: {
