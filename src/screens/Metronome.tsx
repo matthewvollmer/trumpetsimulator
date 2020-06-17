@@ -73,13 +73,13 @@ class Metronome extends React.Component<Props, State> {
         return (
             <View style={styles.parentContainer}>
                 <View style={styles.rowContainer}>
-                    <TouchableOpacity onPress={() => this.setState({beatsPerMeasure: 4})}>
+                    <TouchableOpacity onPress={() => this.updateBeatsPerMeasure(4)}>
                         <Image source = {this.state.beatsPerMeasure === 4 ? 
                             require('../../assets/44_pr.png') : require('../../assets/44_unpr.png')}
                             resizeMode={'contain'}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.setState({beatsPerMeasure: 5})}>
+                    <TouchableOpacity onPress={() => this.updateBeatsPerMeasure(5)}>
                         <Image source = {this.state.beatsPerMeasure === 5 ? 
                             require('../../assets/54_pr.png') : require('../../assets/54_unpr.png')}
                             resizeMode={'contain'}
@@ -87,13 +87,13 @@ class Metronome extends React.Component<Props, State> {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.rowContainer}>
-                    <TouchableOpacity onPress={() => this.setState({beatsPerMeasure: 3})}>
+                    <TouchableOpacity onPress={() => this.updateBeatsPerMeasure(3)}>
                         <Image source = {this.state.beatsPerMeasure === 3 ? 
                             require('../../assets/34_pr.png') : require('../../assets/34_unpr.png')}
                             resizeMode={'contain'}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.setState({beatsPerMeasure: 6})}>
+                    <TouchableOpacity onPress={() => this.updateBeatsPerMeasure(6)}>
                         <Image source = {this.state.beatsPerMeasure === 6 ? 
                             require('../../assets/68_pr.png') : require('../../assets/68_unpr.png')}
                             resizeMode={'contain'}
@@ -137,12 +137,9 @@ class Metronome extends React.Component<Props, State> {
         )
     }    
 
-    private changeBeatsPerMeasure = (itemValue : number, _itemIndex: number) => {
-        this.setState(
-            {
-                beatsPerMeasure: itemValue,
-                beatInMeasure: 1
-            })
+    private updateBeatsPerMeasure = async (beats : number)  => {
+        await this.setState({beatsPerMeasure: beats});
+        this.setInterval(this.state.currentMillisPerBeat);
     }
 
     private handleManualTempoChange = (text:string) => {
@@ -153,12 +150,14 @@ class Metronome extends React.Component<Props, State> {
 
     private handleManualTempoChangeSubmit = (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
         let parsedString = this.state.currentTempo;
+        let millis: number;
         if (parsedString < 60 || !parsedString) {
             this.setState({
                 currentTempo: 60,
                 currentMillisPerBeat: 1000,
                 sliderValue: 60
             })
+            millis = 1000;
         }
         else if (parsedString > 240) {
             this.setState({
@@ -166,6 +165,7 @@ class Metronome extends React.Component<Props, State> {
                 currentMillisPerBeat: 250,
                 sliderValue: 240
             })
+            millis = 250;
         }
         else {
             this.setState(
@@ -174,38 +174,44 @@ class Metronome extends React.Component<Props, State> {
                     currentMillisPerBeat: 60000/(Math.round(parsedString)),
                     sliderValue: parsedString
                 });
+                millis = 60000/(Math.round(parsedString));
         }
-        clearInterval(this.interval)
-        this.interval = setInterval(this.playBeat, this.state.currentMillisPerBeat); //0.5 seconds
+        this.setInterval(millis);
     }
 
     private onValueChange = (value:number) => {
         this.setState({sliderValue: value})
+        let millis : number = 60000/(Math.round(value));
         this.setState(
             {
                 currentTempo: Math.round(value),
-                currentMillisPerBeat: 60000/(Math.round(value)),
+                currentMillisPerBeat: millis,
             });
-            clearInterval(this.interval)
-            this.interval = setInterval(this.playBeat, this.state.currentMillisPerBeat); //0.5 seconds
+        this.setInterval(millis);
     }
 
     private handlePlay = async () => {
         this.setState({playing: true});
         this.state.downBeat.play();
         this.setState({beatInMeasure: 2})
+        this.setInterval(this.state.currentMillisPerBeat);
+    }
+
+    private setInterval = (millis: number) => {
         clearInterval(this.interval)
-        this.interval = setInterval(this.playBeat, this.state.currentMillisPerBeat); //0.5 seconds
+        let adjustedMillis : number = this.state.beatsPerMeasure===6 ? millis/2 : millis;
+        this.interval = setInterval(this.playBeat, adjustedMillis); //0.5 seconds
     }
 
      playBeat = async () => {
+        let effectiveBeatsPerMeasure = this.state.beatsPerMeasure === 6 ? 3: this.state.beatsPerMeasure;
         if (this.state.playing) { 
             if (this.state.beatInMeasure === 1 ) {
                 this.state.downBeat.isPlaying() ? this.state.downBeat2.play() : this.state.downBeat.play()
             } else {
                 this.state.beat.isPlaying() ? this.state.beat2.play() : this.state.beat.play()
             }
-            if (this.state.beatInMeasure != this.state.beatsPerMeasure ) {
+            if (this.state.beatInMeasure != effectiveBeatsPerMeasure ) {
                 this.setState({beatInMeasure: this.state.beatInMeasure+1})
             }
             else {
