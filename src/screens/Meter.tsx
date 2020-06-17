@@ -65,6 +65,8 @@ export default class Meter extends PureComponent<Props, State> {
 
 }
 
+const d = Dimensions.get('window');
+
 const styles = StyleSheet.create({
   parentContainer: {
     flex: 1,
@@ -73,9 +75,12 @@ const styles = StyleSheet.create({
       flex:1,
       alignItems: 'center',
       justifyContent: 'center',
-      top: 100,
+      alignSelf: 'center'
+      //top: d.height/12,
   },
   seqImgStyle: {
-    aspectRatio:4.
+    aspectRatio:4,
+    height:undefined,
+    width: d.width*.875
   },
 });

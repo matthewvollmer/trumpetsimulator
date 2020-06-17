@@ -160,7 +160,7 @@ class Drumpad extends React.Component<Props, State> {
                     </View>
                 </View>
                 <View style={styles.columnContainer}>
-                    <View style= {[styles.buttonContainer, {justifyContent: 'center', width: '100%'}]}>
+                    <View style= {[styles.buttonContainer, {justifyContent: 'center', width: '100%', zIndex: 10}]}>
                         <TouchableOpacity style={[styles.seqImgStyle]}
                             onPress={() => this.setState({seqSelected: 1})}>
                                 <Image 
@@ -209,7 +209,9 @@ class Drumpad extends React.Component<Props, State> {
                             >
                         </Slider>
                         {/* <Text style={styles.text}>{"Tempo: " + this.state.currentTempo}</Text> */}
-                        <Text style={[styles.text, {alignSelf: 'center', flex:0, bottom: 10,paddingRight: 0}]}>
+                        <Text style={[styles.text, {alignSelf: 'center', flex:0, bottom: 
+                            Dimensions.get('screen').height < 680 ? 6 : 10,
+                            paddingRight: 0}]}>
                             Tempo:
                         </Text>
                         <Input 
@@ -439,9 +441,11 @@ const styles = StyleSheet.create({
         width: '100%',
         height: undefined, 
         aspectRatio: 3/4,
+        maxHeight: Dimensions.get('screen').height < 680 ? 190 : 400
     },
     buttonStyle: {
-        marginHorizontal: 4
+        marginHorizontal: 4,
+        height:'100%'
     },
     text: {
         fontSize: 12,

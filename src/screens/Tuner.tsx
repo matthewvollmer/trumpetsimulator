@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, StatusBar, ImageBackground, ImageSourcePropType, PermissionsAndroid, Alert, Button} from 'react-native';
+import { StyleSheet, View, Text, StatusBar, ImageBackground, ImageSourcePropType, Alert, Button, Dimensions} from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
@@ -7,12 +7,7 @@ import TunerComponent from './TunerComponent';
 import Meter from './Meter';
 import Note from './Note';
 import { Audio } from 'expo-av';
-import { Recording } from 'react-native-recording';
-import { MicStream } from 'react-native-microphone-stream'
 import PitchFinder from "pitchfinder";
-//import AudioRecord from 'react-native-audio-record';
-//import { Buffer }  from 'buffer'
-
 
 export interface NoteObject { 
     name: string, 
@@ -62,6 +57,7 @@ class Tuner extends React.Component<Props, State> {
             permissionsPermanentlyDenied: false,
             bgImage: require('../../assets/tuner_backdrop.png'),
         }
+        console.log('window height: ' + Dimensions.get('screen').height + ' window width: ' + Dimensions.get('screen').width )
     }
 
     _update(note: NoteObject) {
@@ -162,28 +158,30 @@ class Tuner extends React.Component<Props, State> {
 
     public render() {
         return (
-          <View style={styles.body}>
+          <View style={styles().body}>
             {this.state.permissionsPermanentlyDenied && 
-            <View style={{position: 'absolute', backgroundColor: 'white', zIndex: 100}}>
+            <View style={{position: 'absolute', backgroundColor: 'white', zIndex: 100, top:0}}>
               <Text style={{color:'red', textAlign: 'center'}}>
                 Audio permissions have been permanently denied, the Tuner will not function properly. Please
                 update the app permissions on your device to use the Tuner.
               </Text>
             </View>}
             {!this.state.permissionsPermanentlyDenied && this.state.continueWithoutPermissions && 
-            <View style={{position: 'absolute', backgroundColor: 'white', zIndex: 100}}>
+            <View style={{position: 'absolute', backgroundColor: 'white', zIndex: 100, top:0}}>
               <Text style={{color:'red', textAlign: 'center'}}>
                 You have chosen to continue without microphone permissions, Tuner will not function correctly.
               </Text>
               <Button title="Request Permisssions Again?" onPress={() => {this.beginPermissionsSequence()}}/>
             </View>}
-            <ImageBackground source={this.state.bgImage} style={styles.bgImage} resizeMode='cover'>
-              <StatusBar backgroundColor="#000" translucent />
-              <Meter cents={this.state.note.cents} />
-              <Note note={this.state.note}/>
-              <Text style={styles.frequency}>
-                {this.state.note.frequency.toFixed(1)} Hz
-              </Text>
+            <ImageBackground source={this.state.bgImage} style={styles().bgImage} resizeMode='cover'>
+              <View style={{justifyContent: 'center', alignItems: 'center', top:d.height*.125}}>
+                <StatusBar backgroundColor="#000" translucent />
+                <Meter cents={this.state.note.cents} />
+                <Note note={this.state.note}/>
+                <Text style={styles().frequency}>
+                  {this.state.note.frequency.toFixed(1)} Hz
+                </Text>
+              </View>
             </ImageBackground>
           </View>
         )
@@ -192,10 +190,13 @@ class Tuner extends React.Component<Props, State> {
 
 export default Tuner;
 
-const styles = StyleSheet.create({
+const d = Dimensions.get('window');
+
+function styles () {
+  return StyleSheet.create({
     body: {
       flex: 1,
-      justifyContent: "space-between",
+      justifyContent: "center",
       alignItems: "center"
     },
     frequency: {
@@ -206,8 +207,13 @@ const styles = StyleSheet.create({
     },
     bgImage: {
       flex: 1,
-      resizeMode: 'stretch',
-      justifyContent: "space-between",
-      alignItems: "center"
+      resizeMode: 'contain',
+      alignItems: "center",
+      justifyContent: 'space-evenly',
+      position: 'absolute',
+      width: undefined,
+      height: d.height*.875,
+      aspectRatio: 9/16
     },
-});
+  })
+};

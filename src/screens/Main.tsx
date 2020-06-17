@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, ImageSourcePropType } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity, ImageSourcePropType, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
@@ -25,7 +25,7 @@ interface State {
   virtualBrass: ImageSourcePropType,
   tuner: ImageSourcePropType,
   metronome: ImageSourcePropType,
-  drumpad: ImageSourcePropType
+  drumpad: ImageSourcePropType,
 }
 
 class Main extends React.Component<Props, State> { 
@@ -108,7 +108,7 @@ class Main extends React.Component<Props, State> {
                 onAdLoaded={() => {
                   console.log('Advert loaded');}}
                 onAdFailedToLoad={(error: any) => {
-                  console.error('Advert failed to load: ', error);}}
+                  console.log('Advert failed to load: ', error);}}
               />
             </View>
           </View>
@@ -132,7 +132,8 @@ const styles = StyleSheet.create({
   },
   img: {
     flex: 1,
-    //alignSelf: "stretch",
-    resizeMode: 'contain'
+    alignSelf: "stretch",
+    resizeMode: 'contain',
+    maxWidth: Dimensions.get('screen').width/2
   }
 });

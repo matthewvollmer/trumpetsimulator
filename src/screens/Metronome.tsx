@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, ImageURISource, NativeSyntheticEvent, TextInputSubmitEditingEventData} from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity, ImageURISource, NativeSyntheticEvent, TextInputSubmitEditingEventData, Dimensions} from 'react-native';
 import { Text, Input } from 'react-native-elements'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
@@ -33,6 +33,7 @@ interface State{
     
     sliderImg: ImageURISource,
     sliderValue: number,
+    screenWidth: number,
 }
 
 class Metronome extends React.Component<Props, State> {
@@ -52,6 +53,7 @@ class Metronome extends React.Component<Props, State> {
             beatInMeasure: 1,
             sliderValue: 60,
             sliderImg: require('../../assets/sliderbutton.png'),
+            screenWidth: Dimensions.get('screen').width
         }
     }
 
@@ -73,30 +75,38 @@ class Metronome extends React.Component<Props, State> {
         return (
             <View style={styles.parentContainer}>
                 <View style={styles.rowContainer}>
-                    <TouchableOpacity onPress={() => this.updateBeatsPerMeasure(4)}>
+                    <TouchableOpacity onPress={() => this.updateBeatsPerMeasure(4)}
+                        style={styles.img}>
                         <Image source = {this.state.beatsPerMeasure === 4 ? 
                             require('../../assets/44_pr.png') : require('../../assets/44_unpr.png')}
                             resizeMode={'contain'}
+                            style={styles.img}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.updateBeatsPerMeasure(5)}>
+                    <TouchableOpacity onPress={() => this.updateBeatsPerMeasure(5)}
+                        style={styles.img}>
                         <Image source = {this.state.beatsPerMeasure === 5 ? 
                             require('../../assets/54_pr.png') : require('../../assets/54_unpr.png')}
                             resizeMode={'contain'}
+                            style={styles.img}
                         />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.rowContainer}>
-                    <TouchableOpacity onPress={() => this.updateBeatsPerMeasure(3)}>
+                    <TouchableOpacity onPress={() => this.updateBeatsPerMeasure(3)}
+                        style={styles.img}>
                         <Image source = {this.state.beatsPerMeasure === 3 ? 
                             require('../../assets/34_pr.png') : require('../../assets/34_unpr.png')}
                             resizeMode={'contain'}
+                            style={styles.img}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.updateBeatsPerMeasure(6)}>
+                    <TouchableOpacity onPress={() => this.updateBeatsPerMeasure(6)}
+                        style={styles.img}>
                         <Image source = {this.state.beatsPerMeasure === 6 ? 
                             require('../../assets/68_pr.png') : require('../../assets/68_unpr.png')}
                             resizeMode={'contain'}
+                            style={styles.img}
                         />
                     </TouchableOpacity>
                 </View>
@@ -263,5 +273,11 @@ const styles = StyleSheet.create({
         fontFamily:'Fipps-Regular', 
         color: 'black', 
         textAlign: 'center'
+    },
+    img: {
+        flex: 1,
+        alignSelf: "stretch",
+        resizeMode: 'contain',
+        maxWidth: Dimensions.get('screen').width/2
     }
 });

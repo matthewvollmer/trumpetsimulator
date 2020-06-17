@@ -168,6 +168,7 @@ class TrumpetSlider extends React.Component<Props, State> {
 
             concertPitch: false,
         }
+        console.log('screen width is: ' + this.state.screenWidth + ' ,height is: ' + this.state.screenHeight);
     }
 
     public componentDidMount() {
