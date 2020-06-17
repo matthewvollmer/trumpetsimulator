@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Image, ImageSourcePropType, Dimensions, ImageURISource} from 'react-native';
-import { Button, Text} from 'react-native-elements';
+import { StyleSheet, View, Image, ImageSourcePropType, Dimensions, ImageURISource, NativeSyntheticEvent, TextInputSubmitEditingEventData} from 'react-native';
+import { Button, Text, Input} from 'react-native-elements';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
@@ -51,7 +51,8 @@ interface State{
 
     sliderImg: ImageURISource,
 
-    screenWidth: number
+    screenWidth: number,
+    sliderValue: number,
 }
 
 class Drumpad extends React.Component<Props, State> {
@@ -88,7 +89,8 @@ class Drumpad extends React.Component<Props, State> {
 
             sliderImg: require('../../assets/sliderbutton.png'),
 
-            screenWidth: Dimensions.get('window').width
+            screenWidth: Dimensions.get('window').width,
+            sliderValue: 60
         }
     }
     async componentDidMount() {
@@ -196,12 +198,25 @@ class Drumpad extends React.Component<Props, State> {
                             minimumValue={60}
                             maximumValue={240}
                             onValueChange={this.onValueChange}
+                            value={this.state.sliderValue}
                             thumbImage={this.state.sliderImg}
                             minimumTrackTintColor='#CC7F72'
                             maximumTrackTintColor='#F79A2F'
                             >
                         </Slider>
-                        <Text style={styles.text}>{"Tempo: " + this.state.currentTempo}</Text>
+                        {/* <Text style={styles.text}>{"Tempo: " + this.state.currentTempo}</Text> */}
+                        <Text style={[styles.text, {alignSelf: 'center', flex:0, bottom: 10,paddingRight: 0}]}>
+                            Tempo:
+                        </Text>
+                        <Input 
+                            inputStyle={[styles.text, {paddingBottom:0, textAlign: 'center', paddingRight:0}]}
+                            containerStyle={{width:80, bottom: 12}}
+                            value={this.state.currentTempo ? this.state.currentTempo.toString() : ''}
+                            keyboardType='numeric'
+                            returnKeyType='done'
+                            onChangeText={this.handleManualTempoChange}
+                            onSubmitEditing={this.handleManualTempoChangeSubmit}>
+                        </Input>
                     </View>
                     <View style= {styles.sequenceRowContainer}>
                         {this.buildSeqBlocks(1)}
@@ -213,6 +228,40 @@ class Drumpad extends React.Component<Props, State> {
             </View>
         )
     }    
+
+    private handleManualTempoChange = (text:string) => {
+        let newTempo : number;
+        let parsedString = Number.parseInt(text);
+        this.setState({currentTempo: parsedString});
+    }
+
+    private handleManualTempoChangeSubmit = (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
+        let parsedString = this.state.currentTempo;
+        if (parsedString < 60 || !parsedString) {
+            this.setState({
+                currentTempo: 60,
+                currentMillisPerBeat: 1000,
+                sliderValue: 60
+            })
+        }
+        else if (parsedString > 240) {
+            this.setState({
+                currentTempo: 240,
+                currentMillisPerBeat: 250,
+                sliderValue: 240
+            })
+        }
+        else {
+            this.setState(
+                {
+                    currentTempo: Math.round(parsedString),
+                    currentMillisPerBeat: 60000/(Math.round(parsedString)),
+                    sliderValue: parsedString
+                });
+        }
+        clearInterval(this.interval)
+        this.interval = setInterval(this.playBeat, this.state.currentMillisPerBeat); //0.5 seconds
+    }
 
     private buildSeqBlocks = (barNumber: number) => {
         let seqBlocks = []; 

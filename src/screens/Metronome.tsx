@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, ImageURISource} from 'react-native';
-import { Text } from 'react-native-elements'
+import { StyleSheet, View, Image, TouchableOpacity, ImageURISource, NativeSyntheticEvent, TextInputSubmitEditingEventData} from 'react-native';
+import { Text, Input } from 'react-native-elements'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
@@ -32,6 +32,7 @@ interface State{
     beatInMeasure: number,
     
     sliderImg: ImageURISource,
+    sliderValue: number,
 }
 
 class Metronome extends React.Component<Props, State> {
@@ -49,7 +50,7 @@ class Metronome extends React.Component<Props, State> {
             beat2: new Sound('offbeats.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
             beatsPerMeasure: 4,
             beatInMeasure: 1,
-
+            sliderValue: 60,
             sliderImg: require('../../assets/sliderbutton.png'),
         }
     }
@@ -100,10 +101,20 @@ class Metronome extends React.Component<Props, State> {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.columnContainer}>
-                    <Text 
-                        style={styles.text}>
-                        {"Tempo: " + this.state.currentTempo}
-                    </Text>
+                    <View style={styles.rowContainer}>
+                        <Text style={[styles.text, {alignSelf: 'center', flex:0, bottom: 10}]}>
+                            Tempo:
+                        </Text>
+                        <Input 
+                            inputStyle={[styles.text, {paddingBottom:0, }]}
+                            containerStyle={{width:100}}
+                            value={this.state.currentTempo ? this.state.currentTempo.toString() : ''}
+                            keyboardType='numeric'
+                            returnKeyType='done'
+                            onChangeText={this.handleManualTempoChange}
+                            onSubmitEditing={this.handleManualTempoChangeSubmit}>
+                        </Input>
+                    </View>
                     <Slider
                         style={{alignSelf:'stretch', marginHorizontal: 24, flex:1}}
                         minimumValue={60}
@@ -111,6 +122,7 @@ class Metronome extends React.Component<Props, State> {
                         thumbImage={this.state.sliderImg}
                         minimumTrackTintColor='#CC7F72'
                         maximumTrackTintColor='#F79A2F'
+                        value={this.state.sliderValue}
                         onValueChange={this.onValueChange}>
                     </Slider>
                 <TouchableOpacity onPress={this.state.playing ? this.handleStop : this.handlePlay}>
@@ -133,11 +145,46 @@ class Metronome extends React.Component<Props, State> {
             })
     }
 
+    private handleManualTempoChange = (text:string) => {
+        let newTempo : number;
+        let parsedString = Number.parseInt(text);
+        this.setState({currentTempo: parsedString});
+    }
+
+    private handleManualTempoChangeSubmit = (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
+        let parsedString = this.state.currentTempo;
+        if (parsedString < 60 || !parsedString) {
+            this.setState({
+                currentTempo: 60,
+                currentMillisPerBeat: 1000,
+                sliderValue: 60
+            })
+        }
+        else if (parsedString > 240) {
+            this.setState({
+                currentTempo: 240,
+                currentMillisPerBeat: 250,
+                sliderValue: 240
+            })
+        }
+        else {
+            this.setState(
+                {
+                    currentTempo: Math.round(parsedString),
+                    currentMillisPerBeat: 60000/(Math.round(parsedString)),
+                    sliderValue: parsedString
+                });
+        }
+        clearInterval(this.interval)
+        this.interval = setInterval(this.playBeat, this.state.currentMillisPerBeat); //0.5 seconds
+    }
+
     private onValueChange = (value:number) => {
+        this.setState({sliderValue: value})
         this.setState(
             {
                 currentTempo: Math.round(value),
-                currentMillisPerBeat: 60000/(Math.round(value))
+                currentMillisPerBeat: 60000/(Math.round(value)),
             });
             clearInterval(this.interval)
             this.interval = setInterval(this.playBeat, this.state.currentMillisPerBeat); //0.5 seconds
