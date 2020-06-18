@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { RefObject, Ref } from 'react';
 import { StyleSheet, Text, View, GestureResponderEvent ,Dimensions, Image, ImageSourcePropType, TouchableOpacity, TouchableNativeFeedback, PanResponder } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { TouchableWithoutFeedback, PanGestureHandler, PanGestureHandlerGestureEvent, State, PanGestureHandlerStateChangeEvent} from 'react-native-gesture-handler';
 import Sound from 'react-native-sound';
 import Modal from 'react-native-modal';
 
@@ -20,7 +20,7 @@ type Props = {
     navigation: TrumpetSliderNavigationProp;
   };
 
-interface State{ 
+interface SliderState{ 
     sliderValue: number;
     sliderPressed?:  boolean
     currentPitch: number;
@@ -90,7 +90,7 @@ interface State{
     panResponder?: any;
 }
 
-class TrumpetSlider extends React.Component<Props, State> { 
+class TrumpetSlider extends React.Component<Props, SliderState> { 
     currentPitch = 48;
     previouslyActivePitch : number | undefined = undefined;
     sliderPressed : boolean | undefined = false;
@@ -100,6 +100,15 @@ class TrumpetSlider extends React.Component<Props, State> {
     sliderValue: number = 0;
     previousSliderValue: number = 0;
     currentDirection: number = 0;
+
+    sliderHeight: number = 0;
+    counter: number=0;
+    private valvesRef : RefObject<PanGestureHandler> = React.createRef();
+    private sliderRef : RefObject<PanGestureHandler> = React.createRef();
+
+    v1: RefObject<TouchableWithoutFeedback> = React.createRef();
+    v2: RefObject<TouchableWithoutFeedback> = React.createRef();
+    v3: RefObject<TouchableWithoutFeedback> = React.createRef();
     constructor(props: Readonly<Props>) {
         super(props);
 
@@ -220,37 +229,30 @@ class TrumpetSlider extends React.Component<Props, State> {
                     </View>
                 </Modal>
                 <View style={{backgroundColor:'white', justifyContent:'space-between', height:'100%', top: 24,}}>
-                    <Text style={[styles.text, {flex:1.5}]}>{this.state.concertPitch ? "A#-" : "C-"}</Text>
+                    <Text style={[styles.text, {flex:1}]}>{this.state.concertPitch ? "A#-" : "C-"}</Text>
                     <Text style={[styles.text, {flex:1.5}]}>{this.state.concertPitch ? "G#-" : "A#-"}</Text>
                     <Text style={[styles.text, {flex:1.7}]}>{this.state.concertPitch ? "F-" : "G-"}</Text>
                     <Text style={[styles.text, {flex:2}]}>{this.state.concertPitch ? "D-" : "E-"}</Text>
                     <Text style={[styles.text, {flex:2}]}>{this.state.concertPitch ? "A#-" : "C-"}</Text>
-                    <Text style={[styles.text, {flex:2}]}>{this.state.concertPitch ? "F-" : "G-"}</Text>
-                    <Text style={[styles.text, {flex:3}]}>{this.state.concertPitch ? "A#-" : "C-"}</Text>
+                    <Text style={[styles.text, {flex:2.5}]}>{this.state.concertPitch ? "F-" : "G-"}</Text>
+                    <Text style={[styles.text, {flex:4}]}>{this.state.concertPitch ? "A#-" : "C-"}</Text>
                 </View>
+            <PanGestureHandler
+                ref={this.sliderRef}
+                simultaneousHandlers={this.valvesRef}
+                avgTouches={false}
+                minDist={1}
+                onGestureEvent={this.onTouchEventPan}
+                onHandlerStateChange={this.handleStateChangePan}
+                >
                 <View style={[styles.sliderContainer, {width:this.state.screenWidth/2}]}
-                    onStartShouldSetResponder={(ev) => {
-                        return true
-                    }}
-                    onMoveShouldSetResponder={(ev) => {
-                        return true
-                    }}
-                    onResponderGrant= {(ev) => this.onTouchEvent(ev)}
-                    onResponderMove = {(ev) => this.onTouchEvent(ev)}
-                    onTouchEnd = {this.handleTouchEnd}
-                    onResponderTerminationRequest={(ev) => true} 
-                    hitSlop={{right:25}}
                 >   
                     <Image source={require('../../assets/quickpoof_big.png')}
                         style= {[this.sliderPressed===true && { height: 125},
-                            {alignSelf: 'flex-start', position: 'absolute', bottom: this.state.sliderHeight-12, alignItems: 'flex-end'}]}
+                            {alignSelf: 'flex-start', position: 'absolute', bottom: this.sliderHeight-12, alignItems: 'flex-end'}]}
                     />
-                    {/* <AirSlider 
-                    onTouchEvent = {this.onTouchEvent}
-                    handleTouchEnd = {this.handleTouchEnd}
-                    sliderPressed = {this.sliderPressed}
-                    sliderHeight= {this.state.sliderHeight}/> */}
                 </View>
+            </PanGestureHandler>
                 <Image 
                     resizeMode='stretch'
                     source={this.state.tube}
@@ -263,43 +265,59 @@ class TrumpetSlider extends React.Component<Props, State> {
                             <Text style={[styles.text, {fontSize:16}]}>{this.state.currentPitchDebugtext}</Text>
                         </View>
                     }
-                    <TouchableWithoutFeedback 
-                        delayPressIn={0}
-                        delayPressOut={0}
-                        style={styles.valveButton}
-                        onPressIn={this.handleThirdValvePress} 
-                        onPressOut={this.handleThirdValveUnpress} 
+                    <PanGestureHandler
+                        ref={this.valvesRef}
+                        simultaneousHandlers={this.sliderRef}
+                        onGestureEvent={() => {}}
+                        minDist={100}
                         >
-                            <Image 
-                                source={this.third? this.state.thirdValvePressed : this.state.thirdValveUnpressed}
-                                style={styles.valves}
-                            />
-                    </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback 
-                        delayPressIn={0}
-                        delayPressOut={0}
-                        style={styles.valveButton}
-                        onPressIn={this.handleSecondValvePress} 
-                        onPressOut={this.handleSecondValveUnpress}
-                        >
-                            <Image 
-                                source={this.second? this.state.secondValvePressed : this.state.secondValveUnpressed}
-                                style={styles.valves}  
-                            />
-                    </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback 
-                        style={styles.valveButton}
-                        onPressIn={this.handleFirstValvePress} 
-                        delayPressIn={0}
-                        delayPressOut={0}
-                        onPressOut={this.handleFirstValveUnPress}
-                        pressRetentionOffset={{left:25}}
-                        >
-                            <Image 
-                                style={styles.valves}
-                                source={this.first? this.state.firstValvePressed : this.state.firstValveUnpressed}
-                            />
-                    </TouchableWithoutFeedback>
+                        <View style={{maxWidth: this.state.screenWidth/2}}>
+                        <TouchableWithoutFeedback 
+                            onLayout={(nativeEvent) => {
+                                if (this.v3) {
+                                    console.log(this.v3.current)
+                                }
+                            }}
+                            ref={this.v3}
+                            style={styles.valveButton}
+                            onPressIn={this.handleThirdValvePress} 
+                            onPressOut={this.handleThirdValveUnpress} 
+                            hitSlop={{left:200, top: 200, right: 200, bottom: 200}}
+
+                            >
+                                <Image 
+                                    source={this.third? this.state.thirdValvePressed : this.state.thirdValveUnpressed}
+                                    style={styles.valves}
+                                />
+                        </TouchableWithoutFeedback>
+                        <TouchableWithoutFeedback 
+                            ref={this.v2}
+                            delayPressIn={0}
+                            delayPressOut={0}
+                            style={styles.valveButton}
+                            onPressIn={this.handleSecondValvePress} 
+                            onPressOut={this.handleSecondValveUnpress}
+                            >
+                                <Image 
+                                    source={this.second? this.state.secondValvePressed : this.state.secondValveUnpressed}
+                                    style={styles.valves}  
+                                />
+                        </TouchableWithoutFeedback>
+                        <TouchableWithoutFeedback 
+                            ref={this.v1}
+                            style={styles.valveButton}
+                            onPressIn={this.handleFirstValvePress} 
+                            delayPressIn={0}
+                            delayPressOut={0}
+                            onPressOut={this.handleFirstValveUnPress}
+                            >
+                                <Image 
+                                    style={styles.valves}
+                                    source={this.first? this.state.firstValvePressed : this.state.firstValveUnpressed}
+                                />
+                        </TouchableWithoutFeedback>
+                        </View>
+                    </PanGestureHandler>
                     <View style={{position:'absolute', bottom: 0, right:0}}> 
                         <TouchableOpacity style={{borderRadius:4, borderWidth: 4, borderColor: 'dimgray'}}
                             onPress={() => this.setState({showSettings: true})}>
@@ -314,62 +332,58 @@ class TrumpetSlider extends React.Component<Props, State> {
         )
     }    
 
-    private unloadAll() {
-        this.state.soundList.forEach(element => element.release());
-    }
-    
-    private setConcert = () => {
-        console.log("setting concert pitch")
-        this.setState({concertPitch: true});
-    }
-
-    private unsetConsert = () => {
-        console.log("unsetting concert pitch")
-        this.setState({concertPitch: false});
-    }
-
-    private calculateSliderValue = (locationY: number) => {
-        let newSliderValue = (this.state.screenHeight - locationY- 110)/2.1;
-        this.sliderValue = newSliderValue;
-        if (newSliderValue - this.previousSliderValue > 3) this.currentDirection = 1;
-        else if (newSliderValue - this.previousSliderValue < 3) this.currentDirection = -1;
-        else this.currentDirection = 0;
-        let sliderHeight = this.state.screenHeight-locationY;
-        this.setState({sliderHeight})
-    }
-
-    private onTouchEvent= (ev: GestureResponderEvent) => {
-        console.log("changed touches: "+ ev.nativeEvent.changedTouches.length);
-        if (ev.nativeEvent.pageX < this.state.screenWidth/2) {
-            if (!this.sliderPressed) this.sliderPressed = true;
-            this.calculateSliderValue(ev.nativeEvent.pageY)
-            this.playCurrentPitch()
+    private handleStateChangePan = (ev : PanGestureHandlerStateChangeEvent) => {
+        if (ev.nativeEvent.oldState == 0 && ev.nativeEvent.state == 2) {
+            this.onTouchEventPan(ev);
         }
-    }
 
-    private handleTouchEnd = (ev: GestureResponderEvent) => {
-        if (ev.nativeEvent.pageX < this.state.screenWidth/2) {
+        if ((ev.nativeEvent.state == State.END) ||
+            ev.nativeEvent.oldState== State.ACTIVE) {
             this.sliderPressed = false;
             this.setState({sliderPressed: false});
             this.stopPreviouslyActivePitch()
         }
     }
 
+    private unloadAll() {
+        this.state.soundList.forEach(element => element.release());
+    }
+    
+    private setConcert = () => {
+        this.setState({concertPitch: true});
+    }
+
+    private unsetConsert = () => {
+        this.setState({concertPitch: false});
+    }
+
+    private calculateSliderValue = (locationY: number) => {
+        let newSliderValue = (this.state.screenHeight - locationY- 110)/2.1;
+        this.sliderValue = newSliderValue;
+        let sliderHeight = this.state.screenHeight-locationY;
+        this.setState({sliderHeight})
+        this.sliderHeight = sliderHeight
+    }
+
+    private onTouchEventPan= (ev: PanGestureHandlerGestureEvent) => {
+        if (ev.nativeEvent.absoluteX < this.state.screenWidth/2) {
+            if (!this.sliderPressed) this.sliderPressed = true;
+            this.setState({sliderPressed: true})
+            this.calculateSliderValue(ev.nativeEvent.absoluteY)
+            this.playCurrentPitch()
+        }
+    }
+
     private handleFirstValvePress = (ev : GestureResponderEvent) => {
-        // if (ev.nativeEvent.locationX > this.state.screenWidth/2) {
-            console.log('ev stuff' + ev)
             this.first = true;
             this.setState({first: true})
             this.playCurrentPitch()
-        // }
     }
 
     private handleFirstValveUnPress = (ev : GestureResponderEvent) => {
-        // if (ev.nativeEvent.pageX > this.state.screenWidth/2) {
             this.first = false;
             this.setState({first: false})
             this.playCurrentPitch()
-        // }
     }
 
     private handleSecondValvePress = (ev : GestureResponderEvent) => {
@@ -390,7 +404,6 @@ class TrumpetSlider extends React.Component<Props, State> {
     //}
     }
     private handleThirdValveUnpress = (ev : GestureResponderEvent) => {
-    //if (ev.nativeEvent.pageX > this.state.screenWidth/2) {
         this.third = false;
         this.setState({third: false})
         this.playCurrentPitch()
@@ -441,12 +454,10 @@ class TrumpetSlider extends React.Component<Props, State> {
 
     private calculatePitch =  () => {
         let pitchRange : number[] = this.calculatePitchRange()
-        console.debug("entered calc pitch. pitch range: " + pitchRange)
-        let goal : number = this.sliderValue ? this.sliderValue/10+48 + this.currentDirection : 0
+        let goal : number = this.sliderValue ? this.sliderValue/10+48 : 0
         let closest  = pitchRange.reduce(function(prev, curr) {
             return (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev);
           });
-        console.log("closest pitch calculated: " + closest)
         return closest;
     }
 
@@ -483,14 +494,12 @@ export default TrumpetSlider;
 const styles = StyleSheet.create({
     parentContainer: {
         flexDirection: 'row',
-        //justifyContent: 'space-around',
         alignItems: 'center',
         flex:1,
         backgroundColor: 'white'
     },
     sliderContainer: {
         flex: 1,
-        //rotation: 270,
         alignSelf: 'stretch',
         alignContent: 'stretch',
         justifyContent: 'center',
@@ -501,14 +510,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height:'100%',
         justifyContent:'center'
-        //alignSelf: 'stretch'
     },
     valveButton: {
         flex: 1,
         maxHeight: 180,
         width : 180,
         borderColor: '#d6d7da',
-        //backgroundColor: '#2196F3',
         alignSelf: 'stretch',
         alignContent: 'center'
     },

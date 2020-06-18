@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet,  Image, GestureResponderEvent, Dimensions, PanResponder, PanResponderInstance} from "react-native";
+import { PanGestureHandler } from 'react-native-gesture-handler';
 
 type Props = {
     sliderPressed: boolean | undefined;
@@ -25,7 +26,6 @@ class AirSlider extends React.Component<Props, State> {
 
 componentWillMount = () => { 
   this.panResponder = PanResponder.create({ 
-    //onMoveShouldSetPanResponderCapture: () => true, 
     onStartShouldSetPanResponder: () => true,
     onStartShouldSetPanResponderCapture: () => true,
     onPanResponderGrant: (e, gestureState) => { }, 
