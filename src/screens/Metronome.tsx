@@ -45,14 +45,10 @@ class Metronome extends React.Component<Props, State> {
             currentTempo: 60,
             currentMillisPerBeat: 1000,
             playing: false,
-            downBeat : Platform.OS === 'ios' ? new Sound('../../assets/sounds/downbeat.mp3' , (error) => {error &&  console.log(error)}) : 
-                new Sound('downbeat.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
-            beat: Platform.OS === 'ios' ? new Sound('../../assets/sounds/offbeats.mp3' , (error) => {error &&  console.log(error)}) : 
-                new Sound('offbeats.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
-            downBeat2 : Platform.OS === 'ios' ? new Sound('../../assets/sounds/downbeat.mp3' , (error) => {error &&  console.log(error)}) : 
-                new Sound('downbeat.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
-            beat2: Platform.OS === 'ios' ? new Sound('../../assets/sounds/offbeats.mp3' , (error) => {error &&  console.log(error)}) : 
-                new Sound('offbeats.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+            downBeat : new Sound('downbeat.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+            beat: new Sound('offbeats.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+            downBeat2 : new Sound('downbeat.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+            beat2: new Sound('offbeats.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
             beatsPerMeasure: 4,
             beatInMeasure: 1,
             sliderValue: 60,

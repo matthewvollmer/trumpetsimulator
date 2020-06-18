@@ -14,6 +14,42 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3DE4DAD41476765101945408 /* libPods-trumpetsimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D43FF9D506E70904424FA7E9 /* libPods-trumpetsimulator.a */; };
 		99EC63CFB4B549BBAF093D10 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3ABB89D1E68496EB7D95742 /* SplashScreen.storyboard */; };
+		BB3FE924249C0D2600F83D4E /* snare.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE91B249C0D2500F83D4E /* snare.mp3 */; };
+		BB3FE926249C0D2600F83D4E /* downbeat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE91D249C0D2600F83D4E /* downbeat.mp3 */; };
+		BB3FE929249C0D2600F83D4E /* offbeats.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE920249C0D2600F83D4E /* offbeats.mp3 */; };
+		BB3FE92B249C0D2600F83D4E /* kickshort.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE922249C0D2600F83D4E /* kickshort.mp3 */; };
+		BB3FE92C249C0D2600F83D4E /* hatshort.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE923249C0D2600F83D4E /* hatshort.mp3 */; };
+		BB3FE92F249C0F7700F83D4E /* a0.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE92D249C0F7700F83D4E /* a0.mp3 */; };
+		BB3FE930249C0F7700F83D4E /* a1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE92E249C0F7700F83D4E /* a1.mp3 */; };
+		BB3FE94E249C0FB200F83D4E /* eb2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE931249C0FAF00F83D4E /* eb2.mp3 */; };
+		BB3FE94F249C0FB200F83D4E /* e2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE932249C0FAF00F83D4E /* e2.mp3 */; };
+		BB3FE950249C0FB200F83D4E /* bb1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE933249C0FB000F83D4E /* bb1.mp3 */; };
+		BB3FE951249C0FB200F83D4E /* ab0.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE934249C0FB000F83D4E /* ab0.mp3 */; };
+		BB3FE952249C0FB200F83D4E /* a2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE935249C0FB000F83D4E /* a2.mp3 */; };
+		BB3FE953249C0FB200F83D4E /* gb0.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE936249C0FB000F83D4E /* gb0.mp3 */; };
+		BB3FE954249C0FB200F83D4E /* g0.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE937249C0FB000F83D4E /* g0.mp3 */; };
+		BB3FE955249C0FB200F83D4E /* b0.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE938249C0FB000F83D4E /* b0.mp3 */; };
+		BB3FE956249C0FB200F83D4E /* ab2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE939249C0FB000F83D4E /* ab2.mp3 */; };
+		BB3FE957249C0FB200F83D4E /* bb2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE93A249C0FB000F83D4E /* bb2.mp3 */; };
+		BB3FE958249C0FB200F83D4E /* e1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE93B249C0FB000F83D4E /* e1.mp3 */; };
+		BB3FE959249C0FB200F83D4E /* f2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE93C249C0FB000F83D4E /* f2.mp3 */; };
+		BB3FE95A249C0FB200F83D4E /* f1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE93D249C0FB000F83D4E /* f1.mp3 */; };
+		BB3FE95B249C0FB200F83D4E /* c2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE93E249C0FB000F83D4E /* c2.mp3 */; };
+		BB3FE95C249C0FB200F83D4E /* d2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE93F249C0FB100F83D4E /* d2.mp3 */; };
+		BB3FE95D249C0FB200F83D4E /* b1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE940249C0FB100F83D4E /* b1.mp3 */; };
+		BB3FE95E249C0FB200F83D4E /* g1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE941249C0FB100F83D4E /* g1.mp3 */; };
+		BB3FE95F249C0FB200F83D4E /* db1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE942249C0FB100F83D4E /* db1.mp3 */; };
+		BB3FE960249C0FB200F83D4E /* gb1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE943249C0FB100F83D4E /* gb1.mp3 */; };
+		BB3FE961249C0FB200F83D4E /* d1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE944249C0FB100F83D4E /* d1.mp3 */; };
+		BB3FE962249C0FB200F83D4E /* c3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE945249C0FB100F83D4E /* c3.mp3 */; };
+		BB3FE963249C0FB200F83D4E /* gb2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE946249C0FB100F83D4E /* gb2.mp3 */; };
+		BB3FE964249C0FB200F83D4E /* db2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE947249C0FB100F83D4E /* db2.mp3 */; };
+		BB3FE965249C0FB200F83D4E /* ab1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE948249C0FB100F83D4E /* ab1.mp3 */; };
+		BB3FE966249C0FB200F83D4E /* b2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE949249C0FB100F83D4E /* b2.mp3 */; };
+		BB3FE967249C0FB200F83D4E /* eb1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE94A249C0FB200F83D4E /* eb1.mp3 */; };
+		BB3FE968249C0FB200F83D4E /* bb0.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE94B249C0FB200F83D4E /* bb0.mp3 */; };
+		BB3FE969249C0FB200F83D4E /* c1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE94C249C0FB200F83D4E /* c1.mp3 */; };
+		BB3FE96A249C0FB200F83D4E /* g2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BB3FE94D249C0FB200F83D4E /* g2.mp3 */; };
 		BB898911249C001C002E4442 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB898910249C001C002E4442 /* GoogleService-Info.plist */; };
 		BB898913249C0145002E4442 /* Fipps-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = BB898912249C0145002E4442 /* Fipps-Regular.otf */; };
 /* End PBXBuildFile section */
@@ -31,6 +67,42 @@
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B47C5AFCB8BDE514B7D1AC6 /* Pods-trumpetsimulator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-trumpetsimulator.debug.xcconfig"; path = "Target Support Files/Pods-trumpetsimulator/Pods-trumpetsimulator.debug.xcconfig"; sourceTree = "<group>"; };
 		8AC623DBF3A3E2CB072F81F2 /* Pods-trumpetsimulator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-trumpetsimulator.release.xcconfig"; path = "Target Support Files/Pods-trumpetsimulator/Pods-trumpetsimulator.release.xcconfig"; sourceTree = "<group>"; };
+		BB3FE91B249C0D2500F83D4E /* snare.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = snare.mp3; path = ../assets/snare.mp3; sourceTree = "<group>"; };
+		BB3FE91D249C0D2600F83D4E /* downbeat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = downbeat.mp3; path = ../assets/downbeat.mp3; sourceTree = "<group>"; };
+		BB3FE920249C0D2600F83D4E /* offbeats.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = offbeats.mp3; path = ../assets/offbeats.mp3; sourceTree = "<group>"; };
+		BB3FE922249C0D2600F83D4E /* kickshort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = kickshort.mp3; path = ../assets/kickshort.mp3; sourceTree = "<group>"; };
+		BB3FE923249C0D2600F83D4E /* hatshort.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = hatshort.mp3; path = ../assets/hatshort.mp3; sourceTree = "<group>"; };
+		BB3FE92D249C0F7700F83D4E /* a0.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = a0.mp3; path = ../android/app/src/main/res/raw/a0.mp3; sourceTree = "<group>"; };
+		BB3FE92E249C0F7700F83D4E /* a1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = a1.mp3; path = ../android/app/src/main/res/raw/a1.mp3; sourceTree = "<group>"; };
+		BB3FE931249C0FAF00F83D4E /* eb2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = eb2.mp3; path = ../android/app/src/main/res/raw/eb2.mp3; sourceTree = "<group>"; };
+		BB3FE932249C0FAF00F83D4E /* e2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = e2.mp3; path = ../android/app/src/main/res/raw/e2.mp3; sourceTree = "<group>"; };
+		BB3FE933249C0FB000F83D4E /* bb1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = bb1.mp3; path = ../android/app/src/main/res/raw/bb1.mp3; sourceTree = "<group>"; };
+		BB3FE934249C0FB000F83D4E /* ab0.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = ab0.mp3; path = ../android/app/src/main/res/raw/ab0.mp3; sourceTree = "<group>"; };
+		BB3FE935249C0FB000F83D4E /* a2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = a2.mp3; path = ../android/app/src/main/res/raw/a2.mp3; sourceTree = "<group>"; };
+		BB3FE936249C0FB000F83D4E /* gb0.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = gb0.mp3; path = ../android/app/src/main/res/raw/gb0.mp3; sourceTree = "<group>"; };
+		BB3FE937249C0FB000F83D4E /* g0.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = g0.mp3; path = ../android/app/src/main/res/raw/g0.mp3; sourceTree = "<group>"; };
+		BB3FE938249C0FB000F83D4E /* b0.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = b0.mp3; path = ../android/app/src/main/res/raw/b0.mp3; sourceTree = "<group>"; };
+		BB3FE939249C0FB000F83D4E /* ab2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = ab2.mp3; path = ../android/app/src/main/res/raw/ab2.mp3; sourceTree = "<group>"; };
+		BB3FE93A249C0FB000F83D4E /* bb2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = bb2.mp3; path = ../android/app/src/main/res/raw/bb2.mp3; sourceTree = "<group>"; };
+		BB3FE93B249C0FB000F83D4E /* e1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = e1.mp3; path = ../android/app/src/main/res/raw/e1.mp3; sourceTree = "<group>"; };
+		BB3FE93C249C0FB000F83D4E /* f2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = f2.mp3; path = ../android/app/src/main/res/raw/f2.mp3; sourceTree = "<group>"; };
+		BB3FE93D249C0FB000F83D4E /* f1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = f1.mp3; path = ../android/app/src/main/res/raw/f1.mp3; sourceTree = "<group>"; };
+		BB3FE93E249C0FB000F83D4E /* c2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = c2.mp3; path = ../android/app/src/main/res/raw/c2.mp3; sourceTree = "<group>"; };
+		BB3FE93F249C0FB100F83D4E /* d2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = d2.mp3; path = ../android/app/src/main/res/raw/d2.mp3; sourceTree = "<group>"; };
+		BB3FE940249C0FB100F83D4E /* b1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = b1.mp3; path = ../android/app/src/main/res/raw/b1.mp3; sourceTree = "<group>"; };
+		BB3FE941249C0FB100F83D4E /* g1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = g1.mp3; path = ../android/app/src/main/res/raw/g1.mp3; sourceTree = "<group>"; };
+		BB3FE942249C0FB100F83D4E /* db1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = db1.mp3; path = ../android/app/src/main/res/raw/db1.mp3; sourceTree = "<group>"; };
+		BB3FE943249C0FB100F83D4E /* gb1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = gb1.mp3; path = ../android/app/src/main/res/raw/gb1.mp3; sourceTree = "<group>"; };
+		BB3FE944249C0FB100F83D4E /* d1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = d1.mp3; path = ../android/app/src/main/res/raw/d1.mp3; sourceTree = "<group>"; };
+		BB3FE945249C0FB100F83D4E /* c3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = c3.mp3; path = ../android/app/src/main/res/raw/c3.mp3; sourceTree = "<group>"; };
+		BB3FE946249C0FB100F83D4E /* gb2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = gb2.mp3; path = ../android/app/src/main/res/raw/gb2.mp3; sourceTree = "<group>"; };
+		BB3FE947249C0FB100F83D4E /* db2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = db2.mp3; path = ../android/app/src/main/res/raw/db2.mp3; sourceTree = "<group>"; };
+		BB3FE948249C0FB100F83D4E /* ab1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = ab1.mp3; path = ../android/app/src/main/res/raw/ab1.mp3; sourceTree = "<group>"; };
+		BB3FE949249C0FB100F83D4E /* b2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = b2.mp3; path = ../android/app/src/main/res/raw/b2.mp3; sourceTree = "<group>"; };
+		BB3FE94A249C0FB200F83D4E /* eb1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = eb1.mp3; path = ../android/app/src/main/res/raw/eb1.mp3; sourceTree = "<group>"; };
+		BB3FE94B249C0FB200F83D4E /* bb0.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = bb0.mp3; path = ../android/app/src/main/res/raw/bb0.mp3; sourceTree = "<group>"; };
+		BB3FE94C249C0FB200F83D4E /* c1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = c1.mp3; path = ../android/app/src/main/res/raw/c1.mp3; sourceTree = "<group>"; };
+		BB3FE94D249C0FB200F83D4E /* g2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = g2.mp3; path = ../android/app/src/main/res/raw/g2.mp3; sourceTree = "<group>"; };
 		BB898910249C001C002E4442 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BB898912249C0145002E4442 /* Fipps-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Fipps-Regular.otf"; path = "../android/app/src/main/assets/fonts/Fipps-Regular.otf"; sourceTree = "<group>"; };
 		D43FF9D506E70904424FA7E9 /* libPods-trumpetsimulator.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-trumpetsimulator.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,6 +169,42 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				BB3FE935249C0FB000F83D4E /* a2.mp3 */,
+				BB3FE934249C0FB000F83D4E /* ab0.mp3 */,
+				BB3FE948249C0FB100F83D4E /* ab1.mp3 */,
+				BB3FE939249C0FB000F83D4E /* ab2.mp3 */,
+				BB3FE938249C0FB000F83D4E /* b0.mp3 */,
+				BB3FE940249C0FB100F83D4E /* b1.mp3 */,
+				BB3FE949249C0FB100F83D4E /* b2.mp3 */,
+				BB3FE94B249C0FB200F83D4E /* bb0.mp3 */,
+				BB3FE933249C0FB000F83D4E /* bb1.mp3 */,
+				BB3FE93A249C0FB000F83D4E /* bb2.mp3 */,
+				BB3FE94C249C0FB200F83D4E /* c1.mp3 */,
+				BB3FE93E249C0FB000F83D4E /* c2.mp3 */,
+				BB3FE945249C0FB100F83D4E /* c3.mp3 */,
+				BB3FE944249C0FB100F83D4E /* d1.mp3 */,
+				BB3FE93F249C0FB100F83D4E /* d2.mp3 */,
+				BB3FE942249C0FB100F83D4E /* db1.mp3 */,
+				BB3FE947249C0FB100F83D4E /* db2.mp3 */,
+				BB3FE93B249C0FB000F83D4E /* e1.mp3 */,
+				BB3FE932249C0FAF00F83D4E /* e2.mp3 */,
+				BB3FE94A249C0FB200F83D4E /* eb1.mp3 */,
+				BB3FE931249C0FAF00F83D4E /* eb2.mp3 */,
+				BB3FE93D249C0FB000F83D4E /* f1.mp3 */,
+				BB3FE93C249C0FB000F83D4E /* f2.mp3 */,
+				BB3FE937249C0FB000F83D4E /* g0.mp3 */,
+				BB3FE941249C0FB100F83D4E /* g1.mp3 */,
+				BB3FE94D249C0FB200F83D4E /* g2.mp3 */,
+				BB3FE936249C0FB000F83D4E /* gb0.mp3 */,
+				BB3FE943249C0FB100F83D4E /* gb1.mp3 */,
+				BB3FE946249C0FB100F83D4E /* gb2.mp3 */,
+				BB3FE92D249C0F7700F83D4E /* a0.mp3 */,
+				BB3FE92E249C0F7700F83D4E /* a1.mp3 */,
+				BB3FE91D249C0D2600F83D4E /* downbeat.mp3 */,
+				BB3FE923249C0D2600F83D4E /* hatshort.mp3 */,
+				BB3FE922249C0D2600F83D4E /* kickshort.mp3 */,
+				BB3FE920249C0D2600F83D4E /* offbeats.mp3 */,
+				BB3FE91B249C0D2500F83D4E /* snare.mp3 */,
 				BB898912249C0145002E4442 /* Fipps-Regular.otf */,
 				BB898910249C001C002E4442 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* trumpetsimulator */,
@@ -189,12 +297,48 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB3FE962249C0FB200F83D4E /* c3.mp3 in Resources */,
+				BB3FE930249C0F7700F83D4E /* a1.mp3 in Resources */,
+				BB3FE951249C0FB200F83D4E /* ab0.mp3 in Resources */,
+				BB3FE958249C0FB200F83D4E /* e1.mp3 in Resources */,
+				BB3FE926249C0D2600F83D4E /* downbeat.mp3 in Resources */,
 				0731D3B824204D62009CAE85 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				BB898911249C001C002E4442 /* GoogleService-Info.plist in Resources */,
+				BB3FE92C249C0D2600F83D4E /* hatshort.mp3 in Resources */,
+				BB3FE964249C0FB200F83D4E /* db2.mp3 in Resources */,
+				BB3FE92F249C0F7700F83D4E /* a0.mp3 in Resources */,
+				BB3FE924249C0D2600F83D4E /* snare.mp3 in Resources */,
+				BB3FE95E249C0FB200F83D4E /* g1.mp3 in Resources */,
+				BB3FE953249C0FB200F83D4E /* gb0.mp3 in Resources */,
+				BB3FE94E249C0FB200F83D4E /* eb2.mp3 in Resources */,
+				BB3FE96A249C0FB200F83D4E /* g2.mp3 in Resources */,
+				BB3FE957249C0FB200F83D4E /* bb2.mp3 in Resources */,
+				BB3FE95A249C0FB200F83D4E /* f1.mp3 in Resources */,
+				BB3FE969249C0FB200F83D4E /* c1.mp3 in Resources */,
+				BB3FE929249C0D2600F83D4E /* offbeats.mp3 in Resources */,
+				BB3FE956249C0FB200F83D4E /* ab2.mp3 in Resources */,
+				BB3FE955249C0FB200F83D4E /* b0.mp3 in Resources */,
+				BB3FE966249C0FB200F83D4E /* b2.mp3 in Resources */,
+				BB3FE950249C0FB200F83D4E /* bb1.mp3 in Resources */,
+				BB3FE961249C0FB200F83D4E /* d1.mp3 in Resources */,
+				BB3FE95C249C0FB200F83D4E /* d2.mp3 in Resources */,
+				BB3FE965249C0FB200F83D4E /* ab1.mp3 in Resources */,
+				BB3FE968249C0FB200F83D4E /* bb0.mp3 in Resources */,
+				BB3FE94F249C0FB200F83D4E /* e2.mp3 in Resources */,
 				BB898913249C0145002E4442 /* Fipps-Regular.otf in Resources */,
+				BB3FE954249C0FB200F83D4E /* g0.mp3 in Resources */,
+				BB3FE959249C0FB200F83D4E /* f2.mp3 in Resources */,
+				BB3FE92B249C0D2600F83D4E /* kickshort.mp3 in Resources */,
+				BB3FE95B249C0FB200F83D4E /* c2.mp3 in Resources */,
+				BB3FE963249C0FB200F83D4E /* gb2.mp3 in Resources */,
+				BB3FE95F249C0FB200F83D4E /* db1.mp3 in Resources */,
+				BB3FE967249C0FB200F83D4E /* eb1.mp3 in Resources */,
+				BB3FE95D249C0FB200F83D4E /* b1.mp3 in Resources */,
+				BB3FE952249C0FB200F83D4E /* a2.mp3 in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				99EC63CFB4B549BBAF093D10 /* SplashScreen.storyboard in Resources */,
+				BB3FE960249C0FB200F83D4E /* gb1.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

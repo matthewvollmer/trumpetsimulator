@@ -43,7 +43,7 @@ class Tuner extends React.Component<Props, State> {
     semitone : number = 69;
     _lastNoteName: any;
     MicStream = require('react-native-microphone-stream').default;
-
+    listener : any;
     constructor(props: Readonly<Props>) {
         super(props);
 
@@ -115,7 +115,7 @@ class Tuner extends React.Component<Props, State> {
             bitsPerChannel: 16,
             channelsPerFrame: 1,
         });
-        this.MicStream.addListener((data: Float32Array) => {
+        this.listener = this.MicStream.addListener((data: Float32Array) => {
             const frequency = pitchFinder(data);
             if (frequency && onNoteDetected) {
                 const note = this.getNote(frequency);
@@ -155,6 +155,8 @@ class Tuner extends React.Component<Props, State> {
 
     componentWillUnmount() {
         clearInterval(this.interval)
+        this.MicStream.stop();
+        this.listener.remove();
     }
 
     public render() {

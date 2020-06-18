@@ -99,7 +99,6 @@ class Main extends React.Component<Props, State> {
               </TouchableOpacity>
             </View>
             <View style={{justifyContent:'center'}}>
-              {Platform.OS === 'android' && 
               <BannerAd 
                 unitId={adId}
                 size={BannerAdSize.BANNER}
@@ -110,7 +109,7 @@ class Main extends React.Component<Props, State> {
                   console.log('Advert loaded');}}
                 onAdFailedToLoad={(error: any) => {
                   console.log('Advert failed to load: ', error);}}
-              />}
+              />
             </View>
           </View>
         )

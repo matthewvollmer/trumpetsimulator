@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, ImageSourcePropType , Dimensions, ImageURISource, NativeSyntheticEvent, TextInputSubmitEditingEventData, Platform} from 'react-native';
+import { StyleSheet, View, Image, ImageSourcePropType , Dimensions, ImageURISource, NativeSyntheticEvent, TextInputSubmitEditingEventData} from 'react-native';
 import { Button, Text, Input} from 'react-native-elements';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
@@ -61,18 +61,12 @@ class Drumpad extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-             kick : Platform.OS === 'ios' ? new Sound('../../assets/sounds/kickshort.mp3' , (error) => {error &&  console.log(error)}) : 
-                 new Sound('kickshort.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
-             hat : Platform.OS === 'ios' ? new Sound('../../assets/sounds/hatshort.mp3' , (error) => {error &&  console.log(error)}) : 
-                new Sound('hatshort.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
-             snare : Platform.OS === 'ios' ? new Sound('../../assets/sounds/snare.mp3' , (error) => {error &&  console.log(error)}) : 
-                new Sound('snare.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
-             kick2 : Platform.OS === 'ios' ? new Sound('../../assets/sounds/kickshort.mp3' , (error) => {error &&  console.log(error)}) : 
-                new Sound('kickshort.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
-             hat2 : Platform.OS === 'ios' ? new Sound('../../assets/sounds/hatshort.mp3' , (error) => {error &&  console.log(error)}) : 
-                new Sound('hatshort.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
-             snare2 : Platform.OS === 'ios' ? new Sound('../../assets/sounds/snare.mp3' , (error) => {error &&  console.log(error)}) : 
-                new Sound('snare.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+             kick : new Sound('kickshort.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+             hat : new Sound('hatshort.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+             snare : new Sound('snare.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+             kick2 : new Sound('kickshort.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+             hat2 : new Sound('hatshort.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+             snare2 : new Sound('snare.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
 
              sequenceImg: require('../../assets/sequence.png'),
              sequenceValues: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

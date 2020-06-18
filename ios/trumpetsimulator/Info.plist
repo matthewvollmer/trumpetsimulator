@@ -2,34 +2,26 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key></key>
-	<string></string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Fipps-Regular.otf</string>
-	</array>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
-	<key>CFBundleDisplayName</key>
-	<string>trumpetsimulator</string>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
+	<key>UILaunchStoryboardName</key>
+	<string>SplashScreen</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Allow trumpetsimulator to access your calendar</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Allow trumpetsimulator to access your device&apos;s accelerometer</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Allow trumpetsimulator to use the camera</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0.0</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Allow Brass Buddy to access your microphone</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -43,34 +35,38 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSCalendarsUsageDescription</key>
-	<string>Allow trumpetsimulator to access your calendar</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Allow trumpetsimulator to use the camera</string>
-	<key>NSContactsUsageDescription</key>
-	<string>Allow trumpetsimulator experiences to access your contacts</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Allow trumpetsimulator to use your location</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Allow trumpetsimulator to use your location</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow trumpetsimulator to use your location</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Allow Brass Buddy to access your microphone</string>
-	<key>NSMotionUsageDescription</key>
-	<string>Allow trumpetsimulator to access your device&apos;s accelerometer</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Give trumpetsimulator periences permission to save photos</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Give trumpetsimulator periences permission to access your photos</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
 	<key>NSRemindersUsageDescription</key>
 	<string>Allow trumpetsimulator to access your reminders</string>
-	<key>UILaunchStoryboardName</key>
-	<string>SplashScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Give trumpetsimulator periences permission to save photos</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Fipps-Regular.otf</string>
+	</array>
+	<key>NSContactsUsageDescription</key>
+	<string>Allow trumpetsimulator experiences to access your contacts</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>CFBundleDisplayName</key>
+	<string>trumpetsimulator</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Allow trumpetsimulator to use your location</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Allow trumpetsimulator to use your location</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Give trumpetsimulator periences permission to access your photos</string>
 	<key>UIRequiresFullScreen</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>
@@ -80,5 +76,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow trumpetsimulator to use your location</string>
 </dict>
 </plist>
