@@ -23,7 +23,7 @@ export type RootStackParamList = {
   Tuner: {};
   Drumpad: {};
   Licenses: {};
-};
+}; 
 
 export const navigationRef = React.createRef<NavigationContainerRef>();
 
