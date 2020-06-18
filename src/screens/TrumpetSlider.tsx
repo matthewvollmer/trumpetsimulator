@@ -8,7 +8,7 @@ import Sound from 'react-native-sound';
 import Modal from 'react-native-modal';
 
 
-type TrumpetSliderRouteProp = RouteProp<RootStackParamList, 'Main'>;
+type TrumpetSliderRouteProp = RouteProp<RootStackParamList, 'TrumpetSlider'>;
 
 type TrumpetSliderNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -358,7 +358,7 @@ class TrumpetSlider extends React.Component<Props, SliderState> {
     }
 
     private calculateSliderValue = (locationY: number) => {
-        let newSliderValue = (this.state.screenHeight - locationY- 110)/2.1;
+        let newSliderValue = this.state.screenHeight < 670 ? (this.state.screenHeight - locationY- 85)/1.9 : (this.state.screenHeight - locationY- 110)/2.1;
         this.sliderValue = newSliderValue;
         let sliderHeight = this.state.screenHeight-locationY;
         this.setState({sliderHeight})
