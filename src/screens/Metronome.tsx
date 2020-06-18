@@ -28,6 +28,8 @@ interface State{
     beat: Sound
     downBeat2: Sound
     beat2: Sound
+    downBeat3: Sound,
+    beat3: Sound,
     beatsPerMeasure: number
     beatInMeasure: number,
     
@@ -38,6 +40,8 @@ interface State{
 
 class Metronome extends React.Component<Props, State> {
     interval: number | undefined; 
+    beatCount: number = 0;
+    downbeatCount: number = 0;
     constructor(props: Readonly<Props>) {
         super(props);
 
@@ -49,6 +53,8 @@ class Metronome extends React.Component<Props, State> {
             beat: new Sound('offbeats.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
             downBeat2 : new Sound('downbeat.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
             beat2: new Sound('offbeats.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+            downBeat3 : new Sound('downbeat.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+            beat3: new Sound('offbeats.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
             beatsPerMeasure: 4,
             beatInMeasure: 1,
             sliderValue: 60,
@@ -67,8 +73,10 @@ class Metronome extends React.Component<Props, State> {
 
         this.state.downBeat.release();
         this.state.downBeat2.release();
+        this.state.downBeat3.release();
         this.state.beat.release();
         this.state.beat2.release();
+        this.state.beat3.release();
     }
 
     public render() {
@@ -202,7 +210,7 @@ class Metronome extends React.Component<Props, State> {
 
     private handlePlay = async () => {
         this.setState({playing: true});
-        this.state.downBeat.play();
+        this.playSound(this.state.downBeat);
         this.setState({beatInMeasure: 2})
         this.setInterval(this.state.currentMillisPerBeat);
     }
@@ -213,13 +221,54 @@ class Metronome extends React.Component<Props, State> {
         this.interval = setInterval(this.playBeat, adjustedMillis); //0.5 seconds
     }
 
+    playSound = (sound : Sound) => {
+        sound.play((success) => {
+            if (success) {
+                // console.log("sound played successfully");
+                sound.stop();
+                sound.setCurrentTime(0)
+            }
+            else {console.log("XXX SOUND PLAY FAILED")}
+        })
+    }
+
      playBeat = async () => {
         let effectiveBeatsPerMeasure = this.state.beatsPerMeasure === 6 ? 3: this.state.beatsPerMeasure;
         if (this.state.playing) { 
             if (this.state.beatInMeasure === 1 ) {
-                this.state.downBeat.isPlaying() ? this.state.downBeat2.play() : this.state.downBeat.play()
+                //Play available beat:
+                if (this.downbeatCount ==0) {
+                    this.playSound(this.state.downBeat3);
+                    console.log("downbeat3")
+                    this.downbeatCount++
+                }
+                else if (this.downbeatCount ==1) {
+                    this.playSound(this.state.downBeat2);
+                    console.log("downbeat2")
+                    this.downbeatCount++
+                } 
+                else {
+                    this.playSound(this.state.downBeat)
+                    console.log("downbeat")
+                    this.downbeatCount=0
+                }
             } else {
-                this.state.beat.isPlaying() ? this.state.beat2.play() : this.state.beat.play()
+                //Play available beat: 
+                if (this.beatCount==0) {
+                    this.playSound(this.state.beat3);
+                    this.beatCount++
+                    console.log("beat3")
+                }
+                else if (this.beatCount==1) {
+                    this.playSound(this.state.beat2);
+                    console.log("beat2")
+                    this.beatCount++
+                } 
+                else {
+                    this.playSound(this.state.beat)
+                    console.log("beat")
+                    this.beatCount=0
+                }
             }
             if (this.state.beatInMeasure != effectiveBeatsPerMeasure ) {
                 this.setState({beatInMeasure: this.state.beatInMeasure+1})
