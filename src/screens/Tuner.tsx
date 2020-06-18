@@ -8,6 +8,7 @@ import Meter from './Meter';
 import Note from './Note';
 import { Audio } from 'expo-av';
 import PitchFinder from "pitchfinder";
+import MicStream from 'react-native-microphone-stream';
 
 export interface NoteObject { 
     name: string, 
@@ -41,7 +42,7 @@ class Tuner extends React.Component<Props, State> {
     middleA : number = 440;
     semitone : number = 69;
     _lastNoteName: any;
-    Recording = require('react-native-recording').default;
+    Recording = require('react-native-microphone-stream').default;
 
     constructor(props: Readonly<Props>) {
         super(props);

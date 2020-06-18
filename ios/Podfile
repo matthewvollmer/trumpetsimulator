@@ -7,6 +7,11 @@ target 'trumpetsimulator' do
   rnPrefix = "../node_modules/react-native"
 
   # React Native and its dependencies
+  # add the Firebase pod for Google Analytics
+  pod 'Firebase/Analytics'
+  pod 'GoogleAnalytics'
+  # add pods for any other desired Firebase products
+  # https://firebase.google.com/docs/ios/setup#available-pods
   pod 'FBLazyVector', :path => "#{rnPrefix}/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "#{rnPrefix}/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "#{rnPrefix}/Libraries/RCTRequired"

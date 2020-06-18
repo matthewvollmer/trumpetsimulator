@@ -14,18 +14,9 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3DE4DAD41476765101945408 /* libPods-trumpetsimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D43FF9D506E70904424FA7E9 /* libPods-trumpetsimulator.a */; };
 		99EC63CFB4B549BBAF093D10 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3ABB89D1E68496EB7D95742 /* SplashScreen.storyboard */; };
-		C4FF8B2EF44341578B548679 /* libRecording.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C6C89AB22BB43C18F425E50 /* libRecording.a */; };
+		BB898911249C001C002E4442 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB898910249C001C002E4442 /* GoogleService-Info.plist */; };
+		BB898913249C0145002E4442 /* Fipps-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = BB898912249C0145002E4442 /* Fipps-Regular.otf */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		BBC23B68246F8065008602BE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7A76A9DBFF514E72ABD6B324 /* Recording.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = Recording;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
@@ -39,9 +30,9 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = trumpetsimulator/main.m; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B47C5AFCB8BDE514B7D1AC6 /* Pods-trumpetsimulator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-trumpetsimulator.debug.xcconfig"; path = "Target Support Files/Pods-trumpetsimulator/Pods-trumpetsimulator.debug.xcconfig"; sourceTree = "<group>"; };
-		6C6C89AB22BB43C18F425E50 /* libRecording.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRecording.a; sourceTree = "<group>"; };
-		7A76A9DBFF514E72ABD6B324 /* Recording.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = Recording.xcodeproj; path = "../node_modules/react-native-recording/lib/ios/Recording.xcodeproj"; sourceTree = "<group>"; };
 		8AC623DBF3A3E2CB072F81F2 /* Pods-trumpetsimulator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-trumpetsimulator.release.xcconfig"; path = "Target Support Files/Pods-trumpetsimulator/Pods-trumpetsimulator.release.xcconfig"; sourceTree = "<group>"; };
+		BB898910249C001C002E4442 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BB898912249C0145002E4442 /* Fipps-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Fipps-Regular.otf"; path = "../android/app/src/main/assets/fonts/Fipps-Regular.otf"; sourceTree = "<group>"; };
 		D43FF9D506E70904424FA7E9 /* libPods-trumpetsimulator.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-trumpetsimulator.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3ABB89D1E68496EB7D95742 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = trumpetsimulator/SplashScreen.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -54,7 +45,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DE4DAD41476765101945408 /* libPods-trumpetsimulator.a in Frameworks */,
-				C4FF8B2EF44341578B548679 /* libRecording.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,7 +90,6 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				7A76A9DBFF514E72ABD6B324 /* Recording.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -108,6 +97,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				BB898912249C0145002E4442 /* Fipps-Regular.otf */,
+				BB898910249C001C002E4442 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* trumpetsimulator */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -131,17 +122,8 @@
 		BBC23B64246F8065008602BE /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				6C6C89AB22BB43C18F425E50 /* libRecording.a */,
 			);
 			name = "Recovered References";
-			sourceTree = "<group>";
-		};
-		BBC23B65246F8065008602BE /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				BBC23B69246F8065008602BE /* libRecording.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -195,28 +177,12 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = BBC23B65246F8065008602BE /* Products */;
-					ProjectRef = 7A76A9DBFF514E72ABD6B324 /* Recording.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* trumpetsimulator */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		BBC23B69246F8065008602BE /* libRecording.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRecording.a;
-			remoteRef = BBC23B68246F8065008602BE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		13B07F8E1A680F5B00A75B9A /* Resources */ = {
@@ -225,6 +191,8 @@
 			files = (
 				0731D3B824204D62009CAE85 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				BB898911249C001C002E4442 /* GoogleService-Info.plist in Resources */,
+				BB898913249C0145002E4442 /* Fipps-Regular.otf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				99EC63CFB4B549BBAF093D10 /* SplashScreen.storyboard in Resources */,
 			);
@@ -384,16 +352,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = B983M7579F;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-recording/lib/ios",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = trumpetsimulator/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/trumpetsimulator\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -413,16 +375,10 @@
 				CODE_SIGN_ENTITLEMENTS = trumpetsimulator/trumpetsimulator.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = B983M7579F;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-recording/lib/ios",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = trumpetsimulator/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/trumpetsimulator\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -482,10 +438,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/trumpetsimulator\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mdv.trumpetsimulator;
@@ -535,10 +488,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/trumpetsimulator\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mdv.trumpetsimulator;
 				PRODUCT_NAME = trumpetsimulator;

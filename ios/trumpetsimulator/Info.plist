@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key></key>
+	<string></string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Fipps-Regular.otf</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -52,7 +58,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow Brass Buddy to access your microphone</string>
 	<key>NSMotionUsageDescription</key>
-	<string>Allow trumpetsimulator to access your device's accelerometer</string>
+	<string>Allow trumpetsimulator to access your device&apos;s accelerometer</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Give trumpetsimulator periences permission to save photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>

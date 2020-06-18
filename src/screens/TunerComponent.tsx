@@ -1,5 +1,4 @@
 //import Recording from "react-native-recording";
-import MicStream from 'react-native-microphone-stream';
 import PitchFinder from "pitchfinder";
 import React from "react";
 import { PitchDetector } from "pitchfinder/lib/detectors/types";

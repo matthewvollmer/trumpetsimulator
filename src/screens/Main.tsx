@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, ImageSourcePropType, Dimensions } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity, ImageSourcePropType, Dimensions, Platform } from 'react-native';
 import { Button } from 'react-native-elements'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
@@ -99,6 +99,7 @@ class Main extends React.Component<Props, State> {
               </TouchableOpacity>
             </View>
             <View style={{justifyContent:'center'}}>
+              {Platform.OS === 'android' && 
               <BannerAd 
                 unitId={adId}
                 size={BannerAdSize.BANNER}
@@ -109,7 +110,7 @@ class Main extends React.Component<Props, State> {
                   console.log('Advert loaded');}}
                 onAdFailedToLoad={(error: any) => {
                   console.log('Advert failed to load: ', error);}}
-              />
+              />}
             </View>
           </View>
         )
