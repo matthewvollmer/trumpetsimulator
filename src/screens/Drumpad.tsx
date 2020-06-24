@@ -25,9 +25,14 @@ interface State{
     kick: Sound,
     hat: Sound,
     snare: Sound, 
+
     kick2: Sound,
     hat2: Sound,
     snare2: Sound, 
+
+    kick3: Sound,
+    hat3: Sound,
+    snare3: Sound, 
 
     sequenceImg: ImageSourcePropType,
     seqSelected?: number;
@@ -57,6 +62,9 @@ interface State{
 
 class Drumpad extends React.Component<Props, State> {
     interval: number | undefined; 
+    kickCount: number = 0;
+    snareCount: number = 0;
+    hatCount: number = 0;
     constructor(props: Readonly<Props>) {
         super(props);
 
@@ -64,9 +72,14 @@ class Drumpad extends React.Component<Props, State> {
              kick : new Sound('kickshort.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
              hat : new Sound('hatshort.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
              snare : new Sound('snare.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+
              kick2 : new Sound('kickshort.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
              hat2 : new Sound('hatshort.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
              snare2 : new Sound('snare.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+
+             kick3 : new Sound('kickshort.mp3', Sound.MAIN_BUNDLE, (error) => {error &&  console.log(error)}),
+             hat3 : new Sound('hatshort.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
+             snare3 : new Sound('snare.mp3', Sound.MAIN_BUNDLE, (error) => {error && console.log(error)}),
 
              sequenceImg: require('../../assets/sequence.png'),
              sequenceValues: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -101,10 +114,16 @@ class Drumpad extends React.Component<Props, State> {
     public componentWillUnmount() {
         this.state.hat.release();
         this.state.hat2.release();
+        this.state.hat3.release();
+
         this.state.kick.release();
         this.state.kick2.release();
+        this.state.kick3.release();
+
         this.state.snare.release();
         this.state.snare2.release();
+        this.state.snare3.release();
+
         this.handleStop();
     }
 
@@ -309,7 +328,18 @@ class Drumpad extends React.Component<Props, State> {
     }
 
     private handleKick = () => {
-        this.state.kick.isPlaying() ? this.state.kick2.play() : this.state.kick.play()
+        if (this.kickCount ==0) {
+            this.playSound(this.state.kick3);
+            this.kickCount++
+        }
+        else if (this.kickCount ==1) {
+            this.playSound(this.state.kick2);
+            this.kickCount++
+        } 
+        else {
+            this.playSound(this.state.kick)
+            this.kickCount=0
+        }
         if (this.state.seqSelected) {
             this.state.sequenceValues[this.state.seqSelected] = 3
             this.setState({seqSelected: this.state.seqSelected+1})
@@ -317,7 +347,18 @@ class Drumpad extends React.Component<Props, State> {
     }
 
     private handleSnare = () => {
-        this.state.snare.isPlaying() ? this.state.snare2.play() : this.state.snare.play()
+        if (this.snareCount ==0) {
+            this.playSound(this.state.snare3);
+            this.snareCount++
+        }
+        else if (this.snareCount ==1) {
+            this.playSound(this.state.snare2);
+            this.snareCount++
+        } 
+        else {
+            this.playSound(this.state.snare)
+            this.snareCount=0
+        }
         if (this.state.seqSelected) {
             this.state.sequenceValues[this.state.seqSelected] = 2
             this.setState({seqSelected: this.state.seqSelected+1})
@@ -325,7 +366,18 @@ class Drumpad extends React.Component<Props, State> {
     }
 
     private handleHat = () => {
-        this.state.hat.isPlaying() ? this.state.hat2.play() : this.state.hat.play()
+        if (this.hatCount ==0) {
+            this.playSound(this.state.hat3);
+            this.hatCount++
+        }
+        else if (this.hatCount ==1) {
+            this.playSound(this.state.hat2);
+            this.hatCount++
+        } 
+        else {
+            this.playSound(this.state.hat)
+            this.hatCount=0
+        }
         if (this.state.seqSelected) {
             this.state.sequenceValues[this.state.seqSelected] = 1
             this.setState({seqSelected: this.state.seqSelected+1})
@@ -369,25 +421,76 @@ class Drumpad extends React.Component<Props, State> {
         clearInterval(this.interval)
     }
 
+    private changeInterval = (millis: number) => {
+        clearInterval(this.interval)
+        this.interval = setInterval(this.playBeat, millis); 
+    }
+
     private onValueChange = (value:number) => {
+        let millis : number = 15000/(Math.round(value));
         this.setState(
             {
                 currentTempo: Math.round(value),
-                currentMillisPerBeat: 15000/(Math.round(value))
+                currentMillisPerBeat: millis
             });
+        this.changeInterval(millis);
+    }
+
+    playSound = (sound : Sound) => {
+        sound.play((success) => {
+            if (success) {
+                // console.log("sound played successfully");
+                sound.stop();
+                sound.setCurrentTime(0)
+            }
+            else {console.log("XXX SOUND PLAY FAILED")}
+        })
     }
 
     playBeat = async () => {
         if (this.state.playing && this.state.seqSelected) { 
             switch(this.state.sequenceValues[this.state.seqSelected]) {
                 case 1: 
-                    this.state.hat.isPlaying() ? this.state.hat2.play() : this.state.hat.play()
+                    if (this.hatCount ==0) {
+                        this.playSound(this.state.hat3);
+                        this.hatCount++
+                    }
+                    else if (this.hatCount ==1) {
+                        this.playSound(this.state.hat2);
+                        this.hatCount++
+                    } 
+                    else {
+                        this.playSound(this.state.hat)
+                        this.hatCount=0
+                    }
                     break;
                 case 2: 
-                    this.state.snare.isPlaying() ? this.state.snare2.play() : this.state.snare.play()
+                    if (this.snareCount ==0) {
+                        this.playSound(this.state.snare3);
+                        this.snareCount++
+                    }
+                    else if (this.snareCount ==1) {
+                        this.playSound(this.state.snare2);
+                        this.snareCount++
+                    } 
+                    else {
+                        this.playSound(this.state.snare)
+                        this.snareCount=0
+                    }
                     break;
                 case 3: 
-                    this.state.kick.isPlaying() ? this.state.kick2.play() : this.state.kick.play()
+                    if (this.kickCount ==0) {
+                        this.playSound(this.state.kick3);
+                        this.kickCount++
+                    }
+                    else if (this.kickCount ==1) {
+                        this.playSound(this.state.kick2);
+                        this.kickCount++
+                    } 
+                    else {
+                        this.playSound(this.state.kick)
+                        this.kickCount=0
+                    }
                     break;
                 default: 
                     break;
